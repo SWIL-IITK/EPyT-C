@@ -12,13 +12,19 @@ authors:
     corresponding: true
     orcid: 0000-0002-7390-7848
     affiliation: 1
-  - name: Avi Ostfeld
+  - name: G Jaykrishnan
+    orcid: 0000-0002-7390-7848
     affiliation: 2
+  - name: Avi Ostfeld
+    orcid: 0000-0001-9112-6079
+    affiliation: 3
 affiliations:
- - name: Department of Civil Engineering, BITS Pilani Hyderabad Campus, Telangana, India
+ - name: Department of Civil Engineering, Indian Institute of Technology Kanpur, Kanpur, UP, India
    index: 1
- - name: Faculty of Civil and Environmental Engineering, Technion - Israel Institite of Technology, Haifa, Isrel
+ - name: Faculty of Industrial Engineering and Management, Technion - Israel Institite of Technology, Haifa, Isrel
    index: 2
+ - name: Faculty of Civil and Environmental Engineering, Technion - Israel Institite of Technology, Haifa, Isrel
+   index: 3
 date: 04 July 2023
 bibliography: paper.bib
 
