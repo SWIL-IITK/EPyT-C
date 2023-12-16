@@ -1,13 +1,13 @@
 # EPyT-C - Fully independent multi-species reactive transport modelling extension for EPyT (EPANET-Python) toolkit
 
-![Placeholder](manuscript/Figure 2.png)
+![Placeholder](./Manuscript/Figure 2.png)
 
 An open-source Python package for modeling water quality in water distribution systems.
 
 # EPyT (EPANET-Python) toolkit
 EPyT is an open-source software, initially developed by the KIOS Research and Innovation Center of Excellence, University of Cyprus, operating within the Python environment for providing a PYTHON programming interface for the latest version of EPANET (Rossman et al., 2020). It calls EPANET as a shared object and employs an Object-Oriented approach for interfacing EPANET with PYTHON.
 
-![Placeholder](manuscript/Figure 1.png)
+![Placeholder](./Manuscript/Figure 1.png)
 
 # Water quality modeling extensions of EPyT-C
 
