@@ -89,7 +89,7 @@ class epyt_c:
         ....., [Bulk paramater 1 for Reservoir n, Bulk paramater 2 for Reservoir n, ..., Bulk paramater m for Reservoir n]]
     m - number of bulk parameters, n = number of reservoirs'''
         
-    reservoir_quality_matrix = [[1, 2, 20], [1, 2, 20]]
+    reservoir_quality_matrix = [[0, 0, 0], [0, 0, 0]]
         
     '''***************************************************************************************************************************
     INPUT (9)
@@ -172,13 +172,13 @@ class epyt_c:
     Specify the type of variation in injection node water quality
     Two options - 'none' and 'rand'
     'none' - no variation; 'rand' - random variations'''
-    injection_node_quality_pattern = 'rand'
+    injection_node_quality_pattern = 'none'
         
     '''***************************************************************************************************************************
     INPUT (19)
     Specify the range (%) of random variation in injection node water quality
     For example - 0.1 denotes +/- 10% random variation in the input values per iteration'''
-    injection_node_quality_pattern_random_variability = 0.5
+    injection_node_quality_pattern_random_variability = 0
         
     '''***************************************************************************************************************************
     INPUT (20)
