@@ -47,7 +47,10 @@ class epyt_c:
     INPUT (2)
     Specify the network name'''
         
-    network_name = getcwd() + '\\epyt_c\\Networks\\Net3.inp'
+    sys_folder = getcwd() + '\\epyt_c'
+    network_folder = sys_folder + '\\Networks\\'
+    file_name = 'Net3.inp'
+    network_name = network_folder + file_name
         
     '''***************************************************************************************************************************
     INPUT (3)
@@ -232,5 +235,5 @@ class epyt_c:
     
     def exe():
         print('EPyT-C loaded for execution...')
-        with open(getcwd() + '\\epyt_c\\run_epyt_c.py',"r") as rnf:
+        with open(epyt_c.sys_folder + '\\run_epyt_c.py',"r") as rnf:
             exec(rnf.read())
