@@ -24,8 +24,15 @@ module.details()
 # Input data
 wq_max_iteration = inp.info()[2]; wq_sim_days = inp.info()[3]; wq_sim_time_step_s = inp.info()[4]
 base_time_cycle_day = inp.info()[5]; total_wq_steps = inp.info()[6]; base_time_cycle_s = inp.info()[7]
-Tolerable_u = inp.info()[8]; reservoir_quality_input = inp.info()[9]; index_injection_nodes = inp.info()[10]
-injection_nodes_quality_mat = inp.info()[11]; sync_option = inp.info()[12]
+Tolerable_u = inp.info()[8]; reservoir_quality_input = inp.info()[9]; reservoir_quality_pattern = inp.info()[10] 
+reservoir_quality_pattern_rand_var = inp.info()[11]; reservoir_injection_pattern = inp.info()[12]
+reservoir_injection_pattern_rand_var = inp.info()[13]; reservoir_injection_start_time = inp.info()[14]; 
+reservoir_injection_end_time = inp.info()[15]; reservoir_injection_input_val = inp.info()[16]
+index_injection_nodes = inp.info()[17]; injection_nodes_quality_mat = inp.info()[18]; 
+injection_node_quality_pattern = inp.info()[19]; injection_node_quality_pattern_rand_var = inp.info()[20]
+injection_node_injection_pattern = inp.info()[21]; injection_node_injection_pattern_rand_var = inp.info()[22]
+injection_node_injection_start_time = inp.info()[23]; injection_node_injection_end_time = inp.info()[24]
+injection_node_injection_input_val = inp.info()[25]; sync_option = inp.info()[26]
 # Load network 
 d = epanet(inp.info()[1])
 # Creating variables
@@ -48,9 +55,10 @@ fn.omitted_links(num_omitted_links, name_links, index_omitted_links)
 # Getting the values of MSRT module variables
 variable_values_mat = module.variables(wq_max_iteration, num_variables)
 # Getting the quality characteristics of reservoir(s)
-reservoir_quality = module.reservoir_quality(d, wq_max_iteration, inp.info()[9])
+reservoir_quality = module.reservoir_quality(d, wq_max_iteration, reservoir_quality_input, reservoir_quality_pattern, reservoir_quality_pattern_rand_var)
 # Getting the quality characteristics of reservoir(s)
-injection_quality = module.injection_quality(wq_max_iteration, inp.info()[10], inp.info()[11])
+injection_quality = module.injection_quality(wq_max_iteration, index_injection_nodes, injection_nodes_quality_mat, injection_node_quality_pattern, \
+                                             injection_node_quality_pattern_rand_var)
 wq_iteration_count = 1
 # Start of water quality simulation
 while wq_iteration_count <= wq_max_iteration:
@@ -116,8 +124,10 @@ while wq_iteration_count <= wq_max_iteration:
     print("Water quality simulation started...")
     wq_time = 0
     wq_step = 0
-    reservoir_pattern = module.reservoir_pattern(d, base_time_cycle_day)
-    injection_pattern = module.injection_pattern(d, base_time_cycle_day, index_injection_nodes)
+    reservoir_pattern = module.reservoir_pattern(d, base_time_cycle_day, reservoir_injection_pattern, reservoir_injection_pattern_rand_var, reservoir_injection_start_time, \
+                                                 reservoir_injection_end_time, reservoir_injection_input_val)
+    injection_pattern = module.injection_pattern(d, base_time_cycle_day, index_injection_nodes, injection_node_injection_pattern, injection_node_injection_pattern_rand_var, \
+                                                 injection_node_injection_start_time, injection_node_injection_end_time, injection_node_injection_input_val)
     while wq_time <= wq_sim_days * 24 * 3600:
         print("Water quality simulation step (Iteration {}/ {}): {} (/ {})".format(wq_iteration_count, wq_max_iteration, wq_step + 1, total_wq_steps))
         wq_step += 1

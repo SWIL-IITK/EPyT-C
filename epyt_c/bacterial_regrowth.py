@@ -299,8 +299,9 @@ class module:
         return delta_mat
     
     # Defining source quality at the reservoir(s)
-    def reservoir_quality(d, num1, arr1):
+    def reservoir_quality(d, num1, arr1, str1, num2):
         # num1 - number of iterations; arr1 - source water quality input
+        # str1 - input value for pattern; num2 - percentage variation in the random pattern
         num_reservoirs = module.network(d)[2]
         num_bulk_parameters = module.species()[1]
         if len(arr1) == num_reservoirs:
@@ -311,10 +312,10 @@ class module:
                 exit()
         reservoir_quality = np.zeros((num_reservoirs, num1, num_bulk_parameters))
         # Input
-        # 'con' - constant values; 'rand' - randomly varying values
-        input = 'rand'
-        rand_vary = 0.5 # percentage variation
-        if input == 'con':
+        # 'none' - constant values; 'rand' - randomly varying values
+        input = str1
+        rand_vary = num2 # percentage variation
+        if input == 'none':
             for x in range(num_reservoirs):
                 reservoir_quality[x] = arr1[x]
         elif input == 'rand':
@@ -333,18 +334,20 @@ class module:
         return reservoir_quality
     
     # Defining source quality pattern for the reservoir(s)
-    def reservoir_pattern(d, num1):
-        # num1 - base time in days
+    def reservoir_pattern(d, num1, str1, num2, arr1, arr2, arr3):
+        # num1 - base time in days # str1 - input value for pattern; num2 - percentage variation in the random pattern
+        # arr1 - reservoir injection start time steps; arr2 - reservoir injection stop time steps
+        # arr3 - reservoir injection input value
         num_reservoirs = module.network(d)[2]
         num_bulk_parameters = module.species()[1]
         h_time = d.getTimeHydraulicStep()
         pattern_steps = int(num1 * 24 * 3600/ h_time)
         pattern_mat = np.zeros((num_reservoirs, pattern_steps, num_bulk_parameters))
         # Input
-        # 'con' - constant pattern; 'rand' - random variations; 'specific - specify pattern
-        input = 'con'
-        rand_vary = 0.2 # percentage variation
-        if input == 'con':
+        # 'none' - constant pattern; 'rand' - random variations; 'specific - specify pattern
+        input = str1
+        rand_vary = num2 # percentage variation
+        if input == 'none':
             pattern_mat = np.add(pattern_mat, 1)
         elif input == 'rand':
             for x in range(num_reservoirs):
@@ -354,9 +357,9 @@ class module:
                         pattern_mat[x][z][y] = random.uniform(1 - rand_vary, 1 + rand_vary)
                         z += 1
         elif input == 'specific':
-            start_step_mat = [[0],[1008]]
-            end_step_mat = [[1008], [2016]]
-            val_input = [[1], [1]]
+            start_step_mat = arr1
+            end_step_mat = arr2
+            val_input = arr3
             if len(start_step_mat) == num_reservoirs and len(end_step_mat) == num_reservoirs:
                 if len(start_step_mat[0]) <= pattern_steps and len(end_step_mat[0]) <= pattern_steps:
                     for x in range(num_reservoirs):
@@ -367,8 +370,9 @@ class module:
         return pattern_mat
     
     # Defining quality at the injection node(s)
-    def injection_quality(num1, arr1, arr2):
+    def injection_quality(num1, arr1, arr2, str1, num2):
         # num1 - number of iterations; arr1 - matrix of injection nodes indices; arr2 - matrix of injection nodes quality
+        # str1 - input value for pattern; num2 - percentage variation in the random pattern
         num_injection_nodes = len(arr1)
         num_bulk_parameters = module.species()[1]
         if len(arr2) == num_injection_nodes:
@@ -380,10 +384,10 @@ class module:
         injection_quality = np.zeros((num_injection_nodes, num1, num_bulk_parameters))
         print("Injection nodes quality updated.")
         # Input
-        # 'con' - constant values; 'rand' - randomly varying values
-        input = 'rand'
-        rand_vary = 0.5 # percentage variation
-        if input == 'con':
+        # 'none' - constant values; 'rand' - randomly varying values
+        input = str1
+        rand_vary = num2 # percentage variation
+        if input == 'none':
             for x in range(num_injection_nodes):
                 injection_quality[x] = arr2[x]
         elif input == 'rand':
@@ -402,18 +406,21 @@ class module:
         return injection_quality
     
     # Defining injection pattern for the injection node(s)
-    def injection_pattern(d, num1, arr1):
+    def injection_pattern(d, num1, arr1, str1, num2, arr2, arr3, arr4):
         # num1 - base time in days; arr1 - matrix of injection nodes indices
+        # str1 - input value for pattern; num2 - percentage variation in the random pattern
+        # arr2 - injection node injection start time steps; arr3 - injection node injection stop time steps
+        # arr4 - injection node injection input value
         num_injection_nodes = len(arr1)
         num_bulk_parameters = module.species()[1]
         h_time = d.getTimeHydraulicStep()
         pattern_steps = int(num1 * 24 * 3600/ h_time)
         inj_pattern_mat = np.zeros((num_injection_nodes, pattern_steps, num_bulk_parameters))
         # Input
-        # 'con' - constant pattern; 'rand' - random variations; 'specific - specify pattern
-        input = 'con'
-        rand_vary = 0.2 # percentage variation
-        if input == 'con':
+        # 'none' - constant pattern; 'rand' - random variations; 'specific - specify pattern
+        input = str1
+        rand_vary = num2 # percentage variation
+        if input == 'none':
             inj_pattern_mat = np.add(inj_pattern_mat, 1)
         elif input == 'rand':
             for x in range(num_injection_nodes):
@@ -423,9 +430,9 @@ class module:
                         inj_pattern_mat[x][z][y] = random.uniform(1 - rand_vary, 1 + rand_vary)
                         z += 1
         elif input == 'specific':
-            start_step_mat = [[0],[1008]]
-            end_step_mat = [[1008], [2016]]
-            val_input = [[1], [1]]
+            start_step_mat = arr2
+            end_step_mat = arr3
+            val_input = arr4
             if len(start_step_mat) == num_injection_nodes and len(end_step_mat) == num_injection_nodes:
                 if len(start_step_mat[0]) <= pattern_steps and len(end_step_mat[0]) <= pattern_steps:
                     for x in range(num_injection_nodes):
