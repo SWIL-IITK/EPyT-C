@@ -7,30 +7,31 @@ class epyt_c:
     provide a programming interface for the latest version of EPANET 2.2.
     It calls EPANET a shared object and employs an Object-Oriented approach for
     interfacing EPANET with Python. 
+
     Though EPyT can be employed for performing single-species water quality 
     analysis, which comes within the scope of EPANET 2.2, it lacks 
-    multi-species reactive-transport modeling capability in its current form. 
-    In other words, EPyT can only analyze one water quality parameter at a 
-    time. Consequently, the water quality modeling compartment of EPyT needs to
-    be improved to solve several real-world problems concerning 
-    water quality variations during delivery via water distribution 
-    systems (WDS). A fully independent water quality modeling extension, 
-    EPyT-C, is developed in this direction
+    multi-species reactive-transport (MSRT) modeling capability in its current
+    form. In other words, EPyT can only analyze one water quality parameter at
+    a time. Consequently, the water quality modeling compartment of EPyT needs
+    to be improved to solve several real-world problems concerning water quality
+    variations during delivery via water distribution systems (WDS). A fully
+    independent water quality modeling extension, EPyT-C, is developed in this
+    direction.
 
     EPyT-C is a  joint initiative by Indian Institute of Technology Kanpur and 
-    Technion Irael Institute of Technology.
+    Technion Israel Institute of Technology.
 
     The source code of EPyT-C calls EPyT and employs the hydraulic solver of 
     EPANET 2.2 for performing hydraulic simulation, which the in-built water 
-    quality solver then utilizes for performing MSRT modeling. Based on the 
-    module selected for WDS analysis, EPyT-C evolves partial differential 
-    equations and ordinary differential equations  governing the propagation 
-    and formation/ degradation of the corresponding water quality parameters 
-    within the distribution network realm. Once the governing equations 
-    (advective-reactive equations) are framed, the numerical method that 
-    involves the explicit method of characteristics and the fourth-order 
-    Runge-Kutta method is applied to derive numerical solutions - 
-    spatiotemporal distribution of complex water quality parameters in WDS.
+    quality solver then utilizes for performing MSRT modeling. Based on the
+    module selected for WDS analysis, EPyT-C evolves partial differential
+    equations and ordinary differential equations governing the propagation
+    and formation/ degradation of the corresponding water quality parameters
+    within the distribution network realm. Once the governing equations
+    (advective-reactive equations) are framed, the numerical method that
+    involves the explicit method of characteristics and the fourth-order
+    Runge-Kutta method is applied to derive numerical solutions - spatiotemporal
+    distribution of complex water quality parameters in WDS.
     ''')
     '''***************************************************************************************************************************
     INPUT (1)
