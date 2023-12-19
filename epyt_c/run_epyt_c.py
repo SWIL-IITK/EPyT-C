@@ -1,13 +1,13 @@
 from sys import exit
-from exe import inp
+from main import epyt_c
 from epyt_c.epyt_c_functions import fn
-if inp.info()[0] == 'MSRT-1':
+if epyt_c.module == 'MSRT-1':
     from epyt_c.chlorine_decay_thms_formation import module
-elif inp.info()[0] == 'MSRT-2':
+elif epyt_c.module == 'MSRT-2':
     from epyt_c.bacterial_regrowth import module
-elif inp.info()[0] == 'MSRT-3':
+elif epyt_c.module == 'MSRT-3':
     from epyt_c.arsenite_oxidation_arsenate_attachment_detachment import module
-elif inp.info()[0] == 'MSRT-4':
+elif epyt_c.module == 'MSRT-4':
     from epyt_c.pfas_formation import module
 import os
 from os import getcwd
@@ -22,19 +22,20 @@ start_time = time.time()
 # Display MSRT module details
 module.details()
 # Input data
-wq_max_iteration = inp.info()[2]; wq_sim_days = inp.info()[3]; wq_sim_time_step_s = inp.info()[4]
-base_time_cycle_day = inp.info()[5]; total_wq_steps = inp.info()[6]; base_time_cycle_s = inp.info()[7]
-Tolerable_u = inp.info()[8]; reservoir_quality_input = inp.info()[9]; reservoir_quality_pattern = inp.info()[10] 
-reservoir_quality_pattern_rand_var = inp.info()[11]; reservoir_injection_pattern = inp.info()[12]
-reservoir_injection_pattern_rand_var = inp.info()[13]; reservoir_injection_start_time = inp.info()[14]; 
-reservoir_injection_end_time = inp.info()[15]; reservoir_injection_input_val = inp.info()[16]
-index_injection_nodes = inp.info()[17]; injection_nodes_quality_mat = inp.info()[18]; 
-injection_node_quality_pattern = inp.info()[19]; injection_node_quality_pattern_rand_var = inp.info()[20]
-injection_node_injection_pattern = inp.info()[21]; injection_node_injection_pattern_rand_var = inp.info()[22]
-injection_node_injection_start_time = inp.info()[23]; injection_node_injection_end_time = inp.info()[24]
-injection_node_injection_input_val = inp.info()[25]; sync_option = inp.info()[26]
+wq_max_iteration = epyt_c.maximum_iterations_required; wq_sim_days = epyt_c.simulation_period_days; wq_sim_time_step_s = epyt_c.simulation_time_step
+base_time_cycle_day = epyt_c.base_period_days; total_wq_steps = int(((wq_sim_days * 24 * 3600)/ wq_sim_time_step_s) + 1)
+base_time_cycle_s = base_time_cycle_day * 24 * 3600; Tolerable_u = epyt_c.minimum_pipe_flow_velcoity; reservoir_quality_input = epyt_c.reservoir_quality_matrix 
+reservoir_quality_pattern = epyt_c.reservoir_quality_pattern; reservoir_quality_pattern_rand_var = epyt_c.reservoir_quality_pattern_random_variability
+reservoir_injection_pattern = epyt_c.reservoir_injection_pattern; reservoir_injection_pattern_rand_var = epyt_c.reservoir_injection_pattern_random_variability
+reservoir_injection_start_time = epyt_c.reservoir_injection_start_time; reservoir_injection_end_time = epyt_c.reservoir_injection_end_time
+reservoir_injection_input_val = epyt_c.reservoir_injection_input_value; index_injection_nodes = epyt_c.injection_nodes_index
+injection_nodes_quality_mat = epyt_c.injection_nodes_quality_matrix; injection_node_quality_pattern = epyt_c.injection_node_quality_pattern
+injection_node_quality_pattern_rand_var = epyt_c.injection_node_quality_pattern_random_variability; injection_node_injection_pattern = epyt_c.injection_node_injection_pattern
+injection_node_injection_pattern_rand_var = epyt_c.injection_node_injection_pattern_random_variability; injection_node_injection_start_time = epyt_c.injection_node_injection_start_time
+injection_node_injection_end_time = epyt_c.injection_node_injection_end_time; injection_node_injection_input_val = epyt_c.injection_node_injection_input_value 
+sync_option = epyt_c.hyd_wq_sync_option
 # Load network 
-d = epanet(inp.info()[1])
+d = epanet(epyt_c.network_name)
 # Creating variables
 num_nodes = fn.network(d)[0]; num_links = fn.network(d)[1]; num_reservoirs = fn.network(d)[2]; num_tanks = fn.network(d)[3]
 num_pumps = fn.network(d)[4]; num_valves = fn.network(d)[5]; name_nodes = fn.network(d)[6]; name_links = fn.network(d)[7] 
@@ -468,4 +469,4 @@ data_para. to_excel(w2, sheet_name = "Parameter values")
 w2.close()
 print("Anlysis completed...")
 print("Simulation time in seconds is %f" % (time.time() - start_time))
-exit(0)
+exit()
