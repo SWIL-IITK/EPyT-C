@@ -62,7 +62,7 @@ class epyt_c:
     INPUT (4)
     Number of days for which water quality needs to be simulated'''
         
-    simulation_period_days = 2
+    simulation_period_days = 1
         
     '''***************************************************************************************************************************
     INPUT (5)
