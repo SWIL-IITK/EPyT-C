@@ -43,7 +43,7 @@ code:'''
 epyt_c.injection_nodes_quality_matrix = [[2, 0, 0]]
 
 
-'''It is now specified that at intection node, i.e., junction '121', the 
+'''It is now specified that at injection node, i.e., junction '121', the 
 chlorine concentration will be always 2 mg/L. In other words, junction '121'
 acts like like a booster node for chloirne.'''
 
