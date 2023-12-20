@@ -43,7 +43,7 @@ epyt_c.injection_nodes_index = [21]
 # Add water quality at the injection node
 epyt_c.injection_nodes_quality_matrix = [[2, 0, 0]]
 
-'''By default, no variations is specified for water quality values for the 
+'''By default, no variation is specified for water quality values for the 
 injection nodes over iterations.
 To specify random variations, use the following code:'''
 
