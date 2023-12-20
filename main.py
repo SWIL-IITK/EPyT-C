@@ -50,8 +50,7 @@ class epyt_c:
         
     sys_folder = getcwd() + '\\epyt_c'
     network_folder = sys_folder + '\\Networks\\'
-    file_name = 'Net3.inp'
-    network_name = network_folder + file_name
+    network_name = network_folder + 'Net3.inp'
         
     '''***************************************************************************************************************************
     INPUT (3)
@@ -63,7 +62,7 @@ class epyt_c:
     INPUT (4)
     Number of days for which water quality needs to be simulated'''
         
-    simulation_period_days = 1
+    simulation_period_days = 2
         
     '''***************************************************************************************************************************
     INPUT (5)
@@ -79,7 +78,7 @@ class epyt_c:
         
     '''***************************************************************************************************************************
     INPUT (7)
-    Minimum velocity (m/s) allowed inside pipes (1e-4 is default)'''
+    Minimum velocity (m/s) inside pipes considered for stagnancy (1e-4 is default)'''
         
     minimum_pipe_flow_velcoity = 1e-4;
         
@@ -126,7 +125,7 @@ class epyt_c:
     '''***************************************************************************************************************************
     INPUT (13)
     Specify the start time for the 'specific' reservoir water quality pattern
-    Format: [[Start time step for Reservoir 1], [Start time step for Reservoir 2], ..., [Start time step for Reservoir n]]
+    Format: [[Start time for Reservoir 1], [Start time for Reservoir 2], ..., [Start time for Reservoir n]]
     n = number of reservoirs
     For 'none' and 'rand' cases, input can be of the form: [[]]
     '''
@@ -136,7 +135,7 @@ class epyt_c:
     '''***************************************************************************************************************************
     INPUT (14)
     Specify the end time for the 'specific' reservoir water quality pattern
-    Format: [[End time step for Reservoir 1], [End time step for Reservoir 2], ..., [End time step for Reservoir n]]
+    Format: [[End time for Reservoir 1], [End time for Reservoir 2], ..., [End time for Reservoir n]]
     n = number of reservoirs
     For 'none' and 'rand' cases, input can be of the form: [[]]
     '''
@@ -154,7 +153,7 @@ class epyt_c:
     '''***************************************************************************************************************************
     INPUT (16)
     Specify indices of injection nodes (if any)
-    Format: [[Injection node 1 index, Injection node 2 index, ..., Injection node n index]]
+    Format: [Injection node 1 index, Injection node 2 index, ..., Injection node n index]
     n = number of injection nodes'''
         
     injection_nodes_index = []
@@ -200,7 +199,7 @@ class epyt_c:
     '''***************************************************************************************************************************
     INPUT (22)
     Specify the start time for the 'specific' injection node water quality pattern
-    Format: [[Start time step for Injection node 1], [Start time step for Injection node 2], ..., [Start time step for Injection node n]]
+    Format: [[Start time for Injection node 1], [Start time for Injection node 2], ..., [Start time for Injection node n]]
     n = number of injection nodes
     For 'none' and 'rand' cases, input can be of the form: [[]]
     '''
@@ -210,7 +209,7 @@ class epyt_c:
     '''***************************************************************************************************************************
     INPUT (23)
     Specify the end time for the 'specific' injection node water quality pattern
-    Format: [[End time step for Injection node 1], [End time step for Injection node 2], ..., [End time step for Injection node n]]
+    Format: [[End time for Injection node 1], [End time for Injection node 2], ..., [End time for Injection node n]]
     n = number of injection nodes
     For 'none' and 'rand' cases, input can be of the form: [[]]
     '''
@@ -232,7 +231,7 @@ class epyt_c:
     steady - converged hydraulic data for water quality simulation
     dynamic - diverged hydraulic data for water quality simulation'''
         
-    hyd_wq_sync_option = "steady"
+    hyd_wq_sync_option = 'steady'
     
     def exe():
         print('EPyT-C loaded for execution...')
