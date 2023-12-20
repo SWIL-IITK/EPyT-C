@@ -53,7 +53,7 @@ epyt_c.reservoir_injection_start_time = [[12], [0]]
 
 '''It is now specified that the injection for the first source node (River) 
 will commence at the 13th hour every day, and the same for the second source 
-node (Lake) will start at the 1st hour itself. It may be noted that the base 
+node (Lake) will start at the 1st hour. It may be noted that the base 
 time period is selected as 1 day (by default). To change the base time period,
 the following code may be used: 
     epyt_c.base_period_days = N, where N is in days
