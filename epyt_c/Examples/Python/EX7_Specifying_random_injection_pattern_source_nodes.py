@@ -31,7 +31,7 @@ epyt_c.simulation_time_step = 300
 # Add water quality at the source nodes
 epyt_c.reservoir_quality_matrix = [[1, 2, 40], [1, 2, 40]]
 
-'''By default, no variations is specified for water quality values for the 
+'''By default, no variation is specified for water quality values for the 
 source nodes over time.
 To specify random variations over time, use the following code:'''
 
