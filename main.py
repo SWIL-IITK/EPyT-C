@@ -39,7 +39,7 @@ class epyt_c:
         MSRT-1: Chlorine decay and trihalomethanes formation module ('chlorine_decay_thms_formation')
         MSRT-2: Bacterial regrowth module ('bacterial_regrowth')
         MSRT-3: Arsenite oxidation and arsenate attachment/detachment module ('arsenite_oxidation_arsenate_attachment_detachment')
-        MSRT-4:P Perfluorooctanoic formation module ('pfas_formation')
+        MSRT-4: Perfluorooctanoic formation module ('pfas_formation')
     Specify the MSRT module index'''
         
     module = 'MSRT-1'
