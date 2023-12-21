@@ -35,7 +35,7 @@ epyt_c.reservoir_quality_matrix = [[1, 2, 0.8, 0.1, 1e6], [1, 2, 0.8, 0.1, 1e6]]
 
 '''The bulk water quality parameters (Chlorine, TOC, BDOC, FLB, and FDB) at the 
 two source nodes are now changed to 1 mg/L, 2 mg/L, 0.8 mg/L, 0.1 CFU/L, and
-1e6 cells/L, respectively.'''
+1e6 cells/L, respectively, corresponding to the MSRT module selected.'''
 
 # Executing EPyT-C
 epyt_c.exe()
