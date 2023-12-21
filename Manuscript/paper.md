@@ -13,7 +13,7 @@ authors:
     orcid: 0000-0002-7390-7848
     affiliation: 1
   - name: G Jaykrishnan
-    orcid: 0000-0002-7390-7848
+    orcid: 0000-0002-2225-0866
     affiliation: 2
   - name: Avi Ostfeld
     orcid: 0000-0001-9112-6079
@@ -21,9 +21,9 @@ authors:
 affiliations:
  - name: Department of Civil Engineering, Indian Institute of Technology Kanpur, Kanpur, UP, India
    index: 1
- - name: Faculty of Industrial Engineering and Management, Technion - Israel Institite of Technology, Haifa, Isrel
+ - name: Faculty of Data and Decision Sciences, Technion - Israel Institute of Technology, Haifa, Israel
    index: 2
- - name: Faculty of Civil and Environmental Engineering, Technion - Israel Institite of Technology, Haifa, Isrel
+ - name: Faculty of Civil and Environmental Engineering, Technion - Israel Institute of Technology, Haifa, Israel
    index: 3
 date: 04 July 2023
 bibliography: paper.bib
