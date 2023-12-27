@@ -19,7 +19,7 @@ setup(
     description="An open-source Python package for modeling water quality in water distribution systems",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/grabhijith/EPyT-C",
+    url="https://github.com/SWIL-IITK/EPyT-C",
     author="Gopinbathan R Abhijith",
     author_email="abhijith@iitk.ac.in",
     classifiers=[
@@ -34,61 +34,14 @@ setup(
         "Programming Language :: Python :: 3 :: Only",
     ],
     keywords="EPANET, EPyT, water quality modelling",
-    # When your source code is in a subdirectory under the project root, e.g.
-    # `src/`, it is necessary to specify the `package_dir` argument.
-    package_dir={"": "src"},  # Optional todo
-    # You can just specify package directories manually here if your project is
-    # simple. Or you can use find_packages().
-    #
-    # Alternatively, if you just want to distribute a single Python file, use
-    # the `py_modules` argument instead as follows, which will expect a file
-    # called `my_module.py` to exist:
-    #
-    #   py_modules=["my_module"],
-    #
-    packages=find_packages(where="src"),
+    packages=find_packages(include=['epyt_c', 'epyt_c.*']),
     python_requires=">=3.7, <4",
     install_requires=["epyt",
                       "numpy",
                       "pandas",
-                      "xlsxwriter"],  # Optional
-    # List additional groups of dependencies here (e.g. development
-    # dependencies). Users will be able to install these using the "extras"
-    # syntax, for example:
-    #
-    #   $ pip install sampleproject[dev]
-    #
-    # Similar to `install_requires` above, these must be valid existing
-    # projects.
+                      "xlsxwriter"],
     extras_require={  # Optional
         "dev": ["check-manifest"],
         "test": ["coverage"],
-    },
-    # If there are data files included in your packages that need to be
-    # installed, specify them here.
-    package_data={  # Optional
-        "sample": ["package_data.dat"],
-    },
-    # Entry points. The following would provide a command called `sample` which
-    # executes the function `main` from this package when invoked:
-    entry_points={  # Optional
-        "console_scripts": [
-            "sample=sample:main",
-        ],
-    },
-    # List additional URLs that are relevant to your project as a dict.
-    #
-    # This field corresponds to the "Project-URL" metadata fields:
-    # https://packaging.python.org/specifications/core-metadata/#project-url-multiple-use
-    #
-    # Examples listed include a pattern for specifying where the package tracks
-    # issues, where the source is hosted, where to say thanks to the package
-    # maintainers, and where to support the project financially. The key is
-    # what's used to render the link text on PyPI.
-    project_urls={  # Optional
-        "Bug Reports": "https://github.com/pypa/sampleproject/issues",
-        "Funding": "https://donate.pypi.org",
-        "Say Thanks!": "http://saythanks.io/to/example",
-        "Source": "https://github.com/pypa/sampleproject/",
     },
 )
