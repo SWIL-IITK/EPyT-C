@@ -1,4 +1,4 @@
-# Arsenite oxidation and arsenate attachemnt/detachment module
+# Arsenite oxidation and arsenate attachment/detachment module
 # Reactive species (bulk) - Aqueous arsenite (mg/L), Aqueous arsenate (mg/L), Aqueous arsenic (mg/L), Residual chlorine (mg/L), and Total organic carbon (mg/L)
 # Reactive species (wall) - Adsorbed arsenate (mg/sq.m)
 
