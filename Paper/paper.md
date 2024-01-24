@@ -54,10 +54,8 @@ In its current form, EPyT-C comprises four in-built modules - the 'Chlorine deca
 Insert Table 1 here.
 
 |     EPyT-C module    |    Water quality parameters considered and their units     |    Processes considered within the pipe domain    |
-| -------- | ------- |
-| January  | $250    |
-| February | $80     |
-| March    | $420    |
+|    ---------------   |    ---------------                                         |    ---------------                                |
+|    AAA               |    BBB                                                     |    CCC                                            | |
 
 EPyT-C offers the following flexibilities, making it a handy tool for research and industry:
 1. Allows time-series variations in the input values for the water quality parameters at the sources (reservoirs and booster nodes).
