@@ -74,7 +74,7 @@ Figure 2 depicts the variations in the chlorine concentrations at the 92 demand 
 </figure>
 
 <figure>
-<figcaption align = "center"><b>Figure 2</b>. (a) Percentage of nodes with mean chlorine concentration greater than the reference values and (b) percentage of nodes with mean THMs concentration lesser than the reference values. The reference values are denoted in the abscissa.</figcaption>
+<figcaption align = "center"><b>Figure 3</b>. </b>(a)</b> Percentage of nodes with mean chlorine concentration greater than the reference values and </b>(b)</b> percentage of nodes with mean THMs concentration lesser than the reference values. The reference values are denoted in the abscissa.</figcaption>
 <img src="Figure 3.png" width="1024"/>
 </figure>
 
