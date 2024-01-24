@@ -55,7 +55,10 @@ Insert Table 1 here.
 
 |     EPyT-C module    |    Water quality parameters considered and their units     |    Processes considered within the pipe domain    |
 |    ---------------   |    ---------------                                         |    ---------------                                |
-|    AAA               |    BBB                                                     |    CCC                                            | |
+|    Chlorine decay and Trihalomethanes formation               |    BBB                                                     |    CCC                                            |
+|    Bacterial regrowth               |    BBB                                                     |    CCC                                            | |
+|    Arsenite oxidation and arsenate attachment/detachment               |    BBB                                                     |    CCC                                            | |
+|    Perfluorooctanoic acid formation               |    BBB                                                     |    CCC                                            | |
 
 EPyT-C offers the following flexibilities, making it a handy tool for research and industry:
 1. Allows time-series variations in the input values for the water quality parameters at the sources (reservoirs and booster nodes).
