@@ -1,5 +1,4 @@
 from main import epyt_c
-
 epyt_c.module = 'MSRT-1'
 epyt_c.maximum_iterations_required = 50
 epyt_c.simulation_period_days = 10
