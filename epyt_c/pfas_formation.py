@@ -1,4 +1,4 @@
-# Perfluorooctanoic formation module
+# Perfluorooctanoic acid formation module
 # Reactive species (bulk) - Chlorine (mg-Cl/L), TOC (mg-C/L), PFOAA (ng/L), PFOAAmS (ng/L), and PFOA (ng/L)
 # Reactive species (wall) - ''
 
@@ -9,7 +9,7 @@ import numpy as np
 class module:
     # Display modulde details
     def details():
-        print("Perfluorooctanoic formation module loaded.")
+        print("Perfluorooctanoic acid formation module loaded.")
         print("Reactive species (bulk):")
         print("Chlorine (mg/L)\nTOC (mg/L)\nPFOAB (ng/L)\nPFOAAmS (ng/L)\nPFOA (ng/L)")
     
