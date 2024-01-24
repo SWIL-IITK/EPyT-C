@@ -12,11 +12,8 @@ Though EPyT can be employed for performing water quality analysis, which comes w
 	
  The default modules of EPyT-C conceptualize scientific knowledge about the physical, physicochemical, and biochemical exchanges concerning water quality, mathematize them as partial differential equations (PDE), and numerically solve them to simulate the spatiotemporal distribution of complex water quality parameters in WDS. EPyT-C employs the numerical method initially presented by (Tzatchkov et al., 2002), which solves the advective-reactive equations by combining the explicit method of characteristics and the fourth-order Runge-Kutta method.
 
-## Chlorine decay and Trihalomethanes formation module
-The ‘Chlorine decay and Trihalomethanes formation’ module of the EPyT-C encompasses a one-dimensional mechanistic MSRT model integrating the advective transport and physicochemical exchanges of the following three water quality parameters: free available chlorine (FAC), total organic carbon (TOC), and trihalomethanes (THMs).
+## EPyT-C is now equipped with four MSRT modules.
 
-## Bacterial regrowth module
-The ‘Bacterial regrowth’ module of the EPyT-C encompasses a one-dimensional mechanistic MSRT model integrating the advective transport and physicochemical exchanges of the following five water quality parameters: free available chlorine (FAC), recalictrant dissolved organic carbon (RDOC), biodegradable dissolved organic carbon (BDOC), free living bacteria (FLB), and free dead bacteria (FDB).
 
 # Flexibilities
 
