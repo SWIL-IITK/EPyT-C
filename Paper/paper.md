@@ -53,7 +53,7 @@ In its current form, EPyT-C comprises four in-built modules - the 'Chlorine deca
 
 Insert Table 1 here.
 
-| Month    | Savings |
+|     EPyT-C module    |    Water quality parameters considered and their units     |    Processes considered within the pipe domain    |
 | -------- | ------- |
 | January  | $250    |
 | February | $80     |
