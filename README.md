@@ -8,9 +8,7 @@ EPyT is an open-source software, initially developed by the KIOS Research and In
 
 # Water quality modeling extensions of EPyT-C
 
-Though EPyT can be employed for performing water quality analysis, which comes within the scope of EPANET 2.2, it does not have any multi-species reactive-transport (MSRT) modeling capability in its current form. A fully independent water quality modeling extension, EPyT-C (in which C stands for contaminant), is developed toward this limitation. The source code of EPyT-C calls EPyT and employs the hydraulic solver of EPANET 2.2 for performing hydraulic simulation, which the in-built water quality solver then utilizes for performing MSRT modeling.
-	
- The default modules of EPyT-C conceptualize scientific knowledge about the physical, physicochemical, and biochemical exchanges concerning water quality, mathematize them as partial differential equations (PDE), and numerically solve them to simulate the spatiotemporal distribution of complex water quality parameters in WDS. EPyT-C employs the numerical method initially presented by (Tzatchkov et al., 2002), which solves the advective-reactive equations by combining the explicit method of characteristics and the fourth-order Runge-Kutta method.
+Though EPyT can be employed for performing single-species water quality analysis, which comes within the scope of EPANET 2.2, it lacks multi-species reactive-transport modeling capability in its current form. In other words, EPyT can only analyze one water quality parameter at a time. Consequently, the water quality modeling compartment of EPyT needs to be improved to solve several real-world problems concerning water quality variations during delivery via WDS. A fully independent water quality modeling extension, EPyT-C, is developed in this direction. EPyT-C employs the hydraulic solver of EPANET 2.2 for performing hydraulic simulation, which the in-built water quality solver then utilizes for performing MSRT modeling.
 
 ## EPyT-C is now equipped with four MSRT modules.
 
@@ -21,15 +19,17 @@ Though EPyT can be employed for performing water quality analysis, which comes w
 |    Arsenite oxidation and arsenate attachment/detachment               |    Bulk phase: (1) aqueous arsenite (mg/L); (2) aqueous arsenate (mg/L); (3) aqueous arsenic (mg/L); (4) residual chlorine (mg/L); and (5) TOC (mg/L). Wall phase: (1) adsorbed arsenate (mg/m<sup>2</sup>).|    (1) chlorine - TOC reaction leading to chlorine decay, TOC degradation, and THMs formation; (2) mass-transfer of chlorine from bulk to wall phase; (3) wall reactions of chlorine leading to its decay; (4) chlorine – aqueous arsenite reaction leading to arsenite oxidation to arsenate and subsequent chlorine decay; (5) adsorption/ desorption of arsenate within the bulk-wall phase interface.  |
 |    Perfluorooctanoic acid formation               |    Bulk phase: (1) chlorine (mg/L); (2) TOC (mg/L); (3) perfluoro octaneamido betaine, PFOAB (ng/L); (4) perfluoro octaneamido ammonium salt, PFOAAmS (ng/L); and perfluorooctanoic acid, PFOA (ng/L).                                                     |    (1) chlorine - TOC reaction leading to chlorine decay, TOC degradation, and THMs formation; (2) mass-transfer of chlorine from bulk to wall phase; (3) wall reactions of chlorine leading to its decay; (4) chlorine - PFOAB reaction leading to chlorine decay, PFOAB degradation, and PFOA formation; and (5) chlorine - PFOAAmS reaction leading to chlorine decay, PFOAAmS degradation, and PFOA formation. | 
 
+Based on the module selected for WDS analysis, EPyT-C evolves governing (partial differential and ordinary differential) equations emulating the propagation and formation/ degradation of the corresponding water quality parameters within the distribution network realm. Once the governing equations (one-dimensional advective-reactive equations) are framed, the numerical method that involves the explicit method of characteristics and the fourth-order Runge-Kutta method, initially presented by (Tzatchkov et al., 2002), is applied to derive numerical solutions - spatiotemporal distribution of complex water quality parameters in WDS. 
+
 # Flexibilities
 
 EPyT-C offers the following flexibilities, making it a handy tool for research and industry:
-- Allows time-series variations in the input values for the water quality parameters at the sources (reservoirs and booster nodes).
-- Customize the random fluctuations in the input values for the water quality parameters at the sources.
-- Customize the perturbations in the reaction rate coefficient values.
-- Customize the outputs and export the data as Excel files or other formats.
-- Customize the numerical accuracy by altering the model parameters (time step, velocity tolerance, etc.).
-- Control the computational efficiency by adjusting the accuracy of the numerical solutions.
+1. Allows time-series variations in the input values for the water quality parameters at the sources (reservoirs and booster nodes).
+2. Customize the random fluctuations in the input values for the water quality parameters at the sources.
+3. Customize the perturbations in the reaction rate coefficient values.
+4. Customize the outputs and export the data as Excel files or other formats.
+5. Customize the numerical accuracy by altering the model parameters (time step, velocity tolerance, etc.).
+6. Control the computational efficiency by adjusting the accuracy of the numerical solutions.
 
 # Installation
 
