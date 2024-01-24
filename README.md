@@ -54,6 +54,8 @@ Tzatchkov, V.G., Aldama, A.A., Arreguin, F.I., 2002. Advection-Dispersion-Reacti
 
 **Gopinbathan R Abhijith** - abhijith@iitk.ac.in
 
+**Jayakrishnan**
+
 **Avi Ostfeld** - ostfeld@technion.ac.il
 
 # Credits 
