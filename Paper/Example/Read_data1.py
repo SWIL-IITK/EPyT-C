@@ -10,7 +10,7 @@ def install(package):
 install ('epyt')
 from epyt import epanet
 d = epanet('Net3.inp')
-folder_name1 = '\\Case D'
+folder_name1 = '\\Case A'
 num_iterations = 50
 num_columns = num_iterations
 num_rows = d.getNodeCount()
@@ -49,6 +49,6 @@ plt.xticks(fontsize = 2, rotation=90)
 plt.yticks(np.arange(0, 1.4, 0.2), fontsize = 6)
 plt.ylabel('Chlorine concentration (mg/L)', fontsize = 8)
 plt.xlabel('Node Name', fontsize = 8)
-plt.savefig('Case D.png', dpi = 600)
+plt.savefig('Case A.png', dpi = 600)
 
                                       
