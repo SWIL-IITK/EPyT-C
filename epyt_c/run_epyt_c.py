@@ -11,13 +11,13 @@ import time
 from epyt import epanet
 
 if epyt_c.module == "MSRT-1":
-    from epyt_c.chlorine_decay_thms_formation import module
+    from chlorine_decay_thms_formation import module
 elif epyt_c.module == "MSRT-2":
-    from epyt_c.bacterial_regrowth import module
+    from bacterial_regrowth import module
 elif epyt_c.module == "MSRT-3":
-    from epyt_c.arsenite_oxidation_arsenate_attachment_detachment import module
+    from arsenite_oxidation_arsenate_attachment_detachment import module
 elif epyt_c.module == "MSRT-4":
-    from epyt_c.pfas_formation import module
+    from pfas_formation import module
 
 fn.install("epyt")
 
