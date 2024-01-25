@@ -1,3 +1,4 @@
+import os
 from os import getcwd
 
 
@@ -50,8 +51,8 @@ class epyt_c:
     INPUT (2)
     Specify the network name"""
 
-    sys_folder = getcwd() + "\\epyt_c"
-    network_folder = sys_folder + "\\Networks\\"
+    sys_folder = os.path.join(getcwd(), "epyt_c")
+    network_folder = os.path.join(sys_folder, "Networks")
     network_name = network_folder + "Net3.inp"
 
     """***************************************************************************************************************************
@@ -236,5 +237,6 @@ class epyt_c:
 
     def exe():
         print("EPyT-C loaded for execution...")
-        with open(epyt_c.sys_folder + "\\run_epyt_c.py", "r") as rnf:
+        file = os.path.join(epyt_c.sys_folder, "run_epyt_c.py")
+        with open(file, "r") as rnf:
             exec(rnf.read())

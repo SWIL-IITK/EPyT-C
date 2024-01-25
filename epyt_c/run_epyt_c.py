@@ -726,7 +726,7 @@ while wq_iteration_count <= wq_max_iteration:
         wq_time += wq_sim_time_step_s
     print("Water quality simulation (Iteration %d) completed." % (wq_iteration_count))
     # Creating folder to save simulation results
-    folder_name = "\\Results_Iteration " + str(wq_iteration_count)
+    folder_name = "Results_Iteration" + str(wq_iteration_count)
     path = getcwd() + folder_name
     if os.path.exists(path) == True:
         print("Output folder already exists in the directory. No new folder created.")
@@ -749,7 +749,7 @@ while wq_iteration_count <= wq_max_iteration:
         time_mat[t] = (t * wq_sim_time_step_s) / 3600
     data_time = pd.DataFrame(time_mat)
     # Printing the time versus node concentration as Excel
-    file_path1 = path + "\\Time versus node_concentration.xlsx"
+    file_path1 = os.path.join(path, "Time versus node_concentration.xlsx")
     w1 = pd.ExcelWriter(file_path1, engine="xlsxwriter")
     for sp in range(bulk_wq_parameter_num):
         data_conc = pd.DataFrame(node_conc_report[sp])

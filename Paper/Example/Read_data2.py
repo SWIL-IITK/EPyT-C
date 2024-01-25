@@ -5,6 +5,7 @@ import subprocess
 import sys
 from matplotlib import pyplot as plt
 import matplotlib as mpl
+import os
 
 
 def install(package):
@@ -18,15 +19,15 @@ d = epanet("Net3.inp")
 name_table = ["Case A", "Case B", "Case C", "Case D"]
 y_data = np.zeros((d.getNodeCount(), len(name_table)))
 for n in range(len(name_table)):
-    folder_name1 = "\\" + name_table[n]
+    folder_name1 = name_table[n]
     num_iterations = 50
     num_columns = num_iterations
     num_rows = d.getNodeCount()
     mean_values = np.zeros((num_rows, num_columns))
     for i in range(num_iterations):
-        folder_name2 = "\\Results_Iteration " + str(i + 1)
-        file_name = "\\Time versus node_concentration.xlsx"
-        file_path = getcwd() + folder_name1 + folder_name2 + file_name
+        folder_name2 = "Results_Iteration " + str(i + 1)
+        file_name = "Time versus node_concentration.xlsx"
+        file_path = os.path.join(getcwd(), folder_name1, folder_name2, file_name)
         excel_data_df = pd.read_excel(file_path, sheet_name="Bulk parameter 1")
         # excel_data_df = pd.read_excel(file_path, sheet_name='Bulk parameter 3')
         arr = excel_data_df.to_numpy()
