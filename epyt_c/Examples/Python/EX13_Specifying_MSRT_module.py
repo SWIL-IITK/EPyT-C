@@ -1,4 +1,5 @@
-print("""  EPyT-C Example 13
+print(
+    """  EPyT-C Example 13
 
    This example contains:
     Import EPyT-C.
@@ -8,12 +9,13 @@ print("""  EPyT-C Example 13
     
         The results are saved as .XLSX files by default.
     
-""")
+"""
+)
 
 # Importing EPyT-C
 from main import epyt_c
 
-'''Currently, EPyT-C is equipped with four mult-species reactive-transport (MSRT) modules:
+"""Currently, EPyT-C is equipped with four mult-species reactive-transport (MSRT) modules:
 MSRT-1: Chlorine decay and trihalomethanes formation module 
 ('chlorine_decay_thms_formation')
 MSRT-2: Bacterial regrowth module ('bacterial_regrowth')
@@ -25,17 +27,17 @@ The default module for EPyT-C is Chlorine decay and trihalomethanes formation
 module ('chlorine_decay_thms_formation', i.e., MSRT-1).
 
 To change to the Bacterial regrowth MSRT module ('bacterial_regrowth'), use the
-following code:'''
+following code:"""
 
-epyt_c.module = 'MSRT-2'
+epyt_c.module = "MSRT-2"
 
-'''To specify the water quality at the source nodes, use the following code:'''
-    
+"""To specify the water quality at the source nodes, use the following code:"""
+
 epyt_c.reservoir_quality_matrix = [[1, 2, 0.8, 0.1, 1e6], [1, 2, 0.8, 0.1, 1e6]]
 
-'''The bulk water quality parameters (Chlorine, TOC, BDOC, FLB, and FDB) at the 
+"""The bulk water quality parameters (Chlorine, TOC, BDOC, FLB, and FDB) at the 
 two source nodes are now changed to 1 mg/L, 2 mg/L, 0.8 mg/L, 0.1 CFU/L, and
-1e6 cells/L, respectively, corresponding to the MSRT module selected.'''
+1e6 cells/L, respectively, corresponding to the MSRT module selected."""
 
 # Executing EPyT-C
 epyt_c.exe()

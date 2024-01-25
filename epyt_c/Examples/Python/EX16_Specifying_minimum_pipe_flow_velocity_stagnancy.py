@@ -1,4 +1,5 @@
-print("""  EPyT-C Example 15
+print(
+    """  EPyT-C Example 15
 
    This example contains:
     Import EPyT-C.
@@ -10,7 +11,8 @@ print("""  EPyT-C Example 15
     
         The results are saved as .XLSX files by default.
     
-""")
+"""
+)
 
 # Importing EPyT-C
 from main import epyt_c
@@ -21,15 +23,15 @@ epyt_c.simulation_period_days = 10
 # Add water quality at the source nodes
 epyt_c.reservoir_quality_matrix = [[1, 2, 40], [1, 2, 40]]
 
-'''EPyT-C considers a minimum velocity value for pipes, below which the flow is
+"""EPyT-C considers a minimum velocity value for pipes, below which the flow is
 assumed as stagnant. By default, this value is assumed as 1e-4 m/s. To change
-this value, the following code can be used:'''
+this value, the following code can be used:"""
 
 epyt_c.minimum_pipe_flow_velcoity = 1e-2
 
-''' The minimum pipe flow velocity considered for stagnancy is now increased
+""" The minimum pipe flow velocity considered for stagnancy is now increased
 to 1e-2 m/s. It may be noted that this affects the accuracy of the water 
-quality model predictions.'''
+quality model predictions."""
 
 # Executing EPyT-C
 epyt_c.exe()

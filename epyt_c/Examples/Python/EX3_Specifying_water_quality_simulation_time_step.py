@@ -1,4 +1,5 @@
-print("""  EPyT-C Example 3
+print(
+    """  EPyT-C Example 3
 
    This example contains:
     Import EPyT-C.
@@ -9,7 +10,8 @@ print("""  EPyT-C Example 3
     
         The results are saved as .XLSX files by default.
     
-""")
+"""
+)
 
 # Importing EPyT-C
 from main import epyt_c
@@ -17,13 +19,13 @@ from main import epyt_c
 # Specify the simulation period (days)
 epyt_c.simulation_period_days = 5
 
-'''The default simulation time step for EPyT-C is 300 seconds.
-To change the simulation time step for EPyT-C, use the following code:'''
+"""The default simulation time step for EPyT-C is 300 seconds.
+To change the simulation time step for EPyT-C, use the following code:"""
 
 epyt_c.simulation_time_step = 150
 
-''' The time step in seconds for water quality simulation is now changed to
-150 seconds.'''
+""" The time step in seconds for water quality simulation is now changed to
+150 seconds."""
 
 # Add water quality at the source nodes
 epyt_c.reservoir_quality_matrix = [[1, 2, 40], [1, 2, 40]]

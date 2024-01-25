@@ -1,4 +1,5 @@
-print("""  EPyT-C Example 4
+print(
+    """  EPyT-C Example 4
 
    This example contains:
     Import EPyT-C.
@@ -10,17 +11,18 @@ print("""  EPyT-C Example 4
     
         The results are saved as .XLSX files by default.
     
-""")
+"""
+)
 
 # Importing EPyT-C
 from main import epyt_c
 
-'''The default .INP file for EPyT-C is Net3.inp, and is stored in the folder
-'EPyT-C\\Networks'. To change the .INP file, use the following code:'''
+"""The default .INP file for EPyT-C is Net3.inp, and is stored in the folder
+'EPyT-C\\Networks'. To change the .INP file, use the following code:"""
 
-epyt_c.network_name = epyt_c.network_folder + 'Net1.inp'
+epyt_c.network_name = epyt_c.network_folder + "Net1.inp"
 
-'''The network for water quality simulation is now changed to Net1.inp.'''
+"""The network for water quality simulation is now changed to Net1.inp."""
 
 # Specify the simulation period (days)
 epyt_c.simulation_period_days = 10

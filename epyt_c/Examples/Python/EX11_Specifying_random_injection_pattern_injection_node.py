@@ -1,4 +1,5 @@
-print("""  EPyT-C Example 11
+print(
+    """  EPyT-C Example 11
 
    This example contains:
     Import EPyT-C.
@@ -16,13 +17,14 @@ print("""  EPyT-C Example 11
     
         The results are saved as .XLSX files by default.
     
-""")
+"""
+)
 
 # Importing EPyT-C
 from main import epyt_c
 
 # Specify the network name
-epyt_c.network_name = epyt_c.network_folder + 'Net3.inp'
+epyt_c.network_name = epyt_c.network_folder + "Net3.inp"
 
 # Specify the simulation period (days)
 epyt_c.simulation_period_days = 1
@@ -39,23 +41,23 @@ epyt_c.injection_nodes_index = [21]
 # Add water quality at the injection node
 epyt_c.injection_nodes_quality_matrix = [[2, 0, 0]]
 
-'''By default, no variations is specified for water quality values for the 
+"""By default, no variations is specified for water quality values for the 
 injection node over time.
-To specify random variations over time, use the following code:'''
+To specify random variations over time, use the following code:"""
 
-epyt_c.injection_node_injection_pattern = 'rand'
+epyt_c.injection_node_injection_pattern = "rand"
 
-'''Random variations to the water water quality values for the injection node 
-over time has been now specified.'''
+"""Random variations to the water water quality values for the injection node 
+over time has been now specified."""
 
-'''The defualt range (%) of variations specified for water quality values for 
+"""The defualt range (%) of variations specified for water quality values for 
 the injection node over time is 0.
-To specify a value for the range, use the following code:'''
+To specify a value for the range, use the following code:"""
 
 epyt_c.injection_node_injection_pattern_random_variability = 0.1
 
-'''+/-10% random variations to the water water quality values for the injection 
-node over time has been now specified.'''
+"""+/-10% random variations to the water water quality values for the injection 
+node over time has been now specified."""
 
 # Executing EPyT-C
 epyt_c.exe()

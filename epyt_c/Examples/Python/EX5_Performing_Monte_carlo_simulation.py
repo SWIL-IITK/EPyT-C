@@ -1,4 +1,5 @@
-print("""  EPyT-C Example 5
+print(
+    """  EPyT-C Example 5
 
    This example contains:
     Import EPyT-C.
@@ -11,20 +12,21 @@ print("""  EPyT-C Example 5
     
         The results are saved as .XLSX files by default.
     
-""")
+"""
+)
 
 # Importing EPyT-C
 from main import epyt_c
 
 # Specify the network name
-epyt_c.network_name = epyt_c.network_folder + 'Net3.inp'
+epyt_c.network_name = epyt_c.network_folder + "Net3.inp"
 
-'''The default number of simulations in EPyT-C is 1.
-To specify the number of Monte Carlo simulations, use the following code:'''
+"""The default number of simulations in EPyT-C is 1.
+To specify the number of Monte Carlo simulations, use the following code:"""
 
 epyt_c.maximum_iterations_required = 50
 
-'''The number of simulations is now changed to 50'''
+"""The number of simulations is now changed to 50"""
 
 # Specify the simulation period (days)
 epyt_c.simulation_period_days = 10
