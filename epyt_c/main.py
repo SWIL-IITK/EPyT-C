@@ -53,7 +53,7 @@ class epyt_c:
 
     sys_folder = os.path.join(getcwd(), "epyt_c")
     network_folder = os.path.join(sys_folder, "Networks")
-    network_name = network_folder + "Net3.inp"
+    network_name = os.path.join(network_folder, "Net3.inp")
 
     """***************************************************************************************************************************
     INPUT (3)
