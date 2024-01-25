@@ -1,4 +1,4 @@
-epyt
-numpy
-pandas
-xlsxwriter
+epyt >= 1.0.7
+numpy >= 1.26.0
+pandas >= 2.1.1
+xlsxwriter >= 3.1.1
