@@ -1,3 +1,6 @@
+# Importing EPyT-C
+from main import epyt_c
+
 print(
     """  EPyT-C Example 10
 
@@ -21,8 +24,6 @@ print(
 """
 )
 
-# Importing EPyT-C
-from main import epyt_c
 
 # Specify the network name
 epyt_c.network_name = epyt_c.network_folder + "Net3.inp"

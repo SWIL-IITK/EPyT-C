@@ -31,9 +31,7 @@ class fn:
             index_pumps.append(x + 1)
         network_info.append(index_pumps)
         index_valves = []
-        for x in range(
-            d.getLinkCount() - d.getLinkValveCount(), len(d.getLinkNameID())
-        ):
+        for x in range(d.getLinkCount() - d.getLinkValveCount(), len(d.getLinkNameID())):
             index_valves.append(x + 1)
         network_info.append(index_valves)
         network_info.extend(

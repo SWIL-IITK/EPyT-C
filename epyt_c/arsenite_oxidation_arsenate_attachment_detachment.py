@@ -41,9 +41,7 @@ class module:
             index_pumps.append(x + 1)
         network_info.append(index_pumps)
         index_valves = []
-        for x in range(
-            d.getLinkCount() - d.getLinkValveCount(), len(d.getLinkNameID())
-        ):
+        for x in range(d.getLinkCount() - d.getLinkValveCount(), len(d.getLinkNameID())):
             index_valves.append(x + 1)
         network_info.append(index_valves)
         network_info.extend(
@@ -162,10 +160,7 @@ class module:
             kf_val_ars = 1
         else:
             kf_val_ars = (
-                0.026
-                * (num1 / num5)
-                * ((num5 * num3 / num4) ** 0.8)
-                * ((num4 / num1) ** 0.333)
+                0.026 * (num1 / num5) * ((num5 * num3 / num4) ** 0.8) * ((num4 / num1) ** 0.333)
             )
         return kf_val_ars
 
@@ -226,9 +221,7 @@ class module:
         nu_water = 9.31e-7
         if num1 == 1:
             variable_mat[num1 - 1][0] = temperature_mean
-            variable_mat[num1 - 1][1] = kbNC_mean * math.exp(
-                -6050 / (temperature_mean + 273)
-            )
+            variable_mat[num1 - 1][1] = kbNC_mean * math.exp(-6050 / (temperature_mean + 273))
             variable_mat[num1 - 1][2] = kwC_mean
             variable_mat[num1 - 1][3] = YN_mean
             variable_mat[num1 - 1][4] = k_ads
@@ -290,38 +283,25 @@ class module:
         KwC = (kwC * kfC) / ((kwC + kfC) * rh)
         KfAs = module.mass_transfer_coefficient_ars(Dm_arsenic, num2, num4, nu_water)
         Sorb = (
-            arr2[1][num3][num2] * (S_max - arr2[5][num3][num2])
-            - k_eq * arr2[5][num3][num2]
+            arr2[1][num3][num2] * (S_max - arr2[5][num3][num2]) - k_eq * arr2[5][num3][num2]
         ) / ((1 / k_ads) + ((1 / KfAs) * (S_max - arr2[5][num3][num2])))
         Av = module.area_per_unit_vol(num5)
 
         # Reactions within pipe
-        delta_chlorine_toc_reac_pipe = module.first_order_reaction(
-            KbNC, arr2[3][num3][num2], num1
-        )
-        delta_chlorine_wall_reac_pipe = module.first_order_reaction(
-            KwC, arr2[3][num3][num2], num1
-        )
+        delta_chlorine_toc_reac_pipe = module.first_order_reaction(KbNC, arr2[3][num3][num2], num1)
+        delta_chlorine_wall_reac_pipe = module.first_order_reaction(KwC, arr2[3][num3][num2], num1)
         delta_toc_chlorine_reac_pipe = YN * delta_chlorine_toc_reac_pipe
-        if (
-            module.first_order_reaction(KbCAs, arr2[0][num3][num2], num1)
-            > arr2[0][num3][num2]
-        ):
+        if module.first_order_reaction(KbCAs, arr2[0][num3][num2], num1) > arr2[0][num3][num2]:
             delta_As3_chlorine_reac_pipe = arr2[0][num3][num2]
         else:
             delta_As3_chlorine_reac_pipe = module.first_order_reaction(
                 KbCAs, arr2[0][num3][num2], num1
             )
         delta_chlorine_As3_reac_pipe = YC * delta_chlorine_toc_reac_pipe
-        if (
-            module.first_order_reaction(KbCAs, arr2[0][num3][num2], num1)
-            > arr2[0][num3][num2]
-        ):
+        if module.first_order_reaction(KbCAs, arr2[0][num3][num2], num1) > arr2[0][num3][num2]:
             delta_As5_As3_reac_pipe = arr2[0][num3][num2]
         else:
-            delta_As5_As3_reac_pipe = module.first_order_reaction(
-                KbCAs, arr2[0][num3][num2], num1
-            )
+            delta_As5_As3_reac_pipe = module.first_order_reaction(KbCAs, arr2[0][num3][num2], num1)
         # delta_As5_As3_reac_pipe = 0
         delta_As5_bulk_reac_pipe = Av * Sorb
         delta_As5_wall_reac_pipe = Sorb
@@ -373,9 +353,7 @@ class module:
             KbNC, tank_chlorine_conc, num1
         )
         delta_toc_chlorine_reac_tank = YN * delta_chlorine_toc_reac_tank
-        if (num4 / num5) * module.first_order_reaction(
-            KbCAs, tank_As3_conc, num1
-        ) > tank_As3_conc:
+        if (num4 / num5) * module.first_order_reaction(KbCAs, tank_As3_conc, num1) > tank_As3_conc:
             delta_As3_chlorine_reac_tank = tank_As3_conc
         else:
             delta_As3_chlorine_reac_tank = (num4 / num5) * module.first_order_reaction(
@@ -383,9 +361,7 @@ class module:
             )
         delta_chlorine_As3_reac_tank = YC * delta_As3_chlorine_reac_tank
 
-        net_delta_chlorine_reac = (
-            -delta_chlorine_toc_reac_tank - delta_chlorine_As3_reac_tank
-        )
+        net_delta_chlorine_reac = -delta_chlorine_toc_reac_tank - delta_chlorine_As3_reac_tank
         net_delta_toc_reac = -delta_toc_chlorine_reac_tank
         net_delta_As3_reac = -delta_As3_chlorine_reac_tank
         net_delta_As5_reac = delta_As3_chlorine_reac_tank
@@ -431,9 +407,7 @@ class module:
                 for y in range(num_bulk_parameters):
                     z = 0
                     while z < num1:
-                        reservoir_quality[x][z][y] = random.uniform(
-                            mat_min[x][y], mat_max[x][y]
-                        )
+                        reservoir_quality[x][z][y] = random.uniform(mat_min[x][y], mat_max[x][y])
                         z += 1
         return reservoir_quality
 
@@ -458,27 +432,22 @@ class module:
                 for y in range(num_bulk_parameters):
                     z = 0
                     while z < pattern_steps:
-                        pattern_mat[x][z][y] = random.uniform(
-                            1 - rand_vary, 1 + rand_vary
-                        )
+                        pattern_mat[x][z][y] = random.uniform(1 - rand_vary, 1 + rand_vary)
                         z += 1
         elif input == "specific":
             start_step_mat = arr1
             end_step_mat = arr2
             val_input = arr3
-            if (
-                len(start_step_mat) == num_reservoirs
-                and len(end_step_mat) == num_reservoirs
-            ):
+            if len(start_step_mat) == num_reservoirs and len(end_step_mat) == num_reservoirs:
                 if (
                     len(start_step_mat[0]) <= pattern_steps
                     and len(end_step_mat[0]) <= pattern_steps
                 ):
                     for x in range(num_reservoirs):
                         for y in range(len(start_step_mat[x])):
-                            pattern_mat[x][
-                                start_step_mat[x][y] : end_step_mat[x][y]
-                            ] = val_input[x][y]
+                            pattern_mat[x][start_step_mat[x][y] : end_step_mat[x][y]] = val_input[
+                                x
+                            ][y]
             else:
                 exit()
         return pattern_mat
@@ -515,9 +484,7 @@ class module:
                 for y in range(num_bulk_parameters):
                     z = 0
                     while z < num1:
-                        injection_quality[x][z][y] = random.uniform(
-                            mat_min[x][y], mat_max[x][y]
-                        )
+                        injection_quality[x][z][y] = random.uniform(mat_min[x][y], mat_max[x][y])
                         z += 1
         return injection_quality
 
@@ -531,9 +498,7 @@ class module:
         num_bulk_parameters = module.species()[1]
         h_time = d.getTimeHydraulicStep()
         pattern_steps = int(num1 * 24 * 3600 / h_time)
-        inj_pattern_mat = np.zeros(
-            (num_injection_nodes, pattern_steps, num_bulk_parameters)
-        )
+        inj_pattern_mat = np.zeros((num_injection_nodes, pattern_steps, num_bulk_parameters))
         # Input
         # 'none' - constant pattern; 'rand' - random variations; 'specific - specify pattern
         input = str1
@@ -545,9 +510,7 @@ class module:
                 for y in range(num_bulk_parameters):
                     z = 0
                     while z < pattern_steps:
-                        inj_pattern_mat[x][z][y] = random.uniform(
-                            1 - rand_vary, 1 + rand_vary
-                        )
+                        inj_pattern_mat[x][z][y] = random.uniform(1 - rand_vary, 1 + rand_vary)
                         z += 1
         elif input == "specific":
             start_step_mat = arr2

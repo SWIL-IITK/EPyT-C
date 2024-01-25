@@ -36,9 +36,7 @@ class module:
             index_pumps.append(x + 1)
         network_info.append(index_pumps)
         index_valves = []
-        for x in range(
-            d.getLinkCount() - d.getLinkValveCount(), len(d.getLinkNameID())
-        ):
+        for x in range(d.getLinkCount() - d.getLinkValveCount(), len(d.getLinkNameID())):
             index_valves.append(x + 1)
         network_info.append(index_valves)
         network_info.extend(
@@ -190,9 +188,7 @@ class module:
         nu_water = 9.31e-7
         if num1 == 1:
             variable_mat[num1 - 1][0] = temperature_mean
-            variable_mat[num1 - 1][1] = kbNC_mean * math.exp(
-                -6050 / (temperature_mean + 273)
-            )
+            variable_mat[num1 - 1][1] = kbNC_mean * math.exp(-6050 / (temperature_mean + 273))
             variable_mat[num1 - 1][2] = kwC_mean
             variable_mat[num1 - 1][3] = YN_mean
             variable_mat[num1 - 1][4] = YH_mean
@@ -237,18 +233,12 @@ class module:
         rh = module.hydraulic_mean_radius(num5)
         KwC = (kwC * kfC) / ((kwC + kfC) * rh)
         # Reactions within pipe
-        delta_chlorine_toc_reac_pipe = module.first_order_reaction(
-            KbNC, arr2[0][num3][num2], num1
-        )
-        delta_chlorine_wall_reac_pipe = module.first_order_reaction(
-            KwC, arr2[0][num3][num2], num1
-        )
+        delta_chlorine_toc_reac_pipe = module.first_order_reaction(KbNC, arr2[0][num3][num2], num1)
+        delta_chlorine_wall_reac_pipe = module.first_order_reaction(KwC, arr2[0][num3][num2], num1)
         delta_toc_chlorine_reac_pipe = YN * delta_chlorine_toc_reac_pipe
         delta_thms_formation_pipe = YH * delta_chlorine_toc_reac_pipe
 
-        net_delta_chlorine_reac = (
-            -delta_chlorine_toc_reac_pipe - delta_chlorine_wall_reac_pipe
-        )
+        net_delta_chlorine_reac = -delta_chlorine_toc_reac_pipe - delta_chlorine_wall_reac_pipe
         net_delta_toc_reac = -delta_toc_chlorine_reac_pipe
         net_delta_thms_reac = delta_thms_formation_pipe
 
@@ -317,9 +307,7 @@ class module:
                 for y in range(num_bulk_parameters):
                     z = 0
                     while z < num1:
-                        reservoir_quality[x][z][y] = random.uniform(
-                            mat_min[x][y], mat_max[x][y]
-                        )
+                        reservoir_quality[x][z][y] = random.uniform(mat_min[x][y], mat_max[x][y])
                         z += 1
         return reservoir_quality
 
@@ -344,27 +332,22 @@ class module:
                 for y in range(num_bulk_parameters):
                     z = 0
                     while z < pattern_steps:
-                        pattern_mat[x][z][y] = random.uniform(
-                            1 - rand_vary, 1 + rand_vary
-                        )
+                        pattern_mat[x][z][y] = random.uniform(1 - rand_vary, 1 + rand_vary)
                         z += 1
         elif input == "specific":
             start_step_mat = arr1
             end_step_mat = arr2
             val_input = arr3
-            if (
-                len(start_step_mat) == num_reservoirs
-                and len(end_step_mat) == num_reservoirs
-            ):
+            if len(start_step_mat) == num_reservoirs and len(end_step_mat) == num_reservoirs:
                 if (
                     len(start_step_mat[0]) <= pattern_steps
                     and len(end_step_mat[0]) <= pattern_steps
                 ):
                     for x in range(num_reservoirs):
                         for y in range(len(start_step_mat[x])):
-                            pattern_mat[x][
-                                start_step_mat[x][y] : end_step_mat[x][y]
-                            ] = val_input[x][y]
+                            pattern_mat[x][start_step_mat[x][y] : end_step_mat[x][y]] = val_input[
+                                x
+                            ][y]
             else:
                 exit()
         return pattern_mat
@@ -401,9 +384,7 @@ class module:
                 for y in range(num_bulk_parameters):
                     z = 0
                     while z < num1:
-                        injection_quality[x][z][y] = random.uniform(
-                            mat_min[x][y], mat_max[x][y]
-                        )
+                        injection_quality[x][z][y] = random.uniform(mat_min[x][y], mat_max[x][y])
                         z += 1
         return injection_quality
 
@@ -417,9 +398,7 @@ class module:
         num_bulk_parameters = module.species()[1]
         h_time = d.getTimeHydraulicStep()
         pattern_steps = int(num1 * 24 * 3600 / h_time)
-        inj_pattern_mat = np.zeros(
-            (num_injection_nodes, pattern_steps, num_bulk_parameters)
-        )
+        inj_pattern_mat = np.zeros((num_injection_nodes, pattern_steps, num_bulk_parameters))
         # Input
         # 'none' - constant pattern; 'rand' - random variations; 'specific - specify pattern
         input = str1
@@ -431,9 +410,7 @@ class module:
                 for y in range(num_bulk_parameters):
                     z = 0
                     while z < pattern_steps:
-                        inj_pattern_mat[x][z][y] = random.uniform(
-                            1 - rand_vary, 1 + rand_vary
-                        )
+                        inj_pattern_mat[x][z][y] = random.uniform(1 - rand_vary, 1 + rand_vary)
                         z += 1
         elif input == "specific":
             start_step_mat = arr2

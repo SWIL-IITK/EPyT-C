@@ -1,3 +1,6 @@
+# Importing EPyT-C
+from main import epyt_c
+
 print(
     """  EPyT-C Example 14
 
@@ -12,9 +15,6 @@ print(
     
 """
 )
-
-# Importing EPyT-C
-from main import epyt_c
 
 # Specify the simulation period (days)
 epyt_c.simulation_period_days = 10

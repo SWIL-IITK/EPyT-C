@@ -6,6 +6,7 @@ import sys
 from matplotlib import pyplot as plt
 import matplotlib as mpl
 import os
+from epyt import epanet
 
 
 def install(package):
@@ -13,7 +14,6 @@ def install(package):
 
 
 install("epyt")
-from epyt import epanet
 
 d = epanet("Net3.inp")
 folder_name1 = "Case A"

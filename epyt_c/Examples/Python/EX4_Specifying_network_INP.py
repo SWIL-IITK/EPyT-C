@@ -1,3 +1,6 @@
+# Importing EPyT-C
+from main import epyt_c
+
 print(
     """  EPyT-C Example 4
 
@@ -13,9 +16,6 @@ print(
     
 """
 )
-
-# Importing EPyT-C
-from main import epyt_c
 
 """The default .INP file for EPyT-C is Net3.inp, and is stored in the folder
 'EPyT-C\\Networks'. To change the .INP file, use the following code:"""

@@ -1,3 +1,6 @@
+# Importing EPyT-C
+from main import epyt_c
+
 print(
     """  EPyT-C Example 1
 
@@ -10,9 +13,6 @@ print(
     
 """
 )
-
-# Importing EPyT-C
-from main import epyt_c
 
 """ The default .INP file for EPyT-C is Net3.inp with two source nodes
 (River and Lake). Thus, the default input for water quality at the source

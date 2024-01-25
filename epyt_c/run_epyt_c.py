@@ -1,6 +1,14 @@
 from sys import exit
 from main import epyt_c
-from epyt_c.epyt_c_functions import fn
+from epyt_c_functions import fn
+import os
+from os import getcwd
+import math
+import numpy as np
+import pandas as pd
+import copy
+import time
+from epyt import epanet
 
 if epyt_c.module == "MSRT-1":
     from epyt_c.chlorine_decay_thms_formation import module
@@ -10,16 +18,8 @@ elif epyt_c.module == "MSRT-3":
     from epyt_c.arsenite_oxidation_arsenate_attachment_detachment import module
 elif epyt_c.module == "MSRT-4":
     from epyt_c.pfas_formation import module
-import os
-from os import getcwd
-import math
-import numpy as np
-import pandas as pd
-import copy
-import time
 
 fn.install("epyt")
-from epyt import epanet
 
 start_time = time.time()
 # Display MSRT module details
@@ -36,18 +36,14 @@ reservoir_quality_input = epyt_c.reservoir_quality_matrix
 reservoir_quality_pattern = epyt_c.reservoir_quality_pattern
 reservoir_quality_pattern_rand_var = epyt_c.reservoir_quality_pattern_random_variability
 reservoir_injection_pattern = epyt_c.reservoir_injection_pattern
-reservoir_injection_pattern_rand_var = (
-    epyt_c.reservoir_injection_pattern_random_variability
-)
+reservoir_injection_pattern_rand_var = epyt_c.reservoir_injection_pattern_random_variability
 reservoir_injection_start_time = epyt_c.reservoir_injection_start_time
 reservoir_injection_end_time = epyt_c.reservoir_injection_end_time
 reservoir_injection_input_val = epyt_c.reservoir_injection_input_value
 index_injection_nodes = epyt_c.injection_nodes_index
 injection_nodes_quality_mat = epyt_c.injection_nodes_quality_matrix
 injection_node_quality_pattern = epyt_c.injection_node_quality_pattern
-injection_node_quality_pattern_rand_var = (
-    epyt_c.injection_node_quality_pattern_random_variability
-)
+injection_node_quality_pattern_rand_var = epyt_c.injection_node_quality_pattern_random_variability
 injection_node_injection_pattern = epyt_c.injection_node_injection_pattern
 injection_node_injection_pattern_rand_var = (
     epyt_c.injection_node_injection_pattern_random_variability
@@ -116,17 +112,13 @@ injection_quality = module.injection_quality(
 wq_iteration_count = 1
 # Start of water quality simulation
 while wq_iteration_count <= wq_max_iteration:
-    print(
-        "Water quality simulation (Iteration %d) is starting..." % (wq_iteration_count)
-    )
+    print("Water quality simulation (Iteration %d) is starting..." % (wq_iteration_count))
     # Hydraulic simulation Module
     # Number of seconds for which hydraulics is simulated
     h_sim_s = d.getTimeSimulationDuration()
     if h_sim_s < (wq_sim_days * 24 * 3600):
         d.setTimeSimulationDuration(wq_sim_days * 24 * 3600)
-        print(
-            "Hydraulic analysis simulation period (changed to): %d days" % (wq_sim_days)
-        )
+        print("Hydraulic analysis simulation period (changed to): %d days" % (wq_sim_days))
     else:
         print("Hydraulic analysis simulation period: %d days" % (h_sim_s / (24 * 3600)))
     # Storing hydraulic time step in seconds
@@ -140,14 +132,10 @@ while wq_iteration_count <= wq_max_iteration:
     print("Information successfully stored.")
     # Interpreting hydraulic analysis report
     total_h_steps_reported = len(H.Time)
-    total_h_steps_expected = int(
-        (d.getTimeSimulationDuration() / h_sim_time_step_s) + 1
-    )
+    total_h_steps_expected = int((d.getTimeSimulationDuration() / h_sim_time_step_s) + 1)
     h_ratio_report = (total_h_steps_reported - 1) / (total_h_steps_expected - 1)
     # Filter uneven timesteps
-    filter_steps_mat = fn.time_filter(
-        H, h_ratio_report, total_h_steps_reported, h_sim_time_step_s
-    )
+    filter_steps_mat = fn.time_filter(H, h_ratio_report, total_h_steps_reported, h_sim_time_step_s)
     H.Time = fn.time_data(H.Time, filter_steps_mat)
     H.Velocity = fn.velocity_data(H.Velocity, filter_steps_mat, unit)
     H.Demand = fn.demand_data(H.Demand, filter_steps_mat, unit)
@@ -163,9 +151,7 @@ while wq_iteration_count <= wq_max_iteration:
     link_conc_data_points_max = fn.maximum_segments(
         Tolerable_u, wq_sim_time_step_s, length_links, H.Velocity
     )
-    link_conc_array_a = np.zeros(
-        (wq_parameter_num, link_conc_data_points_max, num_links)
-    )
+    link_conc_array_a = np.zeros((wq_parameter_num, link_conc_data_points_max, num_links))
     link_conc_array = np.zeros((wq_parameter_num, link_conc_data_points_max, num_links))
     node_conc_array_a = np.zeros((bulk_wq_parameter_num, total_wq_steps, num_nodes))
     node_conc_array = np.zeros((bulk_wq_parameter_num, total_wq_steps, num_nodes))
@@ -174,9 +160,7 @@ while wq_iteration_count <= wq_max_iteration:
     for x in range(num_reservoirs):
         reservoir_quality_mat[x] = reservoir_quality[x][wq_iteration_count - 1]
     # Injection node(s) water quality
-    injection_quality_mat = np.zeros(
-        (len(index_injection_nodes), bulk_wq_parameter_num)
-    )
+    injection_quality_mat = np.zeros((len(index_injection_nodes), bulk_wq_parameter_num))
     for x in range(len(index_injection_nodes)):
         injection_quality_mat[x] = injection_quality[x][wq_iteration_count - 1]
     # Storing the initial condition for all nodes
@@ -186,9 +170,9 @@ while wq_iteration_count <= wq_max_iteration:
     for x in range(len(index_injection_nodes)):
         for sp in range(bulk_wq_parameter_num):
             if injection_quality[x][wq_iteration_count - 1][sp] != 0:
-                node_conc_initial_mat[index_injection_nodes[x] - 1][
-                    sp
-                ] = injection_quality[x][wq_iteration_count - 1][sp]
+                node_conc_initial_mat[index_injection_nodes[x] - 1][sp] = injection_quality[x][
+                    wq_iteration_count - 1
+                ][sp]
     # Storing the initial condition for all links
     link_conc_initial_mat = np.zeros((num_links, wall_wq_parameter_num))
     print("Water quality simulation started...")
@@ -299,19 +283,15 @@ while wq_iteration_count <= wq_max_iteration:
                                 ][sp]
                             else:
                                 link_conc_array_a[sp][0][p] = (
-                                    reservoir_quality_mat[
-                                        index_reservoirs.index(start_node)
+                                    reservoir_quality_mat[index_reservoirs.index(start_node)][sp]
+                                    * reservoir_pattern[index_reservoirs.index(start_node)][
+                                        reservoir_pattern_step - 1
                                     ][sp]
-                                    * reservoir_pattern[
-                                        index_reservoirs.index(start_node)
-                                    ][reservoir_pattern_step - 1][sp]
                                 )
                     elif start_node in index_injection_nodes:
                         for sp in range(bulk_wq_parameter_num):
                             if (
-                                injection_quality_mat[
-                                    index_injection_nodes.index(start_node)
-                                ][sp]
+                                injection_quality_mat[index_injection_nodes.index(start_node)][sp]
                                 != 0
                             ):
                                 if wq_step == 1:
@@ -341,9 +321,7 @@ while wq_iteration_count <= wq_max_iteration:
                     if wq_step == 1:
                         segment_prev_time_step_mat = segment_time_step_mat
                     else:
-                        for i in range(
-                            1, int(link_conc_data_points_mat[wq_step - 2][p])
-                        ):
+                        for i in range(1, int(link_conc_data_points_mat[wq_step - 2][p])):
                             segment_prev_time_step_mat[i][0] = (
                                 segment_prev_time_step_mat[i - 1][0]
                                 + link_segments_width_mat[wq_step - 2][p]
@@ -381,8 +359,7 @@ while wq_iteration_count <= wq_max_iteration:
                             ratio_segment = alpha_mat[i][0] / link_segments_width
                         else:
                             ratio_segment = (
-                                alpha_mat[i][0]
-                                / link_segments_width_mat[wq_step - 2][p]
+                                alpha_mat[i][0] / link_segments_width_mat[wq_step - 2][p]
                             )
                         prev_grid = math.floor(ratio_segment)
                         if prev_grid <= 0:
@@ -394,48 +371,28 @@ while wq_iteration_count <= wq_max_iteration:
                             next_grid = 1
                         for sp in range(bulk_wq_parameter_num):
                             if prev_grid == next_grid:
-                                if (
-                                    index_pumps.count(p + 1) > 0
-                                    or index_valves.count(p + 1) > 0
-                                ):
-                                    link_conc_array_a[sp][i][p] = link_conc_array_a[sp][
-                                        0
-                                    ][p]
+                                if index_pumps.count(p + 1) > 0 or index_valves.count(p + 1) > 0:
+                                    link_conc_array_a[sp][i][p] = link_conc_array_a[sp][0][p]
                                 else:
                                     prev_grid -= 1
-                                    link_conc_array_a[sp][i][p] = link_conc_array[sp][
-                                        prev_grid
-                                    ][p]
+                                    link_conc_array_a[sp][i][p] = link_conc_array[sp][prev_grid][p]
                             elif wq_step == 1:
-                                link_conc_array_a[sp][i][p] = link_conc_array[sp][
-                                    prev_grid
-                                ][p] + (
+                                link_conc_array_a[sp][i][p] = link_conc_array[sp][prev_grid][p] + (
                                     (
                                         link_conc_array[sp][next_grid][p]
                                         - link_conc_array[sp][prev_grid][p]
                                     )
                                     / link_segments_width
-                                ) * (
-                                    alpha_mat[i][0]
-                                    - segment_prev_time_step_mat[prev_grid][0]
-                                )
+                                ) * (alpha_mat[i][0] - segment_prev_time_step_mat[prev_grid][0])
                             else:
-                                link_conc_array_a[sp][i][p] = link_conc_array[sp][
-                                    prev_grid
-                                ][p] + (
+                                link_conc_array_a[sp][i][p] = link_conc_array[sp][prev_grid][p] + (
                                     (
                                         link_conc_array[sp][next_grid][p]
                                         - link_conc_array[sp][prev_grid][p]
                                     )
                                     / link_segments_width_mat[wq_step - 2][p]
-                                ) * (
-                                    alpha_mat[i][0]
-                                    - segment_prev_time_step_mat[prev_grid][0]
-                                )
-                        if (
-                            index_pumps.count(p + 1) == 0
-                            and index_valves.count(p + 1) == 0
-                        ):
+                                ) * (alpha_mat[i][0] - segment_prev_time_step_mat[prev_grid][0])
+                        if index_pumps.count(p + 1) == 0 and index_valves.count(p + 1) == 0:
                             delta = module.pipe_reaction(
                                 wq_sim_time_step_s,
                                 p,
@@ -472,9 +429,9 @@ while wq_iteration_count <= wq_max_iteration:
                     flag_reservoir = 1
                     for sp in range(bulk_wq_parameter_num):
                         if wq_step == 1:
-                            node_conc_array_a[sp][wq_step - 1][
-                                n
-                            ] = reservoir_quality_mat[index_reservoirs.index(n + 1)][sp]
+                            node_conc_array_a[sp][wq_step - 1][n] = reservoir_quality_mat[
+                                index_reservoirs.index(n + 1)
+                            ][sp]
                         else:
                             node_conc_array_a[sp][wq_step - 1][n] = (
                                 reservoir_quality_mat[index_reservoirs.index(n + 1)][sp]
@@ -503,10 +460,7 @@ while wq_iteration_count <= wq_max_iteration:
                             link_flow_rate = link_flow_rate_time_step[incoming_link]
                             if link_flow_rate >= 0:
                                 pos = int(
-                                    link_conc_data_points_mat[wq_step - 1][
-                                        incoming_link
-                                    ]
-                                    - 1
+                                    link_conc_data_points_mat[wq_step - 1][incoming_link] - 1
                                 )
                                 for sp in range(bulk_wq_parameter_num):
                                     mass_incoming_mat[sp][0] = (
@@ -563,25 +517,18 @@ while wq_iteration_count <= wq_max_iteration:
                     for sp in range(bulk_wq_parameter_num):
                         if (
                             index_injection_nodes.count(n + 1) > 0
-                            and injection_quality_mat[
-                                index_injection_nodes.index(n + 1)
-                            ][sp]
-                            != 0
+                            and injection_quality_mat[index_injection_nodes.index(n + 1)][sp] != 0
                         ):
                             if wq_step == 1:
-                                node_conc_array_a[sp][wq_step - 1][
-                                    n
-                                ] = injection_quality_mat[
+                                node_conc_array_a[sp][wq_step - 1][n] = injection_quality_mat[
                                     index_injection_nodes.index(n + 1)
                                 ][sp]
                             else:
                                 node_conc_array_a[sp][wq_step - 1][n] = (
-                                    injection_quality_mat[
-                                        index_injection_nodes.index(n + 1)
+                                    injection_quality_mat[index_injection_nodes.index(n + 1)][sp]
+                                    * injection_pattern[index_injection_nodes.index(n + 1)][
+                                        injection_pattern_step - 1
                                     ][sp]
-                                    * injection_pattern[
-                                        index_injection_nodes.index(n + 1)
-                                    ][injection_pattern_step - 1][sp]
                                 )
                     node_conc_array_a[node_conc_array_a < 0] = 0
                 else:
@@ -601,12 +548,7 @@ while wq_iteration_count <= wq_max_iteration:
                             link_flow_rate = link_flow_rate_time_step[incoming_link]
                             if link_flow_rate >= 0:
                                 pos = (
-                                    int(
-                                        link_conc_data_points_mat[wq_step - 1][
-                                            incoming_link
-                                        ]
-                                    )
-                                    - 1
+                                    int(link_conc_data_points_mat[wq_step - 1][incoming_link]) - 1
                                 )
                                 for sp in range(bulk_wq_parameter_num):
                                     mass_incoming_mat[sp][0] = (
@@ -624,12 +566,7 @@ while wq_iteration_count <= wq_max_iteration:
                             link_flow_rate = link_flow_rate_time_step[outgoing_link]
                             if link_flow_rate < 0:
                                 pos = (
-                                    int(
-                                        link_conc_data_points_mat[wq_step - 1][
-                                            outgoing_link
-                                        ]
-                                    )
-                                    - 1
+                                    int(link_conc_data_points_mat[wq_step - 1][outgoing_link]) - 1
                                 )
                                 for sp in range(bulk_wq_parameter_num):
                                     mass_incoming_mat[sp][0] = (
@@ -653,25 +590,18 @@ while wq_iteration_count <= wq_max_iteration:
                     for sp in range(bulk_wq_parameter_num):
                         if (
                             index_injection_nodes.count(n + 1) > 0
-                            and injection_quality_mat[
-                                index_injection_nodes.index(n + 1)
-                            ][sp]
-                            != 0
+                            and injection_quality_mat[index_injection_nodes.index(n + 1)][sp] != 0
                         ):
                             if wq_step == 1:
-                                node_conc_array_a[sp][wq_step - 1][
-                                    n
-                                ] = injection_quality_mat[
+                                node_conc_array_a[sp][wq_step - 1][n] = injection_quality_mat[
                                     index_injection_nodes.index(n + 1)
                                 ][sp]
                             else:
                                 node_conc_array_a[sp][wq_step - 1][n] = (
-                                    injection_quality_mat[
-                                        index_injection_nodes.index(n + 1)
+                                    injection_quality_mat[index_injection_nodes.index(n + 1)][sp]
+                                    * injection_pattern[index_injection_nodes.index(n + 1)][
+                                        injection_pattern_step - 1
                                     ][sp]
-                                    * injection_pattern[
-                                        index_injection_nodes.index(n + 1)
-                                    ][injection_pattern_step - 1][sp]
                                 )
                 if flag_reservoir == 0:
                     for i in range(num_incoming_links):
@@ -682,20 +612,15 @@ while wq_iteration_count <= wq_max_iteration:
                             link_flow_rate = link_flow_rate_time_step[incoming_link]
                             if link_flow_rate >= 0:
                                 pos = (
-                                    int(
-                                        link_conc_data_points_mat[wq_step - 1][
-                                            incoming_link
-                                        ]
-                                    )
-                                    - 1
+                                    int(link_conc_data_points_mat[wq_step - 1][incoming_link]) - 1
                                 )
                             else:
                                 pos = 0
 
                             for sp in range(bulk_wq_parameter_num):
-                                link_conc_array_a[sp][pos][
-                                    incoming_link
-                                ] = node_conc_array_a[sp][wq_step - 1][n]
+                                link_conc_array_a[sp][pos][incoming_link] = node_conc_array_a[sp][
+                                    wq_step - 1
+                                ][n]
                     for o in range(num_outgoing_links):
                         outgoing_link = links_connecting_from_node[o]
                         if index_omitted_links.count(outgoing_link + 1) > 0:
@@ -706,18 +631,13 @@ while wq_iteration_count <= wq_max_iteration:
                                 pos = 0
                             else:
                                 pos = (
-                                    int(
-                                        link_conc_data_points_mat[wq_step - 1][
-                                            outgoing_link
-                                        ]
-                                    )
-                                    - 1
+                                    int(link_conc_data_points_mat[wq_step - 1][outgoing_link]) - 1
                                 )
 
                             for sp in range(bulk_wq_parameter_num):
-                                link_conc_array_a[sp][pos][
-                                    outgoing_link
-                                ] = node_conc_array_a[sp][wq_step - 1][n]
+                                link_conc_array_a[sp][pos][outgoing_link] = node_conc_array_a[sp][
+                                    wq_step - 1
+                                ][n]
         if count_nodes_lagrangian != (num_nodes - num_omitted_nodes):
             print("Error in Lagrangian stage dedicated to nodes!")
             exit()
@@ -728,7 +648,7 @@ while wq_iteration_count <= wq_max_iteration:
     # Creating folder to save simulation results
     folder_name = "Results_Iteration" + str(wq_iteration_count)
     path = getcwd() + folder_name
-    if os.path.exists(path) == True:
+    if os.path.exists(path):
         print("Output folder already exists in the directory. No new folder created.")
     else:
         os.makedirs(path)
@@ -737,9 +657,7 @@ while wq_iteration_count <= wq_max_iteration:
     reporting_time_steps = (reporting_time_cycle_s / wq_sim_time_step_s) + 1
     reporting_step_start = total_wq_steps - reporting_time_steps
     reporting_step_end = total_wq_steps
-    node_conc_report = np.zeros(
-        (bulk_wq_parameter_num, int(reporting_time_steps), num_nodes)
-    )
+    node_conc_report = np.zeros((bulk_wq_parameter_num, int(reporting_time_steps), num_nodes))
     for sp in range(bulk_wq_parameter_num):
         node_conc_report[sp] = node_conc_array[sp][
             int(reporting_step_start) : int(reporting_step_end) + 1
@@ -771,9 +689,7 @@ for i in range(num_reservoirs):
 if len(injection_quality) != 0:
     for i in range(len(injection_quality)):
         data_injection_quality = pd.DataFrame(injection_quality[i])
-        data_injection_quality.to_excel(
-            w2, sheet_name="Injection Quality " + str(i + 1)
-        )
+        data_injection_quality.to_excel(w2, sheet_name="Injection Quality " + str(i + 1))
 data_para = pd.DataFrame(variable_values_mat)
 data_para.to_excel(w2, sheet_name="Parameter values")
 w2.close()

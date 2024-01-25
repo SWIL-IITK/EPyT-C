@@ -6,6 +6,7 @@ import sys
 from matplotlib import pyplot as plt
 import matplotlib as mpl
 import os
+from epyt import epanet
 
 
 def install(package):
@@ -13,7 +14,6 @@ def install(package):
 
 
 install("epyt")
-from epyt import epanet
 
 d = epanet("Net3.inp")
 name_table = ["Case A", "Case B", "Case C", "Case D"]
@@ -50,9 +50,7 @@ for n in range(len(name_table)):
     k = 0
     while k < len(c_range):
         base = c_range[k]
-        percentage[k][n] = (
-            len([a for a in x[:, n] if a >= base]) / (len(x[:, 0]))
-        ) * 100
+        percentage[k][n] = (len([a for a in x[:, n] if a >= base]) / (len(x[:, 0]))) * 100
         # percentage[k][n] = (len([a for a in x[:, n] if a <= base])/(len(x[:,0])))*100
         k += 1
 # Making plots

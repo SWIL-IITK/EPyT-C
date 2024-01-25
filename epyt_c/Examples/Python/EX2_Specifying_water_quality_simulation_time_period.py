@@ -1,3 +1,6 @@
+# Importing EPyT-C
+from main import epyt_c
+
 print(
     """  EPyT-C Example 2
 
@@ -11,9 +14,6 @@ print(
     
 """
 )
-
-# Importing EPyT-C
-from main import epyt_c
 
 """The default simulation period for EPyT-C is 1 day.
 To change the simulation period for EPyT-C, use the following code:"""

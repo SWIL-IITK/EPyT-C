@@ -1,3 +1,6 @@
+# Importing EPyT-C
+from main import epyt_c
+
 print(
     """  EPyT-C Example 13
 
@@ -11,9 +14,6 @@ print(
     
 """
 )
-
-# Importing EPyT-C
-from main import epyt_c
 
 """Currently, EPyT-C is equipped with four mult-species reactive-transport (MSRT) modules:
 MSRT-1: Chlorine decay and trihalomethanes formation module 
