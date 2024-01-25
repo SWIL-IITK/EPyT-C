@@ -5,7 +5,7 @@ name: check epyt-c
 
 on:
   push:
-    branches: [ "main", "jay" ]
+    branches: [ "main", "jay" , "feature"]
   pull_request:
     branches: [ "main" ]
 
@@ -36,4 +36,4 @@ jobs:
         ruff format .
     - name: run epyt-c
       run: |
-        python epyt_c/code.py
+        python epyt_c/Code.py
