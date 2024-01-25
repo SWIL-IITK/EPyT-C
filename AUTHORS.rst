@@ -5,7 +5,7 @@ Credits
 Gopinathan R Abhijith (abhijith@iitk.ac.in)
     Software, Methodology, Validation, Writing - Original Draft
 
-G Jaykrishnan (jaykrishnang@hotmail.com)
+G Jaykrishnan (jaykrishnan.gp@gmail.com)
     Software
 
 Ostfeld Avi (ostfeld@technion.ac.il)
