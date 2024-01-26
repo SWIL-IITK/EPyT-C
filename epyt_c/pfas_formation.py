@@ -270,12 +270,8 @@ class module:
         delta_chlorine_toc_reac_pipe = module.first_order_reaction(KbNC, arr2[0][num3][num2], num1)
         delta_chlorine_wall_reac_pipe = module.first_order_reaction(KwC, arr2[0][num3][num2], num1)
         delta_toc_chlorine_reac_pipe = YN * delta_chlorine_toc_reac_pipe
-        delta_pfoab_chlorine_reac_pipe = module.first_order_reaction(
-            KbCP1, arr2[2][num3][num2], num1
-        )
-        delta_pfoaams_chlorine_reac_pipe = module.first_order_reaction(
-            KbCP2, arr2[3][num3][num2], num1
-        )
+        delta_pfoab_chlorine_reac_pipe = module.first_order_reaction(KbCP1, arr2[2][num3][num2], num1)
+        delta_pfoaams_chlorine_reac_pipe = module.first_order_reaction(KbCP2, arr2[3][num3][num2], num1)
         delta_chlorine_pfoab_reac_pipe = YC1 * delta_pfoab_chlorine_reac_pipe
         delta_chlorine_pfoaams_reac_pipe = YC2 * delta_pfoaams_chlorine_reac_pipe
         delta_pfoa_formation_pfoab_reac_pipe = Yf1 * delta_pfoab_chlorine_reac_pipe
@@ -290,9 +286,7 @@ class module:
         net_delta_toc_reac = -delta_toc_chlorine_reac_pipe
         net_delta_pfoab_reac = -delta_pfoab_chlorine_reac_pipe
         net_delta_pfoaams_reac = -delta_pfoaams_chlorine_reac_pipe
-        net_delta_pfoa_reac = (
-            delta_pfoa_formation_pfoab_reac_pipe + delta_pfoa_formation_pfoaams_reac_pipe
-        )
+        net_delta_pfoa_reac = delta_pfoa_formation_pfoab_reac_pipe + delta_pfoa_formation_pfoaams_reac_pipe
 
         delta_mat = [
             net_delta_chlorine_reac,
@@ -348,16 +342,12 @@ class module:
         delta_pfoa_formation_pfoaams_reac_tank = Yf2 * delta_pfoaams_chlorine_reac_tank
 
         net_delta_chlorine_reac = (
-            -delta_chlorine_toc_reac_tank
-            - delta_chlorine_pfoab_reac_tank
-            - delta_chlorine_pfoaams_reac_tank
+            -delta_chlorine_toc_reac_tank - delta_chlorine_pfoab_reac_tank - delta_chlorine_pfoaams_reac_tank
         )
         net_delta_toc_reac = -delta_toc_chlorine_reac_tank
         net_delta_pfoab_reac = -delta_pfoab_chlorine_reac_tank
         net_delta_pfoaams_reac = -delta_pfoaams_chlorine_reac_tank
-        net_delta_pfoa_reac = (
-            delta_pfoa_formation_pfoab_reac_tank + delta_pfoa_formation_pfoaams_reac_tank
-        )
+        net_delta_pfoa_reac = delta_pfoa_formation_pfoab_reac_tank + delta_pfoa_formation_pfoaams_reac_tank
 
         delta_mat = [
             net_delta_chlorine_reac,
@@ -431,15 +421,10 @@ class module:
             end_step_mat = arr2
             val_input = arr3
             if len(start_step_mat) == num_reservoirs and len(end_step_mat) == num_reservoirs:
-                if (
-                    len(start_step_mat[0]) <= pattern_steps
-                    and len(end_step_mat[0]) <= pattern_steps
-                ):
+                if len(start_step_mat[0]) <= pattern_steps and len(end_step_mat[0]) <= pattern_steps:
                     for x in range(num_reservoirs):
                         for y in range(len(start_step_mat[x])):
-                            pattern_mat[x][start_step_mat[x][y] : end_step_mat[x][y]] = val_input[
-                                x
-                            ][y]
+                            pattern_mat[x][start_step_mat[x][y] : end_step_mat[x][y]] = val_input[x][y]
             else:
                 exit()
         return pattern_mat
@@ -508,19 +493,11 @@ class module:
             start_step_mat = arr2
             end_step_mat = arr3
             val_input = arr4
-            if (
-                len(start_step_mat) == num_injection_nodes
-                and len(end_step_mat) == num_injection_nodes
-            ):
-                if (
-                    len(start_step_mat[0]) <= pattern_steps
-                    and len(end_step_mat[0]) <= pattern_steps
-                ):
+            if len(start_step_mat) == num_injection_nodes and len(end_step_mat) == num_injection_nodes:
+                if len(start_step_mat[0]) <= pattern_steps and len(end_step_mat[0]) <= pattern_steps:
                     for x in range(num_injection_nodes):
                         for y in range(len(start_step_mat[x])):
-                            inj_pattern_mat[x][
-                                start_step_mat[x][y] : end_step_mat[x][y]
-                            ] = val_input[x][y]
+                            inj_pattern_mat[x][start_step_mat[x][y] : end_step_mat[x][y]] = val_input[x][y]
             else:
                 exit()
         return inj_pattern_mat

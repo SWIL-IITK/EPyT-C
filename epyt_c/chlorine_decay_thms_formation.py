@@ -339,15 +339,10 @@ class module:
             end_step_mat = arr2
             val_input = arr3
             if len(start_step_mat) == num_reservoirs and len(end_step_mat) == num_reservoirs:
-                if (
-                    len(start_step_mat[0]) <= pattern_steps
-                    and len(end_step_mat[0]) <= pattern_steps
-                ):
+                if len(start_step_mat[0]) <= pattern_steps and len(end_step_mat[0]) <= pattern_steps:
                     for x in range(num_reservoirs):
                         for y in range(len(start_step_mat[x])):
-                            pattern_mat[x][start_step_mat[x][y] : end_step_mat[x][y]] = val_input[
-                                x
-                            ][y]
+                            pattern_mat[x][start_step_mat[x][y] : end_step_mat[x][y]] = val_input[x][y]
             else:
                 exit()
         return pattern_mat
@@ -416,19 +411,11 @@ class module:
             start_step_mat = arr2
             end_step_mat = arr3
             val_input = arr4
-            if (
-                len(start_step_mat) == num_injection_nodes
-                and len(end_step_mat) == num_injection_nodes
-            ):
-                if (
-                    len(start_step_mat[0]) <= pattern_steps
-                    and len(end_step_mat[0]) <= pattern_steps
-                ):
+            if len(start_step_mat) == num_injection_nodes and len(end_step_mat) == num_injection_nodes:
+                if len(start_step_mat[0]) <= pattern_steps and len(end_step_mat[0]) <= pattern_steps:
                     for x in range(num_injection_nodes):
                         for y in range(len(start_step_mat[x])):
-                            inj_pattern_mat[x][
-                                start_step_mat[x][y] : end_step_mat[x][y]
-                            ] = val_input[x][y]
+                            inj_pattern_mat[x][start_step_mat[x][y] : end_step_mat[x][y]] = val_input[x][y]
             else:
                 exit()
         return inj_pattern_mat

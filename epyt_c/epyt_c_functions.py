@@ -133,16 +133,12 @@ class fn:
             else:
                 h_step_expected = num8
                 wq_time_cycle = num1 - (num5 - 1) * num6 * 24 * 3600
-                wq_time_hydraulic_report = wq_time_cycle + (
-                    int(d.getTimeSimulationDuration()) - num3
-                )
+                wq_time_hydraulic_report = wq_time_cycle + (int(d.getTimeSimulationDuration()) - num3)
                 for x in range(num8, num2):
                     if wq_time_hydraulic_report <= H.Time[x]:
                         h_step = math.floor(x)
                         break
-                reservoir_pattern_step = injection_pattern_step = (
-                    len(arr2[0]) - (num2 - h_step) + 1
-                )
+                reservoir_pattern_step = injection_pattern_step = len(arr2[0]) - (num2 - h_step) + 1
         elif arr1 == "dynamic":
             if num1 == 0:
                 h_step_expected = 0

@@ -45,9 +45,7 @@ injection_nodes_quality_mat = epyt_c.injection_nodes_quality_matrix
 injection_node_quality_pattern = epyt_c.injection_node_quality_pattern
 injection_node_quality_pattern_rand_var = epyt_c.injection_node_quality_pattern_random_variability
 injection_node_injection_pattern = epyt_c.injection_node_injection_pattern
-injection_node_injection_pattern_rand_var = (
-    epyt_c.injection_node_injection_pattern_random_variability
-)
+injection_node_injection_pattern_rand_var = epyt_c.injection_node_injection_pattern_random_variability
 injection_node_injection_start_time = epyt_c.injection_node_injection_start_time
 injection_node_injection_end_time = epyt_c.injection_node_injection_end_time
 injection_node_injection_input_val = epyt_c.injection_node_injection_input_value
@@ -290,22 +288,17 @@ while wq_iteration_count <= wq_max_iteration:
                                 )
                     elif start_node in index_injection_nodes:
                         for sp in range(bulk_wq_parameter_num):
-                            if (
-                                injection_quality_mat[index_injection_nodes.index(start_node)][sp]
-                                != 0
-                            ):
+                            if injection_quality_mat[index_injection_nodes.index(start_node)][sp] != 0:
                                 if wq_step == 1:
                                     link_conc_array_a[sp][0][p] = injection_quality_mat[
                                         index_injection_nodes.index(start_node)
                                     ][sp]
                                 else:
                                     link_conc_array_a[sp][0][p] = (
-                                        injection_quality_mat[
-                                            index_injection_nodes.index(start_node)
+                                        injection_quality_mat[index_injection_nodes.index(start_node)][sp]
+                                        * injection_pattern[index_injection_nodes.index(start_node)][
+                                            injection_pattern_step - 1
                                         ][sp]
-                                        * injection_pattern[
-                                            index_injection_nodes.index(start_node)
-                                        ][injection_pattern_step - 1][sp]
                                     )
                     # Calculating the distance of grid points from rear end of a link
                     segment_time_step_mat = np.zeros((link_segments_num + 1, 1))
@@ -313,9 +306,7 @@ while wq_iteration_count <= wq_max_iteration:
                         (int(link_conc_data_points_mat[wq_step - 2][p]), 1)
                     )
                     for i in range(1, link_segments_num + 1):
-                        segment_time_step_mat[i][0] = (
-                            segment_time_step_mat[i - 1][0] + link_segments_width
-                        )
+                        segment_time_step_mat[i][0] = segment_time_step_mat[i - 1][0] + link_segments_width
 
                     # Calculating the distance of grid points from rear end of a link for previous time step
                     if wq_step == 1:
@@ -358,9 +349,7 @@ while wq_iteration_count <= wq_max_iteration:
                         if wq_step == 1:
                             ratio_segment = alpha_mat[i][0] / link_segments_width
                         else:
-                            ratio_segment = (
-                                alpha_mat[i][0] / link_segments_width_mat[wq_step - 2][p]
-                            )
+                            ratio_segment = alpha_mat[i][0] / link_segments_width_mat[wq_step - 2][p]
                         prev_grid = math.floor(ratio_segment)
                         if prev_grid <= 0:
                             prev_grid = 0
@@ -378,18 +367,12 @@ while wq_iteration_count <= wq_max_iteration:
                                     link_conc_array_a[sp][i][p] = link_conc_array[sp][prev_grid][p]
                             elif wq_step == 1:
                                 link_conc_array_a[sp][i][p] = link_conc_array[sp][prev_grid][p] + (
-                                    (
-                                        link_conc_array[sp][next_grid][p]
-                                        - link_conc_array[sp][prev_grid][p]
-                                    )
+                                    (link_conc_array[sp][next_grid][p] - link_conc_array[sp][prev_grid][p])
                                     / link_segments_width
                                 ) * (alpha_mat[i][0] - segment_prev_time_step_mat[prev_grid][0])
                             else:
                                 link_conc_array_a[sp][i][p] = link_conc_array[sp][prev_grid][p] + (
-                                    (
-                                        link_conc_array[sp][next_grid][p]
-                                        - link_conc_array[sp][prev_grid][p]
-                                    )
+                                    (link_conc_array[sp][next_grid][p] - link_conc_array[sp][prev_grid][p])
                                     / link_segments_width_mat[wq_step - 2][p]
                                 ) * (alpha_mat[i][0] - segment_prev_time_step_mat[prev_grid][0])
                         if index_pumps.count(p + 1) == 0 and index_valves.count(p + 1) == 0:
@@ -405,9 +388,7 @@ while wq_iteration_count <= wq_max_iteration:
                                 link_conc_array_a,
                             )
                             for sp in range(wq_parameter_num):
-                                link_conc_array_a[sp][i][p] = (
-                                    link_conc_array_a[sp][i][p] + delta[sp]
-                                )
+                                link_conc_array_a[sp][i][p] = link_conc_array_a[sp][i][p] + delta[sp]
                     link_conc_array_a[link_conc_array_a < 0] = 0
         if count_links_lagrangian != (num_links - num_omitted_links):
             print("Error in Lagrangian stage dedicated to pipes!")
@@ -459,14 +440,11 @@ while wq_iteration_count <= wq_max_iteration:
                         else:
                             link_flow_rate = link_flow_rate_time_step[incoming_link]
                             if link_flow_rate >= 0:
-                                pos = int(
-                                    link_conc_data_points_mat[wq_step - 1][incoming_link] - 1
-                                )
+                                pos = int(link_conc_data_points_mat[wq_step - 1][incoming_link] - 1)
                                 for sp in range(bulk_wq_parameter_num):
                                     mass_incoming_mat[sp][0] = (
                                         mass_incoming_mat[sp][0]
-                                        + abs(link_flow_rate)
-                                        * link_conc_array_a[sp][pos][incoming_link]
+                                        + abs(link_flow_rate) * link_conc_array_a[sp][pos][incoming_link]
                                     )
                             else:
                                 tank_outflow = tank_outflow + abs(link_flow_rate)
@@ -481,8 +459,7 @@ while wq_iteration_count <= wq_max_iteration:
                                 for sp in range(bulk_wq_parameter_num):
                                     mass_incoming_mat[sp][0] = (
                                         mass_incoming_mat[sp][0]
-                                        + abs(link_flow_rate)
-                                        * link_conc_array_a[sp][pos][outgoing_link]
+                                        + abs(link_flow_rate) * link_conc_array_a[sp][pos][outgoing_link]
                                     )
                             else:
                                 tank_outflow = tank_outflow + abs(link_flow_rate)
@@ -547,14 +524,11 @@ while wq_iteration_count <= wq_max_iteration:
                         else:
                             link_flow_rate = link_flow_rate_time_step[incoming_link]
                             if link_flow_rate >= 0:
-                                pos = (
-                                    int(link_conc_data_points_mat[wq_step - 1][incoming_link]) - 1
-                                )
+                                pos = int(link_conc_data_points_mat[wq_step - 1][incoming_link]) - 1
                                 for sp in range(bulk_wq_parameter_num):
                                     mass_incoming_mat[sp][0] = (
                                         mass_incoming_mat[sp][0]
-                                        + abs(link_flow_rate)
-                                        * link_conc_array_a[sp][pos][incoming_link]
+                                        + abs(link_flow_rate) * link_conc_array_a[sp][pos][incoming_link]
                                     )
                             else:
                                 outgoing_flow = outgoing_flow + abs(link_flow_rate)
@@ -565,14 +539,11 @@ while wq_iteration_count <= wq_max_iteration:
                         else:
                             link_flow_rate = link_flow_rate_time_step[outgoing_link]
                             if link_flow_rate < 0:
-                                pos = (
-                                    int(link_conc_data_points_mat[wq_step - 1][outgoing_link]) - 1
-                                )
+                                pos = int(link_conc_data_points_mat[wq_step - 1][outgoing_link]) - 1
                                 for sp in range(bulk_wq_parameter_num):
                                     mass_incoming_mat[sp][0] = (
                                         mass_incoming_mat[sp][0]
-                                        + abs(link_flow_rate)
-                                        * link_conc_array_a[sp][pos][outgoing_link]
+                                        + abs(link_flow_rate) * link_conc_array_a[sp][pos][outgoing_link]
                                     )
                             else:
                                 outgoing_flow = outgoing_flow + abs(link_flow_rate)
@@ -582,9 +553,7 @@ while wq_iteration_count <= wq_max_iteration:
                             node_conc_array_a[sp][wq_step - 1][n] = 0
                     else:
                         for sp in range(bulk_wq_parameter_num):
-                            node_conc_array_a[sp][wq_step - 1][n] = (
-                                mass_incoming_mat[sp][0] / total_outflow
-                            )
+                            node_conc_array_a[sp][wq_step - 1][n] = mass_incoming_mat[sp][0] / total_outflow
 
                     # Check for injection node
                     for sp in range(bulk_wq_parameter_num):
@@ -611,9 +580,7 @@ while wq_iteration_count <= wq_max_iteration:
                         else:
                             link_flow_rate = link_flow_rate_time_step[incoming_link]
                             if link_flow_rate >= 0:
-                                pos = (
-                                    int(link_conc_data_points_mat[wq_step - 1][incoming_link]) - 1
-                                )
+                                pos = int(link_conc_data_points_mat[wq_step - 1][incoming_link]) - 1
                             else:
                                 pos = 0
 
@@ -630,9 +597,7 @@ while wq_iteration_count <= wq_max_iteration:
                             if link_flow_rate >= 0:
                                 pos = 0
                             else:
-                                pos = (
-                                    int(link_conc_data_points_mat[wq_step - 1][outgoing_link]) - 1
-                                )
+                                pos = int(link_conc_data_points_mat[wq_step - 1][outgoing_link]) - 1
 
                             for sp in range(bulk_wq_parameter_num):
                                 link_conc_array_a[sp][pos][outgoing_link] = node_conc_array_a[sp][
@@ -659,9 +624,7 @@ while wq_iteration_count <= wq_max_iteration:
     reporting_step_end = total_wq_steps
     node_conc_report = np.zeros((bulk_wq_parameter_num, int(reporting_time_steps), num_nodes))
     for sp in range(bulk_wq_parameter_num):
-        node_conc_report[sp] = node_conc_array[sp][
-            int(reporting_step_start) : int(reporting_step_end) + 1
-        ]
+        node_conc_report[sp] = node_conc_array[sp][int(reporting_step_start) : int(reporting_step_end) + 1]
     time_mat = np.zeros((int(reporting_time_steps), 1))
     for t in range(int(reporting_time_steps)):
         time_mat[t] = (t * wq_sim_time_step_s) / 3600
@@ -673,9 +636,7 @@ while wq_iteration_count <= wq_max_iteration:
         data_conc = pd.DataFrame(node_conc_report[sp])
         data = pd.concat([data_time, data_conc], axis=1)
         data.to_excel(w1, sheet_name="Bulk parameter " + str(sp + 1))
-    data_water_age = pd.DataFrame(
-        Q.NodeQuality[int(reporting_step_start) : int(reporting_step_end) + 1]
-    )
+    data_water_age = pd.DataFrame(Q.NodeQuality[int(reporting_step_start) : int(reporting_step_end) + 1])
     data_water_age_out = pd.concat([data_time, data_water_age], axis=1)
     data_water_age_out.to_excel(w1, sheet_name="Water age")
     w1.close()

@@ -251,9 +251,9 @@ class module:
                 )
                 variable_mat[x][2] = random.uniform(kwC_lower, kwC_upper)
                 variable_mat[x][3] = random.uniform(YN_lower, YN_upper)
-                variable_mat[x][4] = random.uniform(
-                    math.log(umax_lower), math.log(umax_upper)
-                ) * math.exp(-(((37 - variable_mat[x][0]) / 30) ** 2))
+                variable_mat[x][4] = random.uniform(math.log(umax_lower), math.log(umax_upper)) * math.exp(
+                    -(((37 - variable_mat[x][0]) / 30) ** 2)
+                )
                 variable_mat[x][5] = random.uniform(math.log(Ks_lower), math.log(Ks_upper))
                 variable_mat[x][6] = np.random.lognormal(kin_mean, kin_var)
                 variable_mat[x][7] = np.random.lognormal(kd_mean, kd_var)
@@ -298,26 +298,16 @@ class module:
         kfC = module.mass_transfer_coefficient(Sh_chlorine, Dm_chlorine, num5)
         rh = module.hydraulic_mean_radius(num5)
         KwC = (kwC * kfC) / ((kwC + kfC) * rh)
-        if (arr2[0][num3][num2] > 0) and (
-            1.4985 * (arr2[2][num3][num2] / arr2[0][num3][num2]) - 0.4
-        ) > 0:
+        if (arr2[0][num3][num2] > 0) and (1.4985 * (arr2[2][num3][num2] / arr2[0][num3][num2]) - 0.4) > 0:
             YS = 1.4985 * (arr2[2][num3][num2] / arr2[0][num3][num2]) - 0.4
         else:
             YS = 0
-        u = (
-            umax
-            * (arr2[2][num3][num2] / (Ks + arr2[2][num3][num2]))
-            * math.exp(-kin * arr2[0][num3][num2])
-        )
+        u = umax * (arr2[2][num3][num2] / (Ks + arr2[2][num3][num2])) * math.exp(-kin * arr2[0][num3][num2])
         Kd = kd + (kcd * arr2[0][num3][num2])
 
         # Reactions within pipe
-        delta_chlorine_rdoc_reac_pipe = module.first_order_reaction(
-            KbNC, arr2[0][num3][num2], num1
-        )
-        delta_chlorine_bdoc_reac_pipe = module.first_order_reaction(
-            KbSC, arr2[0][num3][num2], num1
-        )
+        delta_chlorine_rdoc_reac_pipe = module.first_order_reaction(KbNC, arr2[0][num3][num2], num1)
+        delta_chlorine_bdoc_reac_pipe = module.first_order_reaction(KbSC, arr2[0][num3][num2], num1)
         delta_chlorine_wall_reac_pipe = module.first_order_reaction(KwC, arr2[0][num3][num2], num1)
         delta_rdoc_chlorine_reac_pipe = YN * delta_chlorine_rdoc_reac_pipe
         delta_bdoc_chlorine_reac_pipe = YS * delta_chlorine_bdoc_reac_pipe
@@ -328,9 +318,7 @@ class module:
         delta_bdoc_lysis_pipe = b * 1e-9 * delta_bacteria_lysis_pipe
 
         net_delta_chlorine_reac = (
-            -delta_chlorine_rdoc_reac_pipe
-            - delta_chlorine_bdoc_reac_pipe
-            - delta_chlorine_wall_reac_pipe
+            -delta_chlorine_rdoc_reac_pipe - delta_chlorine_bdoc_reac_pipe - delta_chlorine_wall_reac_pipe
         )
         net_delta_rdoc_reac = -delta_rdoc_chlorine_reac_pipe
         net_delta_bdoc_reac = (
@@ -396,15 +384,9 @@ class module:
         )
         delta_rdoc_chlorine_reac_tank = YN * delta_chlorine_rdoc_reac_tank
         delta_bdoc_chlorine_reac_tank = YS * delta_chlorine_bdoc_reac_tank
-        delta_bacteria_regrowth_tank = (num4 / num5) * module.first_order_reaction(
-            u, tank_flb_conc, num1
-        )
-        delta_bacteria_death_tank = (num4 / num5) * module.first_order_reaction(
-            Kd, tank_flb_conc, num1
-        )
-        delta_bacteria_lysis_tank = (num4 / num5) * module.first_order_reaction(
-            klys, tank_fdb_conc, num1
-        )
+        delta_bacteria_regrowth_tank = (num4 / num5) * module.first_order_reaction(u, tank_flb_conc, num1)
+        delta_bacteria_death_tank = (num4 / num5) * module.first_order_reaction(Kd, tank_flb_conc, num1)
+        delta_bacteria_lysis_tank = (num4 / num5) * module.first_order_reaction(klys, tank_fdb_conc, num1)
         delta_bdoc_consumption_tank = (a / Y) * delta_bacteria_regrowth_tank
         delta_bdoc_lysis_tank = b * 1e-9 * delta_bacteria_lysis_tank
 
@@ -488,15 +470,10 @@ class module:
             end_step_mat = arr2
             val_input = arr3
             if len(start_step_mat) == num_reservoirs and len(end_step_mat) == num_reservoirs:
-                if (
-                    len(start_step_mat[0]) <= pattern_steps
-                    and len(end_step_mat[0]) <= pattern_steps
-                ):
+                if len(start_step_mat[0]) <= pattern_steps and len(end_step_mat[0]) <= pattern_steps:
                     for x in range(num_reservoirs):
                         for y in range(len(start_step_mat[x])):
-                            pattern_mat[x][start_step_mat[x][y] : end_step_mat[x][y]] = val_input[
-                                x
-                            ][y]
+                            pattern_mat[x][start_step_mat[x][y] : end_step_mat[x][y]] = val_input[x][y]
             else:
                 exit()
         return pattern_mat
@@ -565,19 +542,11 @@ class module:
             start_step_mat = arr2
             end_step_mat = arr3
             val_input = arr4
-            if (
-                len(start_step_mat) == num_injection_nodes
-                and len(end_step_mat) == num_injection_nodes
-            ):
-                if (
-                    len(start_step_mat[0]) <= pattern_steps
-                    and len(end_step_mat[0]) <= pattern_steps
-                ):
+            if len(start_step_mat) == num_injection_nodes and len(end_step_mat) == num_injection_nodes:
+                if len(start_step_mat[0]) <= pattern_steps and len(end_step_mat[0]) <= pattern_steps:
                     for x in range(num_injection_nodes):
                         for y in range(len(start_step_mat[x])):
-                            inj_pattern_mat[x][
-                                start_step_mat[x][y] : end_step_mat[x][y]
-                            ] = val_input[x][y]
+                            inj_pattern_mat[x][start_step_mat[x][y] : end_step_mat[x][y]] = val_input[x][y]
             else:
                 exit()
         return inj_pattern_mat

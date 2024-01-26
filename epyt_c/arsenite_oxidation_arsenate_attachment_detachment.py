@@ -159,9 +159,7 @@ class module:
         if num5 == 0:
             kf_val_ars = 1
         else:
-            kf_val_ars = (
-                0.026 * (num1 / num5) * ((num5 * num3 / num4) ** 0.8) * ((num4 / num1) ** 0.333)
-            )
+            kf_val_ars = 0.026 * (num1 / num5) * ((num5 * num3 / num4) ** 0.8) * ((num4 / num1) ** 0.333)
         return kf_val_ars
 
     # Defining Hydrauic mean radius
@@ -282,9 +280,9 @@ class module:
         rh = module.hydraulic_mean_radius(num5)
         KwC = (kwC * kfC) / ((kwC + kfC) * rh)
         KfAs = module.mass_transfer_coefficient_ars(Dm_arsenic, num2, num4, nu_water)
-        Sorb = (
-            arr2[1][num3][num2] * (S_max - arr2[5][num3][num2]) - k_eq * arr2[5][num3][num2]
-        ) / ((1 / k_ads) + ((1 / KfAs) * (S_max - arr2[5][num3][num2])))
+        Sorb = (arr2[1][num3][num2] * (S_max - arr2[5][num3][num2]) - k_eq * arr2[5][num3][num2]) / (
+            (1 / k_ads) + ((1 / KfAs) * (S_max - arr2[5][num3][num2]))
+        )
         Av = module.area_per_unit_vol(num5)
 
         # Reactions within pipe
@@ -294,9 +292,7 @@ class module:
         if module.first_order_reaction(KbCAs, arr2[0][num3][num2], num1) > arr2[0][num3][num2]:
             delta_As3_chlorine_reac_pipe = arr2[0][num3][num2]
         else:
-            delta_As3_chlorine_reac_pipe = module.first_order_reaction(
-                KbCAs, arr2[0][num3][num2], num1
-            )
+            delta_As3_chlorine_reac_pipe = module.first_order_reaction(KbCAs, arr2[0][num3][num2], num1)
         delta_chlorine_As3_reac_pipe = YC * delta_chlorine_toc_reac_pipe
         if module.first_order_reaction(KbCAs, arr2[0][num3][num2], num1) > arr2[0][num3][num2]:
             delta_As5_As3_reac_pipe = arr2[0][num3][num2]
@@ -307,9 +303,7 @@ class module:
         delta_As5_wall_reac_pipe = Sorb
 
         net_delta_chlorine_reac = (
-            -delta_chlorine_toc_reac_pipe
-            - delta_chlorine_wall_reac_pipe
-            - delta_chlorine_As3_reac_pipe
+            -delta_chlorine_toc_reac_pipe - delta_chlorine_wall_reac_pipe - delta_chlorine_As3_reac_pipe
         )
         net_delta_toc_reac = -delta_toc_chlorine_reac_pipe
         net_delta_As3_reac = -delta_As3_chlorine_reac_pipe
@@ -439,15 +433,10 @@ class module:
             end_step_mat = arr2
             val_input = arr3
             if len(start_step_mat) == num_reservoirs and len(end_step_mat) == num_reservoirs:
-                if (
-                    len(start_step_mat[0]) <= pattern_steps
-                    and len(end_step_mat[0]) <= pattern_steps
-                ):
+                if len(start_step_mat[0]) <= pattern_steps and len(end_step_mat[0]) <= pattern_steps:
                     for x in range(num_reservoirs):
                         for y in range(len(start_step_mat[x])):
-                            pattern_mat[x][start_step_mat[x][y] : end_step_mat[x][y]] = val_input[
-                                x
-                            ][y]
+                            pattern_mat[x][start_step_mat[x][y] : end_step_mat[x][y]] = val_input[x][y]
             else:
                 exit()
         return pattern_mat
@@ -516,19 +505,11 @@ class module:
             start_step_mat = arr2
             end_step_mat = arr3
             val_input = arr4
-            if (
-                len(start_step_mat) == num_injection_nodes
-                and len(end_step_mat) == num_injection_nodes
-            ):
-                if (
-                    len(start_step_mat[0]) <= pattern_steps
-                    and len(end_step_mat[0]) <= pattern_steps
-                ):
+            if len(start_step_mat) == num_injection_nodes and len(end_step_mat) == num_injection_nodes:
+                if len(start_step_mat[0]) <= pattern_steps and len(end_step_mat[0]) <= pattern_steps:
                     for x in range(num_injection_nodes):
                         for y in range(len(start_step_mat[x])):
-                            inj_pattern_mat[x][
-                                start_step_mat[x][y] : end_step_mat[x][y]
-                            ] = val_input[x][y]
+                            inj_pattern_mat[x][start_step_mat[x][y] : end_step_mat[x][y]] = val_input[x][y]
             else:
                 exit()
         return inj_pattern_mat
