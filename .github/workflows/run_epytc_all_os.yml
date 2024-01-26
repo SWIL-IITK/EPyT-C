@@ -29,11 +29,7 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install ruff
         pip install -r requirements.txt
-    - name: Lint with ruff
-      run: |
-        ruff format .
     - name: run epyt-c
       run: |
         python epyt_c/Code.py
