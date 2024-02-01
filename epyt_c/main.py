@@ -1,6 +1,5 @@
 import os
 from os import getcwd
-import hydra
 from run_epyt_c import RunEpytc
 
 class epyt_c:
