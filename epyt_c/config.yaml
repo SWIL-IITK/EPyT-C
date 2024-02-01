@@ -2,7 +2,7 @@
 # update parameters here to change run parameters
 
 parameters:
-    module: "MSRT-1"
+    module: "MSRT-2"
     maximum_iterations_required: 1
     network_name: "Net3.inp"
     simulation_period_days: 1

@@ -1,3 +1,4 @@
-from main import epyt_c
+from main import epyt_c, ExecuteEpytc
 
-epyt_c.exe()
+epytc = epyt_c()
+ExecuteEpytc(epyt_c)
