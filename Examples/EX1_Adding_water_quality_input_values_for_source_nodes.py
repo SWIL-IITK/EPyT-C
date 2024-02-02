@@ -1,5 +1,6 @@
 # Importing EPyT-C
-from ..epyt_c.main_epytc import create_epytc, execute_epytc
+import epyt_c
+from epyt_c.main_epytc import create_epytc, execute_epytc
 
 print(
     """  EPyT-C Example 1

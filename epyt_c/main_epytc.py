@@ -1,6 +1,6 @@
 import os
 from os import getcwd
-from run_epyt_c import run_epytc
+from .run_epyt_c import run_epytc
 from dataclasses import dataclass
 import hydra
 from hydra.utils import instantiate

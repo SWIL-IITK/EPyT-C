@@ -1,5 +1,5 @@
 from sys import exit
-from epyt_c_functions import fn
+from .epyt_c_functions import fn
 import os
 from os import getcwd
 import math
@@ -13,11 +13,11 @@ def run_epytc(epytc):
     if epytc.module == "MSRT-1":
         from chlorine_decay_thms_formation import module
     elif epytc.module == "MSRT-2":
-        from bacterial_regrowth import module
+        from .bacterial_regrowth import module
     elif epytc.module == "MSRT-3":
-        from arsenite_oxidation_arsenate_attachment_detachment import module
+        from .arsenite_oxidation_arsenate_attachment_detachment import module
     elif epytc.module == "MSRT-4":
-        from pfas_formation import module
+        from .pfas_formation import module
 
     fn.install("epyt")
 
