@@ -1,5 +1,5 @@
 # Importing EPyT-C
-from main import epyt_c
+from epyt_c.main_epytc import create_epytc, execute_epytc
 
 print(
     """  EPyT-C Example 4
@@ -11,27 +11,30 @@ print(
     Specify the time step in seconds for water quality simulation.
     Add water quality parameter input values for the source node.
     Run EPyT-C for water quality analysis.
-    
+
         The results are saved as .XLSX files by default.
-    
+
 """
 )
+
+#TODO
+epytc=create_epytc()
 
 """The default .INP file for EPyT-C is Net3.inp, and is stored in the folder
 'EPyT-C\\Networks'. To change the .INP file, use the following code:"""
 
-epyt_c.network_name = epyt_c.network_folder + "Net1.inp"
+epytc.network_name = "epyt_c/Networks/Net1.inp"
 
 """The network for water quality simulation is now changed to Net1.inp."""
 
 # Specify the simulation period (days)
-epyt_c.simulation_period_days = 10
+epytc.simulation_period_days = 10
 
 # Specify the simulation time step (seconds)
-epyt_c.simulation_time_step = 300
+epytc.simulation_time_step = 300
 
 # Add water quality at the source node
-epyt_c.reservoir_quality_matrix = [[1, 2, 40]]
+epytc.reservoir_quality_matrix = [[1, 2, 40]]
 
 # Executing EPyT-C
-epyt_c.exe()
+execute_epytc(epytc)

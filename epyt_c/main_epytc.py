@@ -10,7 +10,7 @@ from omegaconf import OmegaConf
 class epytc_class:
     module: str
     maximum_iterations_required: int
-    network_name: str
+    network_name: str # TODO - how to update this parameter? a path?
     simulation_period_days: int
     simulation_time_step: int
     base_period_days: int
