@@ -1,4 +1,4 @@
-from main import epyt_c, ExecuteEpytc
+from main_epytc import create_epytc, execute_epytc
 
-epytc = epyt_c()
-ExecuteEpytc(epyt_c)
+epytc = create_epytc()
+execute_epytc(epytc)

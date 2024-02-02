@@ -9,14 +9,14 @@ import copy
 import time
 from epyt import epanet
 
-def RunEpytc(epyt_c):
-    if epyt_c.module == "MSRT-1":
+def run_epytc(epytc):
+    if epytc.module == "MSRT-1":
         from chlorine_decay_thms_formation import module
-    elif epyt_c.module == "MSRT-2":
+    elif epytc.module == "MSRT-2":
         from bacterial_regrowth import module
-    elif epyt_c.module == "MSRT-3":
+    elif epytc.module == "MSRT-3":
         from arsenite_oxidation_arsenate_attachment_detachment import module
-    elif epyt_c.module == "MSRT-4":
+    elif epytc.module == "MSRT-4":
         from pfas_formation import module
 
     fn.install("epyt")
@@ -25,33 +25,33 @@ def RunEpytc(epyt_c):
     # Display MSRT module details
     module.details()
     # Input data
-    wq_max_iteration = epyt_c.maximum_iterations_required
-    wq_sim_days = epyt_c.simulation_period_days
-    wq_sim_time_step_s = epyt_c.simulation_time_step
-    base_time_cycle_day = epyt_c.base_period_days
+    wq_max_iteration = epytc.maximum_iterations_required
+    wq_sim_days = epytc.simulation_period_days
+    wq_sim_time_step_s = epytc.simulation_time_step
+    base_time_cycle_day = epytc.base_period_days
     total_wq_steps = int(((wq_sim_days * 24 * 3600) / wq_sim_time_step_s) + 1)
     base_time_cycle_s = base_time_cycle_day * 24 * 3600
-    Tolerable_u = epyt_c.minimum_pipe_flow_velocity
-    reservoir_quality_input = epyt_c.reservoir_quality_matrix
-    reservoir_quality_pattern = epyt_c.reservoir_quality_pattern
-    reservoir_quality_pattern_rand_var = epyt_c.reservoir_quality_pattern_random_variability
-    reservoir_injection_pattern = epyt_c.reservoir_injection_pattern
-    reservoir_injection_pattern_rand_var = epyt_c.reservoir_injection_pattern_random_variability
-    reservoir_injection_start_time = epyt_c.reservoir_injection_start_time
-    reservoir_injection_end_time = epyt_c.reservoir_injection_end_time
-    reservoir_injection_input_val = epyt_c.reservoir_injection_input_value
-    index_injection_nodes = epyt_c.injection_nodes_index
-    injection_nodes_quality_mat = epyt_c.injection_nodes_quality_matrix
-    injection_node_quality_pattern = epyt_c.injection_node_quality_pattern
-    injection_node_quality_pattern_rand_var = epyt_c.injection_node_quality_pattern_random_variability
-    injection_node_injection_pattern = epyt_c.injection_node_injection_pattern
-    injection_node_injection_pattern_rand_var = epyt_c.injection_node_injection_pattern_random_variability
-    injection_node_injection_start_time = epyt_c.injection_node_injection_start_time
-    injection_node_injection_end_time = epyt_c.injection_node_injection_end_time
-    injection_node_injection_input_val = epyt_c.injection_node_injection_input_value
-    sync_option = epyt_c.hyd_wq_sync_option
+    Tolerable_u = epytc.minimum_pipe_flow_velocity
+    reservoir_quality_input = epytc.reservoir_quality_matrix
+    reservoir_quality_pattern = epytc.reservoir_quality_pattern
+    reservoir_quality_pattern_rand_var = epytc.reservoir_quality_pattern_random_variability
+    reservoir_injection_pattern = epytc.reservoir_injection_pattern
+    reservoir_injection_pattern_rand_var = epytc.reservoir_injection_pattern_random_variability
+    reservoir_injection_start_time = epytc.reservoir_injection_start_time
+    reservoir_injection_end_time = epytc.reservoir_injection_end_time
+    reservoir_injection_input_val = epytc.reservoir_injection_input_value
+    index_injection_nodes = epytc.injection_nodes_index
+    injection_nodes_quality_mat = epytc.injection_nodes_quality_matrix
+    injection_node_quality_pattern = epytc.injection_node_quality_pattern
+    injection_node_quality_pattern_rand_var = epytc.injection_node_quality_pattern_random_variability
+    injection_node_injection_pattern = epytc.injection_node_injection_pattern
+    injection_node_injection_pattern_rand_var = epytc.injection_node_injection_pattern_random_variability
+    injection_node_injection_start_time = epytc.injection_node_injection_start_time
+    injection_node_injection_end_time = epytc.injection_node_injection_end_time
+    injection_node_injection_input_val = epytc.injection_node_injection_input_value
+    sync_option = epytc.hyd_wq_sync_option
     # Load network
-    d = epanet(epyt_c.network_name)
+    d = epanet(epytc.network_name)
     # Creating variables
     num_nodes = fn.network(d)[0]
     num_links = fn.network(d)[1]
