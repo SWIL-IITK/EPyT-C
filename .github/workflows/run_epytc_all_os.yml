@@ -32,4 +32,4 @@ jobs:
         pip install -r requirements.txt
     - name: run epyt-c
       run: |
-        python epyt_c/Code.py
+        python run_sample.py
