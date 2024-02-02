@@ -2,7 +2,7 @@
 # update parameters here to change run parameters
 
 epytc_class:
-    module: "MSRT-2"
+    module: "MSRT-1"
     maximum_iterations_required: 1
     network_name: "epyt_c/Networks/Net3.inp"
     simulation_period_days: 1
