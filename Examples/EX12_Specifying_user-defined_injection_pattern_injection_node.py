@@ -27,10 +27,10 @@ print(
 )
 
 # create an epytc_class instace
-epytc=create_epytc()
+epytc = create_epytc()
 
 # Specify the network name
-epytc.network_name = os.path.join("..","epytc","Networks","Net3.inp")
+epytc.network_name = os.path.join("..", "epytc", "Networks", "Net3.inp")
 
 # Specify the simulation period (days)
 epytc.simulation_period_days = 10

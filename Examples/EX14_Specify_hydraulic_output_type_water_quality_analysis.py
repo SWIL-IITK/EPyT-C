@@ -17,7 +17,7 @@ print(
 )
 
 # create an epytc_class instace
-epytc=create_epytc()
+epytc = create_epytc()
 
 # Specify the simulation period (days)
 epytc.simulation_period_days = 10

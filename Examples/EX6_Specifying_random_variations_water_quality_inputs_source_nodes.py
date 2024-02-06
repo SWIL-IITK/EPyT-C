@@ -24,10 +24,10 @@ print(
 )
 
 # create an epytc_class instace
-epytc=create_epytc()
+epytc = create_epytc()
 
 # Specify the network name
-epytc.network_name = os.path.join("..","epyt_c","Networks","Net3.inp")
+epytc.network_name = os.path.join("..", "epyt_c", "Networks", "Net3.inp")
 
 # Sspecify the number of simulations
 epytc.maximum_iterations_required = 50

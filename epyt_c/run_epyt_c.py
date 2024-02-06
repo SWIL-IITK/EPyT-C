@@ -9,6 +9,15 @@ import copy
 import time
 from epyt import epanet
 
+# TODO
+# epyt_c/run_epyt_c.py:70:5: `link_connectivity_array` is assigned to but never used
+# epyt_c/run_epyt_c.py:71:5: `connectivity_mat` is assigned to but never used
+# epyt_c/run_epyt_c.py:146:9: `link_flow_velocity_mat` is assigned to but never used
+# epyt_c/run_epyt_c.py:147:9: `link_flow_Reynolds_num_mat` is assigned to but never used
+# epyt_c/run_epyt_c.py:176:9: `link_conc_initial_mat` is assigned to but never used
+# epyt_c/run_epyt_c.py:528:25: `incoming_flow` is assigned to but never used
+
+
 def run_epytc(epytc):
     if epytc.module == "MSRT-1":
         from .chlorine_decay_thms_formation import module
@@ -295,7 +304,9 @@ def run_epytc(epytc):
                                         ][sp]
                                     else:
                                         link_conc_array_a[sp][0][p] = (
-                                            injection_quality_mat[index_injection_nodes.index(start_node)][sp]
+                                            injection_quality_mat[index_injection_nodes.index(start_node)][
+                                                sp
+                                            ]
                                             * injection_pattern[index_injection_nodes.index(start_node)][
                                                 injection_pattern_step - 1
                                             ][sp]
@@ -306,7 +317,9 @@ def run_epytc(epytc):
                             (int(link_conc_data_points_mat[wq_step - 2][p]), 1)
                         )
                         for i in range(1, link_segments_num + 1):
-                            segment_time_step_mat[i][0] = segment_time_step_mat[i - 1][0] + link_segments_width
+                            segment_time_step_mat[i][0] = (
+                                segment_time_step_mat[i - 1][0] + link_segments_width
+                            )
 
                         # Calculating the distance of grid points from rear end of a link for previous time step
                         if wq_step == 1:
@@ -367,12 +380,18 @@ def run_epytc(epytc):
                                         link_conc_array_a[sp][i][p] = link_conc_array[sp][prev_grid][p]
                                 elif wq_step == 1:
                                     link_conc_array_a[sp][i][p] = link_conc_array[sp][prev_grid][p] + (
-                                        (link_conc_array[sp][next_grid][p] - link_conc_array[sp][prev_grid][p])
+                                        (
+                                            link_conc_array[sp][next_grid][p]
+                                            - link_conc_array[sp][prev_grid][p]
+                                        )
                                         / link_segments_width
                                     ) * (alpha_mat[i][0] - segment_prev_time_step_mat[prev_grid][0])
                                 else:
                                     link_conc_array_a[sp][i][p] = link_conc_array[sp][prev_grid][p] + (
-                                        (link_conc_array[sp][next_grid][p] - link_conc_array[sp][prev_grid][p])
+                                        (
+                                            link_conc_array[sp][next_grid][p]
+                                            - link_conc_array[sp][prev_grid][p]
+                                        )
                                         / link_segments_width_mat[wq_step - 2][p]
                                     ) * (alpha_mat[i][0] - segment_prev_time_step_mat[prev_grid][0])
                             if index_pumps.count(p + 1) == 0 and index_valves.count(p + 1) == 0:
@@ -553,7 +572,9 @@ def run_epytc(epytc):
                                 node_conc_array_a[sp][wq_step - 1][n] = 0
                         else:
                             for sp in range(bulk_wq_parameter_num):
-                                node_conc_array_a[sp][wq_step - 1][n] = mass_incoming_mat[sp][0] / total_outflow
+                                node_conc_array_a[sp][wq_step - 1][n] = (
+                                    mass_incoming_mat[sp][0] / total_outflow
+                                )
 
                         # Check for injection node
                         for sp in range(bulk_wq_parameter_num):
@@ -624,7 +645,9 @@ def run_epytc(epytc):
         reporting_step_end = total_wq_steps
         node_conc_report = np.zeros((bulk_wq_parameter_num, int(reporting_time_steps), num_nodes))
         for sp in range(bulk_wq_parameter_num):
-            node_conc_report[sp] = node_conc_array[sp][int(reporting_step_start) : int(reporting_step_end) + 1]
+            node_conc_report[sp] = node_conc_array[sp][
+                int(reporting_step_start) : int(reporting_step_end) + 1
+            ]
         time_mat = np.zeros((int(reporting_time_steps), 1))
         for t in range(int(reporting_time_steps)):
             time_mat[t] = (t * wq_sim_time_step_s) / 3600

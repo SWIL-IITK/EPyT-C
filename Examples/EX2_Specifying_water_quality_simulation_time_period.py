@@ -18,7 +18,7 @@ print(
 """The default simulation period for EPyT-C is 1 day.
 To change the simulation period for EPyT-C, use the following code:"""
 
-#TODO
+# TODO
 epytc = create_epytc()
 epytc.simulation_period_days = 10
 

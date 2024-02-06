@@ -16,7 +16,7 @@ print(
 )
 
 # create an epytc_class instace
-epytc=create_epytc()
+epytc = create_epytc()
 
 """Currently, EPyT-C is equipped with four mult-species reactive-transport (MSRT) modules:
 MSRT-1: Chlorine decay and trihalomethanes formation module

@@ -1,16 +1,15 @@
 import os
-from os import getcwd
 from .run_epyt_c import run_epytc
 from dataclasses import dataclass
-import hydra
 from hydra.utils import instantiate
 from omegaconf import OmegaConf
+
 
 @dataclass
 class epytc_class:
     module: str
     maximum_iterations_required: int
-    network_name: str # TODO - how to update this parameter? a path?
+    network_name: str  # TODO - how to update this parameter? a path?
     simulation_period_days: int
     simulation_time_step: int
     base_period_days: int
@@ -34,6 +33,7 @@ class epytc_class:
     injection_node_injection_input_value: list[list[float]]
     hyd_wq_sync_option: str
 
+
 def create_epytc():
     print("Creating instance of EPyT-C with default values")
     file_dir = os.path.dirname(os.path.abspath(__file__))
@@ -41,6 +41,7 @@ def create_epytc():
     epytc = instantiate(default_config.epytc_class)
 
     return epytc
+
 
 def execute_epytc(epytc: epytc_class):
     print("EPyT-C loaded for execution...")
