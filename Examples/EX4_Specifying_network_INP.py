@@ -18,12 +18,13 @@ print(
 """
 )
 
+# create an epytc_class instace
 epytc=create_epytc()
 
 """The default .INP file for EPyT-C is Net3.inp, and is stored in the folder
 'EPyT-C\\Networks'. To change the .INP file, use the following code:"""
 
-epytc.network_name = os.path.join("..","epyt_c","Networks","Net2.inp")
+epytc.network_name = os.path.join("..","epyt_c","Networks","Net3.inp")
 
 """The network for water quality simulation is now changed to Net1.inp."""
 
@@ -33,6 +34,7 @@ epytc.simulation_period_days = 10
 # Specify the simulation time step (seconds)
 epytc.simulation_time_step = 300
 
+# TODO - raising error
 # Add water quality at the source node
 epytc.reservoir_quality_matrix = [[1, 2, 40]]
 

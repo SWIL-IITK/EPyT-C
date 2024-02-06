@@ -23,23 +23,23 @@ print(
 epytc=create_epytc()
 
 # Specify the network name
-epytc.network_name = os.path.join()epyt_c.network_folder + "Net3.inp"
+epytc.network_name = os.path.join("..","epyt_c","Networks","Net3.inp")
 
 """The default number of simulations in EPyT-C is 1.
 To specify the number of Monte Carlo simulations, use the following code:"""
 
-epyt_c.maximum_iterations_required = 50
+epytc.maximum_iterations_required = 50
 
 """The number of simulations is now changed to 50"""
 
 # Specify the simulation period (days)
-epyt_c.simulation_period_days = 10
+epytc.simulation_period_days = 10
 
 # Specify the simulation time step (seconds)
-epyt_c.simulation_time_step = 300
+epytc.simulation_time_step = 300
 
 # Add water quality at the source nodes
-epyt_c.reservoir_quality_matrix = [[1, 2, 40], [1, 2, 40]]
+epytc.reservoir_quality_matrix = [[1, 2, 40], [1, 2, 40]]
 
 # Executing EPyT-C
-epyt_c.exe()
+execute_epytc(epytc)

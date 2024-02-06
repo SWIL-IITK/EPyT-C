@@ -1,5 +1,6 @@
 # Importing EPyT-C
-from main import epyt_c
+from epyt_c.main_epytc import create_epytc, execute_epytc
+import os
 
 print(
     """  EPyT-C Example 10
@@ -13,56 +14,58 @@ print(
     Add water quality parameter input values for the source nodes.
     Specify the injection node.
     Add water quality parameter input values for the injection node.
-    Specify the type of variations in the water quality values for the 
+    Specify the type of variations in the water quality values for the
     injection node over iterations.
     Specify the range (%) of random variations in the water quality values for
     the injection node over iterations.
     Run EPyT-C for water quality analysis.
-    
+
         The results are saved as .XLSX files by default.
-    
+
 """
 )
 
+# create an epytc_class instace
+epytc=create_epytc()
 
 # Specify the network name
-epyt_c.network_name = epyt_c.network_folder + "Net3.inp"
+epytc.network_name = os.path.join("..","epyt_c","Networks","Net3.inp")
 
 # Sspecify the number of simulations
-epyt_c.maximum_iterations_required = 50
+epytc.maximum_iterations_required = 50
 
 # Specify the simulation period (days)
-epyt_c.simulation_period_days = 10
+epytc.simulation_period_days = 10
 
 # Specify the simulation time step (seconds)
-epyt_c.simulation_time_step = 300
+epytc.simulation_time_step = 300
 
 # Add water quality at the source nodes
-epyt_c.reservoir_quality_matrix = [[1, 2, 40], [1, 2, 40]]
+epytc.reservoir_quality_matrix = [[1, 2, 40], [1, 2, 40]]
 
 # Specify the injection node
-epyt_c.injection_nodes_index = [21]
+epytc.injection_nodes_index = [21]
 
 # Add water quality at the injection node
-epyt_c.injection_nodes_quality_matrix = [[2, 0, 0]]
+epytc.injection_nodes_quality_matrix = [[2, 0, 0]]
 
-"""By default, no variation is specified for water quality values for the 
+"""By default, no variation is specified for water quality values for the
 injection nodes over iterations.
 To specify random variations, use the following code:"""
 
-epyt_c.injection_node_quality_pattern = "rand"
+epytc.injection_node_quality_pattern = "rand"
 
-"""Random variations to the water water quality values for the injection node 
+"""Random variations to the water water quality values for the injection node
 over iterations has been now specified."""
 
-"""The defualt range (%) of variations specified for water quality values for 
+"""The defualt range (%) of variations specified for water quality values for
 the injection nodes over iterations is 0.
 To specify a value for the range, use the following code:"""
 
-epyt_c.injection_node_quality_pattern_random_variability = 0.25
+epytc.injection_node_quality_pattern_random_variability = 0.25
 
-"""+/-25% random variations to the water water quality values for the injection 
+"""+/-25% random variations to the water water quality values for the injection
 node over iterations has been now specified."""
 
 # Executing EPyT-C
-epyt_c.exe()
+execute_epytc(epytc)

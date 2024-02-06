@@ -1,4 +1,4 @@
-  Page 1                                    Tue Feb  6 12:08:05 2024
+  Page 1                                    Tue Feb  6 17:50:13 2024
 
   ******************************************************************
   *                           E P A N E T                          *
@@ -7,7 +7,7 @@
   *                         Version 2.2                            *
   ******************************************************************
   
-  Analysis begun Tue Feb  6 12:08:05 2024
+  Analysis begun Tue Feb  6 17:50:13 2024
 
    
   Hydraulic Status:
@@ -803,46 +803,4 @@
    230:00:00: Balanced after 3 trials
    
    231:00:00: Pump 10 changed by timer control
-   231:00:00: Balanced after 5 trials
-   231:00:00: Reservoir Lake is closed
-   231:00:00: Tank 1 is emptying at 22.19 ft
-   231:00:00: Tank 2 is emptying at 28.44 ft
-   231:00:00: Pump 10 changed from open to closed
-   
-   232:00:00: Balanced after 3 trials
-   
-   233:00:00: Balanced after 2 trials
-   
-   234:00:00: Balanced after 3 trials
-   
-   235:00:00: Balanced after 2 trials
-   
-   236:00:00: Balanced after 3 trials
-   
-   237:00:00: Balanced after 2 trials
-   
-   237:32:39: Pump 335 changed by Tank 1 control
-   237:32:39: Pipe 330 changed by Tank 1 control
-   237:32:39: Balanced after 5 trials
-   237:32:39: Tank 1 is filling at 17.10 ft
-   237:32:39: Tank 3 is filling at 29.71 ft
-   237:32:39: Pipe 330 changed from open to closed
-   237:32:39: Pump 335 changed from closed to open
-   
-   238:00:00: Balanced after 3 trials
-   238:00:00: Tank 1 is emptying at 17.23 ft
-   
-   239:00:00: Balanced after 3 trials
-   
-   240:00:00: Balanced after 4 trials
-   240:00:00: Tank 1 is filling at 15.71 ft
-   
-  Water Quality Mass Balance (hrs)
-  ================================
-  Initial Mass:       0.00000e+00
-  Mass Inflow:        0.00000e+00
-  Mass Outflow:       2.10725e+08
-  Mass Reacted:      -3.19827e+08
-  Final Mass:         1.09102e+08
-  Mass Ratio:         1.00000
-  ================================
+   231:00:00: Balan
