@@ -15,11 +15,12 @@ print(
 """
 )
 
+# create an epytc_class instace
+epytc = create_epytc()
+
 """The default simulation period for EPyT-C is 1 day.
 To change the simulation period for EPyT-C, use the following code:"""
 
-# TODO
-epytc = create_epytc()
 epytc.simulation_period_days = 10
 
 """ The number of days for which water quality needs to be simulated is now

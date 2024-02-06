@@ -16,7 +16,7 @@ print(
 """
 )
 
-# TODO
+# create an epytc_class instace
 epytc = create_epytc()
 
 # Specify the simulation period (days)
