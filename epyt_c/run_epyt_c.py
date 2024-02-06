@@ -11,7 +11,7 @@ from epyt import epanet
 
 def run_epytc(epytc):
     if epytc.module == "MSRT-1":
-        from chlorine_decay_thms_formation import module
+        from .chlorine_decay_thms_formation import module
     elif epytc.module == "MSRT-2":
         from .bacterial_regrowth import module
     elif epytc.module == "MSRT-3":
