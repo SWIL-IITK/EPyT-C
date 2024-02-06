@@ -1,5 +1,6 @@
 # Importing EPyT-C
-from main import epyt_c
+from epyt_c.main_epytc import create_epytc, execute_epytc
+import os
 
 print(
     """  EPyT-C Example 5
@@ -12,14 +13,17 @@ print(
     Specify the time step in seconds for water quality simulation.
     Add water quality parameter input values for the source nodes.
     Run EPyT-C for water quality analysis.
-    
+
         The results are saved as .XLSX files by default.
-    
+
 """
 )
 
+# create an instance of epytc_class
+epytc=create_epytc()
+
 # Specify the network name
-epyt_c.network_name = epyt_c.network_folder + "Net3.inp"
+epytc.network_name = os.path.join()epyt_c.network_folder + "Net3.inp"
 
 """The default number of simulations in EPyT-C is 1.
 To specify the number of Monte Carlo simulations, use the following code:"""

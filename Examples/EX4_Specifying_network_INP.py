@@ -1,5 +1,6 @@
 # Importing EPyT-C
 from epyt_c.main_epytc import create_epytc, execute_epytc
+import os
 
 print(
     """  EPyT-C Example 4
@@ -17,13 +18,12 @@ print(
 """
 )
 
-#TODO
 epytc=create_epytc()
 
 """The default .INP file for EPyT-C is Net3.inp, and is stored in the folder
 'EPyT-C\\Networks'. To change the .INP file, use the following code:"""
 
-epytc.network_name = "epyt_c/Networks/Net1.inp"
+epytc.network_name = os.path.join("..","epyt_c","Networks","Net2.inp")
 
 """The network for water quality simulation is now changed to Net1.inp."""
 
