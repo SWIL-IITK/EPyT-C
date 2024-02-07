@@ -17,9 +17,9 @@ Though EPyT can be employed for performing single-species water quality analysis
 |    Chlorine decay and Trihalomethanes formation               |    Bulk phase: (1) chlorine (mg/L); (2) total organic carbon, TOC (mg/L); and (3) trihalomethanes, THMs (ug/L).                                                     |    (1) chlorine - TOC reaction leading to chlorine decay, TOC degradation, and THMs formation; (2) mass-transfer of chlorine from bulk to wall phase; and (3) wall reactions of chlorine leading to its decay.                                           |
 |    Bacterial regrowth               |    Bulk phase: (1) chlorine (mg/L); (2) recalcitrant dissolved organic carbon, RDOC (mg/L); (3) biodegradable DOC, BDOC (mg/L); (4) free living bacteria, FLB (CFU/L); and (5) free dead bacteria, FDB (cells/L).                                                     |    (1) chlorine - RDOC reaction leading to chlorine decay and RDOC degradation; (2) chlorine - BDOC reaction leading to chlorine decay and BDOC degradation; (3) mass-transfer of chlorine from bulk to wall phase; and (4) wall reactions of chlorine leading to its decay; (5) bacterial growth and subsequent BDOC utilization; (6) bacterial mortality and FDB formation; and (7) FDB cell lysis and BDOC contribution.                                            |
 |    Arsenite oxidation and arsenate attachment/detachment               |    Bulk phase: (1) aqueous arsenite (mg/L); (2) aqueous arsenate (mg/L); (3) aqueous arsenic (mg/L); (4) residual chlorine (mg/L); and (5) TOC (mg/L). Wall phase: (1) adsorbed arsenate (mg/m<sup>2</sup>).|    (1) chlorine - TOC reaction leading to chlorine decay, TOC degradation, and THMs formation; (2) mass-transfer of chlorine from bulk to wall phase; (3) wall reactions of chlorine leading to its decay; (4) chlorine – aqueous arsenite reaction leading to arsenite oxidation to arsenate and subsequent chlorine decay; (5) adsorption/ desorption of arsenate within the bulk-wall phase interface.  |
-|    Perfluorooctanoic acid formation               |    Bulk phase: (1) chlorine (mg/L); (2) TOC (mg/L); (3) perfluoro octaneamido betaine, PFOAB (ng/L); (4) perfluoro octaneamido ammonium salt, PFOAAmS (ng/L); and perfluorooctanoic acid, PFOA (ng/L).                                                     |    (1) chlorine - TOC reaction leading to chlorine decay, TOC degradation, and THMs formation; (2) mass-transfer of chlorine from bulk to wall phase; (3) wall reactions of chlorine leading to its decay; (4) chlorine - PFOAB reaction leading to chlorine decay, PFOAB degradation, and PFOA formation; and (5) chlorine - PFOAAmS reaction leading to chlorine decay, PFOAAmS degradation, and PFOA formation. | 
+|    Perfluorooctanoic acid formation               |    Bulk phase: (1) chlorine (mg/L); (2) TOC (mg/L); (3) perfluoro octaneamido betaine, PFOAB (ng/L); (4) perfluoro octaneamido ammonium salt, PFOAAmS (ng/L); and perfluorooctanoic acid, PFOA (ng/L).                                                     |    (1) chlorine - TOC reaction leading to chlorine decay, TOC degradation, and THMs formation; (2) mass-transfer of chlorine from bulk to wall phase; (3) wall reactions of chlorine leading to its decay; (4) chlorine - PFOAB reaction leading to chlorine decay, PFOAB degradation, and PFOA formation; and (5) chlorine - PFOAAmS reaction leading to chlorine decay, PFOAAmS degradation, and PFOA formation. |
 
-Based on the module selected for WDS analysis, EPyT-C evolves governing (partial differential and ordinary differential) equations emulating the propagation and formation/ degradation of the corresponding water quality parameters within the distribution network realm. Once the governing equations (one-dimensional advective-reactive equations) are framed, the numerical method that involves the explicit method of characteristics and the fourth-order Runge-Kutta method, initially presented by (Tzatchkov et al., 2002), is applied to derive numerical solutions - spatiotemporal distribution of complex water quality parameters in WDS. 
+Based on the module selected for WDS analysis, EPyT-C evolves governing (partial differential and ordinary differential) equations emulating the propagation and formation/ degradation of the corresponding water quality parameters within the distribution network realm. Once the governing equations (one-dimensional advective-reactive equations) are framed, the numerical method that involves the explicit method of characteristics and the fourth-order Runge-Kutta method, initially presented by (Tzatchkov et al., 2002), is applied to derive numerical solutions - spatiotemporal distribution of complex water quality parameters in WDS.
 
 # Flexibilities
 
@@ -31,16 +31,18 @@ EPyT-C offers the following flexibilities, making it a handy tool for research a
 5. Customize the numerical accuracy by altering the model parameters (time step, velocity tolerance, etc.).
 6. Control the computational efficiency by adjusting the accuracy of the numerical solutions.
 
-# Installation
+# Code instruction
 
-To install EPyT-C:
-> pip install epyt_c
-    
-Alternatively, the sources for EPyT-C can be downloaded from the GitHub repo. You can clone the public repository: 
+To run the code with the default values for the parameters run `run_sample.py`. The default values for the parameters can be found in `default_values.yaml` under `epyt_c` and the associated `README.md` file provides an explanation of the parameters.
+
+To run the examples first install epyt-c package using
+> pip install -e .
+
+Alternatively, the sources for EPyT-C can be downloaded from the GitHub repo. You can clone the public repository:
 > https://github.com/grabhijith/EPyT-C
 
 # Dependencies
-- EPyT 
+- EPyT
 - NumPy 1.2.6
 - Pandas 2.1.3
 - XlsxWriter 3.1.9
@@ -54,10 +56,10 @@ Tzatchkov, V.G., Aldama, A.A., Arreguin, F.I., 2002. Advection-Dispersion-Reacti
 
 **Gopinbathan R Abhijith** - abhijith@iitk.ac.in
 
-**Jaykrishnan G** - jaykrishnan.gp@gmail.com 
+**Jaykrishnan G** - jaykrishnan.gp@gmail.com
 
 **Avi Ostfeld** - ostfeld@technion.ac.il
 
-# Credits 
+# Credits
 
 The **Smart Water Infrastructure Laboratory**, **Indian Institute of Technology Kanpur** and **Technion Israel Institute of Technology** jointly created this package.
