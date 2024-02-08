@@ -24,6 +24,8 @@ To change the water quality at the source nodes, use the following code:"""
 
 # create an epytc_class with default values
 epytc = create_epytc()
+
+# Add water quality at the source node
 epytc.reservoir_quality_matrix = [[1, 2, 40], [1, 2, 40]]
 
 """The bulk water quality parameters (Chlorine, TOC, and THMs) at the two

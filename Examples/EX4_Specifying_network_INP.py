@@ -34,9 +34,8 @@ epytc.simulation_period_days = 10
 # Specify the simulation time step (seconds)
 epytc.simulation_time_step = 300
 
-# TODO - raising error
 # Add water quality at the source node
-epytc.reservoir_quality_matrix = [[1, 2, 40]]
+epytc.reservoir_quality_matrix = [[1, 2, 40], [1, 2, 40]]
 
 # Executing EPyT-C
 execute_epytc(epytc)
