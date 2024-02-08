@@ -35,17 +35,17 @@ EPyT-C offers the following flexibilities, making it a handy tool for research a
 
 To run the code with the default values for the parameters run `run_sample.py`. The default values for the parameters can be found in `default_values.yaml` under `epyt_c` and the associated `README.md` file provides an explanation of the parameters.
 
-To run the examples first install epyt-c package using
-> pip install -e .
+To run the examples first install epyt-c package using `pip install -e .` from EPyT-C folder.
 
 Alternatively, the sources for EPyT-C can be downloaded from the GitHub repo. You can clone the public repository:
-> https://github.com/grabhijith/EPyT-C
+> https://github.com/SWIL-IITK/EPyT-C
 
 # Dependencies
 - EPyT
-- NumPy 1.2.6
-- Pandas 2.1.3
-- XlsxWriter 3.1.9
+- NumPy
+- Pandas
+- XlsxWriter
+- Hydra
 
 # References
 Rossman, L.A., Woo, H., Tryby, M., Shang, F., Janke, R., Haxton, T., 2020. Epanet 2.2 User ’s Manual, USEPA. Cincinnati, Ohio.
