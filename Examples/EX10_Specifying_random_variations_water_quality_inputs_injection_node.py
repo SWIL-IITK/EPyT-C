@@ -29,7 +29,7 @@ print(
 epytc = create_epytc()
 
 # Specify the network name
-epytc.network_name = os.path.join("..", "epyt_c", "Networks", "Net3.inp")
+epytc.network_name = os.path.join(os.path.dirname(os.path.realpath(__file__)), "..", "epyt_c", "Networks", "Net3.inp")
 
 # Sspecify the number of simulations
 epytc.maximum_iterations_required = 50

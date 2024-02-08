@@ -13,7 +13,7 @@ module = 'MSRT-1'
 ## Parameter 2
 Specify the network name
 
-network_name = os.path.join("..", "epyt_c", "Networks", "Net3.inp")
+network_name = os.path.join(os.path.dirname(os.path.realpath(__file__)), "..", "epyt_c", "Networks", "Net3.inp")
 
 ## Parameter 3
 Number of iterations

@@ -23,7 +23,7 @@ print(
 epytc = create_epytc()
 
 # Specify the network name
-epytc.network_name = os.path.join("..", "epyt_c", "Networks", "Net3.inp")
+epytc.network_name = os.path.join(os.path.dirname(os.path.realpath(__file__)), "..", "epyt_c", "Networks", "Net3.inp")
 
 """The default number of simulations in EPyT-C is 1.
 To specify the number of Monte Carlo simulations, use the following code:"""

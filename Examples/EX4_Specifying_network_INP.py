@@ -24,7 +24,7 @@ epytc = create_epytc()
 """The default .INP file for EPyT-C is Net3.inp, and is stored in the folder
 'EPyT-C\\Networks'. To change the .INP file, use the following code:"""
 
-epytc.network_name = os.path.join("..", "epyt_c", "Networks", "Net3.inp")
+epytc.network_name = os.path.join(os.path.dirname(os.path.realpath(__file__)), "..", "epyt_c", "Networks", "Net3.inp")
 
 """The network for water quality simulation is now changed to Net1.inp."""
 
