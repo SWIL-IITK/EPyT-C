@@ -46,7 +46,7 @@ EPyT is an open-source software, initially developed by the KIOS Research and In
 
 <figure>
 <figcaption align = "center"><b>Figure 1</b>. Conceptual framework of EPyT-C.</figcaption>
-<img src="Figure 1.png" width="1024"/>
+<img src="https://github.com/SWIL-IITK/EPyT-C/blob/babd11a758fa932e23dd58ebf796b86164ad6a6f/Paper/Figure%201.png" width="1024"/>
 </figure>
 
 In its current form, EPyT-C comprises four in-built modules - the 'Chlorine decay and Trihalomethanes formation' module, the 'Bacterial regrowth' module, the 'Arsenite oxidation and arsenate attachment/detachment' module, and the 'Perfluorooctanoic acid formation' module. The details of the four modules (number and characteristics of water quality parameters, the type of reactions considered) are detailed in Table 1. Based on the module selected for WDS analysis, EPyT-C evolves governing (partial differential and ordinary differential) equations emulating the propagation and formation/ degradation of the corresponding water quality parameters within the distribution network realm. Once the governing equations (one-dimensional advective-reactive equations) are framed, the numerical method that involves the explicit method of characteristics and the fourth-order Runge-Kutta method, initially presented by [@tzatchkov2002], is applied to derive numerical solutions - spatiotemporal distribution of complex water quality parameters in WDS.
