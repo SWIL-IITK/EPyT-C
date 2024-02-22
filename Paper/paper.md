@@ -12,7 +12,7 @@ authors:
     corresponding: true
     orcid: 0000-0002-7390-7848
     affiliation: 1
-  - name: G Jaykrishnan
+  - name: G. Jaykrishnan
     orcid: 0000-0002-2225-0866
     affiliation: 2
   - name: Avi Ostfeld
@@ -46,7 +46,7 @@ EPyT is an open-source software, initially developed by the KIOS Research and In
 
 <figure>
 <figcaption align = "center"><b>Figure 1</b>. Conceptual framework of EPyT-C.</figcaption>
-<img src="Figure 1.png" width="1024"/>
+<img src="https://github.com/SWIL-IITK/EPyT-C/blob/babd11a758fa932e23dd58ebf796b86164ad6a6f/Paper/Figure%201.png" width="1024"/>
 </figure>
 
 In its current form, EPyT-C comprises four in-built modules - the 'Chlorine decay and Trihalomethanes formation' module, the 'Bacterial regrowth' module, the 'Arsenite oxidation and arsenate attachment/detachment' module, and the 'Perfluorooctanoic acid formation' module. The details of the four modules (number and characteristics of water quality parameters, the type of reactions considered) are detailed in Table 1. Based on the module selected for WDS analysis, EPyT-C evolves governing (partial differential and ordinary differential) equations emulating the propagation and formation/ degradation of the corresponding water quality parameters within the distribution network realm. Once the governing equations (one-dimensional advective-reactive equations) are framed, the numerical method that involves the explicit method of characteristics and the fourth-order Runge-Kutta method, initially presented by [@tzatchkov2002], is applied to derive numerical solutions - spatiotemporal distribution of complex water quality parameters in WDS.
@@ -79,12 +79,12 @@ Figure 2 depicts the variations in the chlorine concentrations at the 92 demand 
 
 <figure>
 <figcaption align = "center"><b>Figure 2</b>. Predicted distribution of cholorine concentration in the nodes of the test network under the four cases considered. The crimson red circles depict the mean of the average chlorine concentrations predicted at the nodes during the 50 Monte Carlo simulations. The cyan lines show the difference between the minimum and maximum of these average chlorine concentration predictions.</figcaption>
-<img src="Figure 2.png" width="1024"/>
+<img src="https://github.com/SWIL-IITK/EPyT-C/blob/21b44b929f81d98a6c6cd0ec95d63f095e3fcd47/Paper/Figure%202.png" width="1024"/>
 </figure>
 
 <figure>
 <figcaption align = "center"><b>Figure 3</b>. </b>(a)</b> Percentage of nodes with mean chlorine concentration greater than the reference values and </b>(b)</b> percentage of nodes with mean THMs concentration lesser than the reference values. The reference values are denoted in the abscissa.</figcaption>
-<img src="Figure 3.png" width="1024"/>
+<img src="https://github.com/SWIL-IITK/EPyT-C/blob/21b44b929f81d98a6c6cd0ec95d63f095e3fcd47/Paper/Figure%203.png" width="1024"/>
 </figure>
 
 # Conclusion
