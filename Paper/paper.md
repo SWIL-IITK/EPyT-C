@@ -12,7 +12,7 @@ authors:
     corresponding: true
     orcid: 0000-0002-7390-7848
     affiliation: 1
-  - name: G Jaykrishnan
+  - name: G. Jaykrishnan
     orcid: 0000-0002-2225-0866
     affiliation: 2
   - name: Avi Ostfeld
