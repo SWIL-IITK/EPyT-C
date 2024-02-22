@@ -9,7 +9,6 @@
 .LSOverride
 Networks/*
 !Networks/Net3.inp
-/
 .ipynb_checkpoints
 
 # Icon must end with two \r
