@@ -8,7 +8,7 @@
 .AppleDouble
 .LSOverride
 Networks/*
-!Networks/Net3.inp
+!Networks/*.inp
 .ipynb_checkpoints
 
 # Icon must end with two \r

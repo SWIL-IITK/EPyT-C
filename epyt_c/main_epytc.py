@@ -9,7 +9,6 @@ from omegaconf import OmegaConf
 class epytc_class:
     module: str
     maximum_iterations_required: int
-    network_name: str
     simulation_period_days: int
     simulation_time_step: int
     base_period_days: int

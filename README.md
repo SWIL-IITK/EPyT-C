@@ -33,12 +33,28 @@ EPyT-C offers the following flexibilities, making it a handy tool for research a
 
 # Code instruction
 
-To run the code with the default values for the parameters run `run_sample.py`. The default values for the parameters can be found in `default_values.yaml` under `epyt_c` and the associated `README.md` file provides an explanation of the parameters.
+## Environment setup
 
-To run the examples first install epyt-c package using `pip install .` from EPyT-C folder.
+- Create a new Conda environment as `epyt-c`
+- Install the requirements from `requirements.txt`
+- Install the package using `pip install .`
 
-Alternatively, the sources for EPyT-C can be downloaded from the GitHub repo. You can clone the public repository:
-> https://github.com/SWIL-IITK/EPyT-C
+## Sample python script
+
+We provide a sample python script (`run_sample.py`) to demonstrate the functioning of EPyT-C. The default values for the parameters can be found in `default_values.yaml` under `epyt_c` and the associated `README.md` file provides an explanation of the parameters. To run the script with the default values for the parameters run `run_sample.py`. 
+
+## Examples
+
+We provide examples as Jupyter Notebooks. 
+
+## Specifying the INP file (network data)
+
+We provide two network INP fles (Net1 and Net3) in the Networks folder. The user can use any INP file. The INP file can be input to the script using the following code:
+```
+path_name = r"C:\Users\Abhijith\Documents\GitHub\EPyT-C\Networks\Net3.inp"
+epytc.network_name = os.path.normpath(path_name)
+```
+where `epytc` is a object of `epytc_class` class (please refer to `main_epytc.py`). The above code must be run after creating the `epytc_class` object.
 
 # Dependencies
 - EPyT

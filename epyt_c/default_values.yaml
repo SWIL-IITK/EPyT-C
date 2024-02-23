@@ -4,7 +4,6 @@
 epytc_class:
     module: "MSRT-1"
     maximum_iterations_required: 1
-    network_name: "epyt_c/Networks/Net3.inp"
     simulation_period_days: 1
     simulation_time_step: 300
     base_period_days: 1
