@@ -326,3 +326,5 @@ test.test_reservoir_quality(d, 200, [[1, 1, 0],[1, 1, 0]], ('none', 'rand'), (0,
 test.test_reservoir_pattern(d, 1, ('none', 'rand', 'specific'), (0, 0.2), [[0],[12]], [[12], [24]], [[1], [1]])
 test.test_injection_quality(200, [21], [[2, 0, 0]], ('none', 'rand'), (0, 0.2))
 test.test_injection_pattern(d, 1, [21], ('none', 'rand', 'specific'), (0, 0.2), [[3]], [[19]], [[1]])
+
+print('\nAll tests completed!\n')
