@@ -65,7 +65,7 @@ We provide examples as Jupyter Notebooks. Please update the INP file path before
 
 ## Contact
 
-**Gopinbathan R Abhijith** - abhijith@iitk.ac.in
+**Gopinathan R Abhijith** - abhijith@iitk.ac.in
 
 **Jaykrishnan G** - jaykrishnan.gp@gmail.com
 
