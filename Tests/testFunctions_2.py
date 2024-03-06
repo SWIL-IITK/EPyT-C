@@ -322,6 +322,8 @@ test.test_hydraulic_mean_radius(200)
 test.test_variables(200, 9)
 test.test_pipe_reaction(300, 1, 2, 0.5, 200, 100, 16.667, module.variables(200, 9)[2], np.ones((3, 5, 119)))
 test.test_tank_reaction(300, 10, 96, 19358, 20172, module.variables(200, 9)[2], np.zeros((97, 3)), np.ones((3, 2881, 97)))
+
+print('\nAll tests completed!\n')
 test.test_reservoir_quality(d, 200, [[1, 1, 0],[1, 1, 0]], ('none', 'rand'), (0, 0.2))
 test.test_reservoir_pattern(d, 1, ('none', 'rand', 'specific'), (0, 0.2), [[0],[12]], [[12], [24]], [[1], [1]])
 test.test_injection_quality(200, [21], [[2, 0, 0]], ('none', 'rand'), (0, 0.2))
