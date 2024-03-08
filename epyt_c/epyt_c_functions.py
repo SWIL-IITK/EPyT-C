@@ -233,7 +233,7 @@ class fn:
             out = np.multiply(out, 0.0283)
         return out
 
-    # Determining the maximum segments for pipe discretization
+    # Determining the maximum number of segments for pipe discretization
     def maximum_segments(num1, num2, arr1, arr2):
         # num1 - tolerable minimum velocity (m/s); num2 - water quality time step (s)
         # arr1 - matrix of length links; arr2 - array of link flow velocity

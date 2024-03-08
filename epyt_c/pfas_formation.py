@@ -299,11 +299,9 @@ class module:
 
     # Defining tank reactions for the MSRT model selected
     def tank_reaction(num1, num2, num3, num4, num5, arr1, arr2, arr3):
-        """
         # num1 - water quality time step; num2 - water quality step, num3 - tank number;
         # num4 - tank volume in the previous time step; num5 - tank volume in the present time step;
         # arr1 - matrix of variables; arr2 = initial water quality condition array; arr3 - array of tank concentration
-        """
         kbNC = arr1[1]
         YN = arr1[3]
         kbCP1 = arr1[4]

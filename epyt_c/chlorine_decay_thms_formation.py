@@ -169,12 +169,12 @@ class module:
         kwC_upper = 1.43e-5
         kwC_mean = 1.22e-6
         # Reaction yield constant (chlorine - TOC reaction) (mg-C/ mg-Cl)
-        YN_upper = 0.15
-        YN_lower = 2.50
+        YN_upper = 2.50
+        YN_lower = 0.15
         YN_mean = 0.61
         # Reaction yield constant (THMs formation) (ug-THM/ mg-Cl)
-        YH_upper = 5.68
-        YH_lower = 188.2
+        YH_upper = 188.2
+        YH_lower = 5.68
         YH_mean = 32.79
         # Molecular diffusivity of chlorine (sq.m/s)
         Dm_chlorine = 12.5e-10

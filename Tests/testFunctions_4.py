@@ -1,18 +1,18 @@
 """
-EPyT-C Test Part 3
+EPyT-C Test Part 4
 This file is provided to ensure that all functions can be executed correctly using Net3.inp 
-and MSRT-1: Chlorine decay and trihalomethanes formation module.
+and MSRT-3: Arsenite oxidation and arsenate attachment/detachment module.
 """
 from epyt_c.epyt_c_functions import fn 
 fn.install("epyt")
 from epyt import epanet
 d = epanet('Net3.inp') # load Net3.inp
-from epyt_c.chlorine_decay_thms_formation import module
+from epyt_c.arsenite_oxidation_arsenate_attachment_detachment import module
 import numpy as np
 
-class TestEpytcModule1():
+class TestEpytcModule3():
     """
-    Class to test the functions used in chlorine_decay_thms_formation.py
+    Class to test the functions used in arsenite_oxidation_arsenate_attachment_detachment.py
     """
     def test_details(self):
         """
@@ -56,10 +56,10 @@ class TestEpytcModule1():
         """
         Defining the species information of the MSRT module selected
         """
-        assert module.species()[0] == 3 # count of water quality parameters
-        assert module.species()[1] == 3 # count of bulk water quality parameters
-        assert module.species()[2] == 0 # count of wall water quality parameters
-        assert module.species()[3] == 9 # count of model variables
+        assert module.species()[0] == 6 # count of water quality parameters
+        assert module.species()[1] == 5 # count of bulk water quality parameters
+        assert module.species()[2] == 1 # count of wall water quality parameters
+        assert module.species()[3] == 14 # count of model variables
         print('Function 3 test - Success')
         
     def test_zero_order_reaction(self, water_quality_step):
@@ -114,16 +114,28 @@ class TestEpytcModule1():
         assert round(module.Sherwood_number(Reynolds_number, Schmidt_number, pipe_diameter, pipe_length)) == 33
         print('Function 8 test - Success')
         
-    def test_mass_transfer_coefficient(self, Sherwood_number, molecular_diffusivity, pipe_diameter):
+    def test_mass_transfer_coefficient_cl(self, Sherwood_number, molecular_diffusivity, pipe_diameter):
         """
-        Defining Mass transfer coefficient
+        Defining Mass transfer coefficient for chlorine
         Using dummy data
         """
         Sherwood_number = 33
         molecular_diffusivity = 12.5e-10 # (sq.m/s)
         pipe_diameter = 200 # (mm)
-        assert round(module.mass_transfer_coefficient(Sherwood_number, molecular_diffusivity, pipe_diameter), 7) == 2e-7
+        assert round(module.mass_transfer_coefficient_cl(Sherwood_number, molecular_diffusivity, pipe_diameter), 7) == 2e-7
         print('Function 9 test - Success')
+        
+    def test_mass_transfer_coefficient_ars(self, molecular_diffusivity, pipe_diameter, pipe_velocity, kinematic_viscosity):
+        """
+        Defining Mass transfer coefficient for arsenic
+        Using dummy data
+        """
+        molecular_diffusivity = 7.5e-10 # (sq.m/s)
+        pipe_diameter = 200 # (mm)
+        pipe_velocity = 0.2 # (m/s)
+        kinematic_viscosity = 9.31e-7 # (sq.m/s)
+        assert round(module.mass_transfer_coefficient_ars(molecular_diffusivity, pipe_diameter, pipe_velocity, kinematic_viscosity), 6) == 5e-6
+        print('Function 10 test - Success')
                              
     def test_hydraulic_mean_radius(self, pipe_diameter):
         """
@@ -132,14 +144,14 @@ class TestEpytcModule1():
         """
         pipe_diameter = 200 # (mm)
         assert module.hydraulic_mean_radius(pipe_diameter) == 0.05
-        print('Function 10 test - Success')
+        print('Function 11 test - Success')
         
     def test_variables(self, maximum_iterations_count, variables_count):
         """
         Defining variables of the MSRT module
         """
         maximum_iterations_count = 200 # times for which the water qality simulation will be iteratively performed
-        variables_count = 9 # count of selected MSRT model variables
+        variables_count = 14 # count of selected MSRT model variables
         assert (module.variables(maximum_iterations_count, variables_count)[:, 0] > 0).all()
         assert np.logical_and(5.2e-6 <= module.variables(maximum_iterations_count, variables_count)[:, 1], \
                        module.variables(maximum_iterations_count, variables_count)[:, 1] <= 3.4e-3).all()
@@ -147,14 +159,18 @@ class TestEpytcModule1():
                        module.variables(maximum_iterations_count, variables_count)[:, 2] <= 1.43e-5).all()
         assert np.logical_and(0.15 <= module.variables(maximum_iterations_count, variables_count)[:, 3], \
                        module.variables(maximum_iterations_count, variables_count)[:, 3] <= 2.50).all()
-        assert np.logical_and(5.68 <= module.variables(maximum_iterations_count, variables_count)[:, 4], \
-                       module.variables(maximum_iterations_count, variables_count)[:, 4] <= 188.2).all()
-        assert (module.variables(maximum_iterations_count, variables_count)[:, 5] == 12.5e-10).all()
-        assert np.logical_and(7.8e-10 <= module.variables(maximum_iterations_count, variables_count)[:, 6], \
-                       module.variables(maximum_iterations_count, variables_count)[:, 6] <= 11.5e-10).all()
-        assert (module.variables(maximum_iterations_count, variables_count)[:, 7] == 8.8e-10).all()
-        assert (module.variables(maximum_iterations_count, variables_count)[:, 8] == 9.31e-7).all()
-        print('Function 11 test - Success')
+        assert (module.variables(maximum_iterations_count, variables_count)[:, 4] == 6.67e-5).all()
+        assert (module.variables(maximum_iterations_count, variables_count)[:, 5] == 0.054).all()
+        assert (module.variables(maximum_iterations_count, variables_count)[:, 6] == 500).all()
+        assert (module.variables(maximum_iterations_count, variables_count)[:, 7] == 3.64).all()
+        assert (module.variables(maximum_iterations_count, variables_count)[:, 8] == 0.96).all()
+        assert (module.variables(maximum_iterations_count, variables_count)[:, 9] == 12.5e-10).all()
+        assert np.logical_and(7.8e-10 <= module.variables(maximum_iterations_count, variables_count)[:, 10], \
+                       module.variables(maximum_iterations_count, variables_count)[:, 10] <= 11.5e-10).all()
+        assert (module.variables(maximum_iterations_count, variables_count)[:, 11] == 7.5e-10).all()
+        assert (module.variables(maximum_iterations_count, variables_count)[:, 12] == 997).all()
+        assert (module.variables(maximum_iterations_count, variables_count)[:, 13] == 9.31e-7).all()
+        print('Function 12 test - Success')
         
     def test_pipe_reaction(self, water_quality_step, pipe_number, grid_number, pipe_velocity, pipe_diameter,\
                            pipe_length, pipe_segment_width, variables_matrix, pipe_concentration_matrix):
@@ -169,15 +185,21 @@ class TestEpytcModule1():
         pipe_diameter = 200 # (mm)
         pipe_length = 1000 # (m)
         pipe_segment_width = 16.667 # (m)
-        variables_matrix = module.variables(200, 9)[2] # Variable values corresponding to 3rd iteration
-        pipe_concentration_matrix = np.ones((3, 5, 119)) # Assuming the maxiumum segments is 5
+        variables_matrix = module.variables(200, 14)[2] # Variable values corresponding to 3rd iteration
+        pipe_concentration_matrix = np.ones((6, 5, 119)) # Assuming the maxiumum segments is 5
         assert (module.pipe_reaction(water_quality_step, pipe_number, grid_number, pipe_velocity, pipe_diameter, \
-                             pipe_length, pipe_segment_width, variables_matrix, pipe_concentration_matrix)[0] <= 0)
+                             pipe_length, pipe_segment_width, variables_matrix, pipe_concentration_matrix)[0] != 'Nan')
         assert (module.pipe_reaction(water_quality_step, pipe_number, grid_number, pipe_velocity, pipe_diameter, \
-                                 pipe_length, pipe_segment_width, variables_matrix, pipe_concentration_matrix)[1] <= 0)
+                                 pipe_length, pipe_segment_width, variables_matrix, pipe_concentration_matrix)[1] != 'Nan')
         assert (module.pipe_reaction(water_quality_step, pipe_number, grid_number, pipe_velocity, pipe_diameter, \
-                                 pipe_length, pipe_segment_width, variables_matrix, pipe_concentration_matrix)[2] >= 0)
-        print('Function 12 test - Success')
+                                 pipe_length, pipe_segment_width, variables_matrix, pipe_concentration_matrix)[2] != 'Nan')
+        assert (module.pipe_reaction(water_quality_step, pipe_number, grid_number, pipe_velocity, pipe_diameter, \
+                                 pipe_length, pipe_segment_width, variables_matrix, pipe_concentration_matrix)[3] != 'Nan')
+        assert (module.pipe_reaction(water_quality_step, pipe_number, grid_number, pipe_velocity, pipe_diameter, \
+                                 pipe_length, pipe_segment_width, variables_matrix, pipe_concentration_matrix)[4] != 'Nan')
+        assert (module.pipe_reaction(water_quality_step, pipe_number, grid_number, pipe_velocity, pipe_diameter, \
+                                 pipe_length, pipe_segment_width, variables_matrix, pipe_concentration_matrix)[5] != 'Nan')
+        print('Function 13 test - Success')
         
     def test_tank_reaction(self, water_quality_step, water_quality_step_number, tank_number, tank_volume_previous_step,\
                            tank_volume_current, variables_matrix, initial_node_concentration_matrix, node_concentration_matrix):
@@ -190,19 +212,25 @@ class TestEpytcModule1():
        tank_number = 96 # 97th node or 3rd tank
        tank_volume_previous_step = 19358 # tank volume in cu.m for the previous step
        tank_volume_current = 20172 # current tank volume in cu.m
-       variables_matrix = module.variables(200, 9)[2] # Variable values corresponding to 3rd iteration
-       initial_node_concentration_matrix = np.zeros((97, 3))
-       node_concentration_matrix = np.ones((3, 2881, 97))
+       variables_matrix = module.variables(200, 14)[2] # Variable values corresponding to 3rd iteration
+       initial_node_concentration_matrix = np.zeros((97, 5))
+       node_concentration_matrix = np.ones((5, 2881, 97))
        assert (module.tank_reaction(water_quality_step, water_quality_step_number, tank_number, tank_volume_previous_step,\
                               tank_volume_current, variables_matrix, initial_node_concentration_matrix, \
-                                  node_concentration_matrix)[0] <= 0)
+                                  node_concentration_matrix)[0] != 'Nan')
        assert (module.tank_reaction(water_quality_step, water_quality_step_number, tank_number, tank_volume_previous_step,\
                              tank_volume_current, variables_matrix, initial_node_concentration_matrix, \
-                                 node_concentration_matrix)[1] <= 0)
+                                 node_concentration_matrix)[1] != 'Nan')
        assert (module.tank_reaction(water_quality_step, water_quality_step_number, tank_number, tank_volume_previous_step,\
                            tank_volume_current, variables_matrix, initial_node_concentration_matrix, \
-                               node_concentration_matrix)[2] >= 0)
-       print('Function 13 test - Success')
+                               node_concentration_matrix)[2] != 'Nan')
+       assert (module.tank_reaction(water_quality_step, water_quality_step_number, tank_number, tank_volume_previous_step,\
+                           tank_volume_current, variables_matrix, initial_node_concentration_matrix, \
+                               node_concentration_matrix)[3] != 'Nan')
+       assert (module.tank_reaction(water_quality_step, water_quality_step_number, tank_number, tank_volume_previous_step,\
+                           tank_volume_current, variables_matrix, initial_node_concentration_matrix, \
+                               node_concentration_matrix)[4] != 'Nan')
+       print('Function 14 test - Success')
        
     def test_reservoir_quality(self, d, maximum_iterations_count, source_quality_matrix, pattern_input_command1, \
                                percentage_variation_random_pattern1):
@@ -211,7 +239,7 @@ class TestEpytcModule1():
         Using dummy data
         """
         maximum_iterations_count = 200 # times for which the water qality simulation will be iteratively performed
-        source_quality_matrix = [[1, 1, 0],[1, 1, 0]] # quality at the two sources of Net3 (boundary condition)
+        source_quality_matrix = [[1, 0, 1, 1, 1],[1, 0, 1, 1, 1]] # quality at the two sources of Net3 (boundary condition)
         pattern_input_command1 = 'none', 'rand' 
         percentage_variation_random_pattern1 = 0, 0.2 # 0 and 20% variations
         
@@ -222,11 +250,17 @@ class TestEpytcModule1():
         
         val = module.reservoir_quality(d, maximum_iterations_count, source_quality_matrix, pattern_input_command1[1], \
                                  percentage_variation_random_pattern1[1])
-        assert np.logical_and(0.8 <= val[0][:, 0], val[0][:, 0] <= 1.2).all()    
-        assert np.logical_and(0.8 <= val[0][:, 1], val[0][:, 1] <= 1.2).all()
+        assert np.logical_and(0.8 <= val[0][:, 0], val[0][:, 0] <= 1.2).all()
+        assert (val[0][:, 1] == 0).all()
+        assert np.logical_and(0.8 <= val[0][:, 2], val[0][:, 2] <= 1.2).all()
+        assert np.logical_and(0.8 <= val[0][:, 3], val[0][:, 3] <= 1.2).all()
+        assert np.logical_and(0.8 <= val[0][:, 4], val[0][:, 4] <= 1.2).all()
         assert np.logical_and(0.8 <= val[1][:, 0], val[1][:, 0] <= 1.2).all()
-        assert np.logical_and(0.8 <= val[1][:, 1], val[1][:, 0] <= 1.2).all()
-        print('Function 14 test - Success')
+        assert (val[1][:, 1] == 0).all()
+        assert np.logical_and(0.8 <= val[1][:, 2], val[1][:, 2] <= 1.2).all()
+        assert np.logical_and(0.8 <= val[1][:, 3], val[1][:, 3] <= 1.2).all()
+        assert np.logical_and(0.8 <= val[1][:, 4], val[1][:, 4] <= 1.2).all()
+        print('Function 15 test - Success')
         
     def test_reservoir_pattern(self, d, base_time_days, pattern_input_command2, percentage_variation_random_pattern2, \
                                reservoir_injection_start_step, reservoir_injection_end_step, reservoir_injection_input):
@@ -243,8 +277,8 @@ class TestEpytcModule1():
         
         val = module.reservoir_pattern(d, base_time_days, pattern_input_command2[0], percentage_variation_random_pattern2[0], \
                                    reservoir_injection_start_step, reservoir_injection_end_step, reservoir_injection_input)
-        assert (val[0] == [1, 1, 1]).all()
-        assert (val[1] == [1, 1, 1]).all()
+        assert (val[0] == [1, 1, 1, 1, 1]).all()
+        assert (val[1] == [1, 1, 1, 1, 1]).all()
         
         val = module.reservoir_pattern(d, base_time_days, pattern_input_command2[1], percentage_variation_random_pattern2[1], \
                                    reservoir_injection_start_step, reservoir_injection_end_step, reservoir_injection_input)
@@ -256,7 +290,7 @@ class TestEpytcModule1():
         assert (val[0][reservoir_injection_start_step[1][0]: reservoir_injection_end_step[1][0]] == 0).all()
         assert (val[1][reservoir_injection_start_step[0][0]: reservoir_injection_end_step[0][0]] == 0).all()
         assert (val[1][reservoir_injection_start_step[1][0]: reservoir_injection_end_step[1][0]] == reservoir_injection_input[0][0]).all()
-        print('Function 15 test - Success')
+        print('Function 16 test - Success')
         
     def test_injection_quality(self, maximum_iterations_count, injection_node_index_matrix, injection_node_quality_matrix, \
                                pattern_input_command1, percentage_variation_random_pattern1):
@@ -266,7 +300,7 @@ class TestEpytcModule1():
         """
         maximum_iterations_count = 200 # times for which the water qality simulation will be iteratively performed
         injection_node_index_matrix = [21] # node with index 21 is specified as injection node
-        injection_node_quality_matrix = [[2, 0, 0]] # # quality at the injection node of Net3 (boundary condition)
+        injection_node_quality_matrix = [[0, 0, 0, 2, 0]] # # quality at the injection node of Net3 (boundary condition)
         pattern_input_command1 = 'none', 'rand' 
         percentage_variation_random_pattern1 = 0, 0.2 # 0 and 20% variations
         val = module.injection_quality(maximum_iterations_count, injection_node_index_matrix, injection_node_quality_matrix, \
@@ -275,9 +309,10 @@ class TestEpytcModule1():
         
         val = module.injection_quality(maximum_iterations_count, injection_node_index_matrix, injection_node_quality_matrix, \
                                    pattern_input_command1[1], percentage_variation_random_pattern1[1])
-        assert np.logical_and(1.6 <= val[0][:, 0], val[0][:, 0] <= 2.4).all()
-        assert (val[0][:,1: 2] == 0).all()
-        print('Function 16 test - Success')
+        assert (val[0][:, 0: 3] == 0).all()
+        assert np.logical_and(1.6 <= val[0][:, 3], val[0][:, 3] <= 2.4).all()
+        assert (val[0][:, 4] == 0).all()
+        print('Function 17 test - Success')
         
     def test_injection_pattern(self, d, base_time_days, injection_node_index_matrix, pattern_input_command2, percentage_variation_random_pattern2,\
                                injection_node_injection_start_step, injection_node_injection_end_step, injection_node_injection_input):
@@ -295,7 +330,7 @@ class TestEpytcModule1():
         
         val = module.injection_pattern(d, base_time_days, injection_node_index_matrix, pattern_input_command2[0], percentage_variation_random_pattern2[0],\
                                    injection_node_injection_start_step, injection_node_injection_end_step, injection_node_injection_input)
-        assert (val == [1, 1, 1]).all()
+        assert (val == [1, 1, 1, 1, 1]).all()
         
         val = module.injection_pattern(d, base_time_days, injection_node_index_matrix, pattern_input_command2[1], percentage_variation_random_pattern2[1],\
                                    injection_node_injection_start_step, injection_node_injection_end_step, injection_node_injection_input)
@@ -306,9 +341,9 @@ class TestEpytcModule1():
         assert (val[injection_node_injection_start_step[0][0]: injection_node_injection_end_step[0][0]] == injection_node_injection_input[0][0]).all()
         assert (val[: injection_node_injection_start_step[0][0], 0] == 0).all()
         assert (val[injection_node_injection_end_step[0][0] :, 0] == 0).all()
-        print('Function 17 test - Success')
+        print('Function 18 test - Success')
 
-test = TestEpytcModule1()
+test = TestEpytcModule3()
 test.test_details()
 test.test_network(d)
 test.test_species()
@@ -317,14 +352,15 @@ test.test_first_order_reaction(1e-3, 1, 300)
 test.test_Reynolds_number(0.2, 200, 9.31e-7)
 test.test_Schmidt_number(9.31e-7, 12.5e-10)
 test.test_Sherwood_number(42965, 745, 200, 1000)
-test.test_mass_transfer_coefficient(33, 12.5e-10, 200)
+test.test_mass_transfer_coefficient_cl(33, 12.5e-10, 200)
+test.test_mass_transfer_coefficient_ars(7.5e-10, 200, 0.2, 9.31e-7)
 test.test_hydraulic_mean_radius(200)
-test.test_variables(200, 9)
-test.test_pipe_reaction(300, 1, 2, 0.5, 200, 100, 16.667, module.variables(200, 9)[2], np.ones((3, 5, 119)))
-test.test_tank_reaction(300, 10, 96, 19358, 20172, module.variables(200, 9)[2], np.zeros((97, 3)), np.ones((3, 2881, 97)))
-test.test_reservoir_quality(d, 200, [[1, 1, 0],[1, 1, 0]], ('none', 'rand'), (0, 0.2))
+test.test_variables(200, 14)
+test.test_pipe_reaction(300, 1, 2, 0.5, 200, 100, 16.667, module.variables(200, 14)[2], np.ones((6, 5, 119)))
+test.test_tank_reaction(300, 10, 96, 19358, 20172, module.variables(200, 14)[2], np.zeros((97, 5)), np.ones((5, 2881, 97)))
+test.test_reservoir_quality(d, 200, [[1, 1, 0.5, 10, 0],[1, 1, 0.5, 10, 0]], ('none', 'rand'), (0, 0.2))
 test.test_reservoir_pattern(d, 1, ('none', 'rand', 'specific'), (0, 0.2), [[0],[12]], [[12], [24]], [[1], [1]])
-test.test_injection_quality(200, [21], [[2, 0, 0]], ('none', 'rand'), (0, 0.2))
+test.test_injection_quality(200, [21], [[0, 0, 0, 2, 0]], ('none', 'rand'), (0, 0.2))
 test.test_injection_pattern(d, 1, [21], ('none', 'rand', 'specific'), (0, 0.2), [[3]], [[19]], [[1]])
 
 print('\nAll tests completed!\n')

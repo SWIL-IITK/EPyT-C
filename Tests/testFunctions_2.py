@@ -1,5 +1,5 @@
 """
-EPyT-C Test Part 2
+EPyT-C Test Part 3
 This file is provided to ensure that all functions can be executed correctly using Net3.inp 
 and MSRT-1: Chlorine decay and trihalomethanes formation module.
 """
@@ -276,7 +276,7 @@ class TestEpytcModule1():
         val = module.injection_quality(maximum_iterations_count, injection_node_index_matrix, injection_node_quality_matrix, \
                                    pattern_input_command1[1], percentage_variation_random_pattern1[1])
         assert np.logical_and(1.6 <= val[0][:, 0], val[0][:, 0] <= 2.4).all()
-        assert (val[0][:,1:2] == 0).all()
+        assert (val[0][:,1: 2] == 0).all()
         print('Function 16 test - Success')
         
     def test_injection_pattern(self, d, base_time_days, injection_node_index_matrix, pattern_input_command2, percentage_variation_random_pattern2,\
@@ -322,9 +322,9 @@ test.test_hydraulic_mean_radius(200)
 test.test_variables(200, 9)
 test.test_pipe_reaction(300, 1, 2, 0.5, 200, 100, 16.667, module.variables(200, 9)[2], np.ones((3, 5, 119)))
 test.test_tank_reaction(300, 10, 96, 19358, 20172, module.variables(200, 9)[2], np.zeros((97, 3)), np.ones((3, 2881, 97)))
-
-print('\nAll tests completed!\n')
 test.test_reservoir_quality(d, 200, [[1, 1, 0],[1, 1, 0]], ('none', 'rand'), (0, 0.2))
 test.test_reservoir_pattern(d, 1, ('none', 'rand', 'specific'), (0, 0.2), [[0],[12]], [[12], [24]], [[1], [1]])
 test.test_injection_quality(200, [21], [[2, 0, 0]], ('none', 'rand'), (0, 0.2))
 test.test_injection_pattern(d, 1, [21], ('none', 'rand', 'specific'), (0, 0.2), [[3]], [[19]], [[1]])
+
+print('\nAll tests completed!\n')

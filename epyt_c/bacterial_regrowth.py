@@ -186,20 +186,20 @@ class module:
         kin_var = 10
         # Mortality rate constant for bacteria (1/s)
         kd_mean = 5.83e-6
-        kd_var = 1
+        kd_var = 1e-5
         # Chlorine-induced mortality rate constant for bacteria (L/mg-Cl/s)
         kcd_mean = 1.47e-4
-        kcd_var = 1
+        kcd_var = 1e-3
         # Lysis rate constant for dead bacteria (1/s)
         klys_mean = 3.06e-6
-        klys_var = 1
+        klys_var = 1e-5
         # Yield coefficient for bacteria
         Y_lower = 0.007
         Y_upper = 1.5
         Y_mean = 0.102
         # Organic carbon fraction of bacterial cell
         a_mean = 2.2e-9
-        a_var = 1
+        a_var = 1e-8
         # BDOC supplementation by dead bacteria
         b_mean = 0.46
         b_var = 1.5
@@ -226,13 +226,13 @@ class module:
             variable_mat[num1 - 1][1] = kbNC_mean * math.exp(-6050 / (temperature_mean + 273))
             variable_mat[num1 - 1][2] = kwC_mean
             variable_mat[num1 - 1][3] = YN_mean
-            variable_mat[num1 - 1][4] = umax_mean
+            variable_mat[num1 - 1][4] = math.log(umax_mean)
             variable_mat[num1 - 1][5] = Ks_mean
             variable_mat[num1 - 1][6] = kin_mean
             variable_mat[num1 - 1][7] = kd_mean
             variable_mat[num1 - 1][8] = kcd_mean
             variable_mat[num1 - 1][9] = klys_mean
-            variable_mat[num1 - 1][10] = Y_mean
+            variable_mat[num1 - 1][10] = math.log(Y_mean)
             variable_mat[num1 - 1][11] = a_mean
             variable_mat[num1 - 1][12] = b_mean
             variable_mat[num1 - 1][13] = Dm_chlorine
@@ -251,17 +251,15 @@ class module:
                 )
                 variable_mat[x][2] = random.uniform(kwC_lower, kwC_upper)
                 variable_mat[x][3] = random.uniform(YN_lower, YN_upper)
-                variable_mat[x][4] = random.uniform(math.log(umax_lower), math.log(umax_upper)) * math.exp(
-                    -(((37 - variable_mat[x][0]) / 30) ** 2)
-                )
+                variable_mat[x][4] = random.uniform(math.log(umax_lower), math.log(umax_upper))
                 variable_mat[x][5] = random.uniform(math.log(Ks_lower), math.log(Ks_upper))
-                variable_mat[x][6] = np.random.lognormal(kin_mean, kin_var)
-                variable_mat[x][7] = np.random.lognormal(kd_mean, kd_var)
-                variable_mat[x][8] = np.random.lognormal(kcd_mean, kcd_var)
-                variable_mat[x][9] = np.random.lognormal(klys_mean, klys_var)
+                variable_mat[x][6] = np.mod(np.abs(np.random.normal(kin_mean, kin_var)), 10 * kin_mean)
+                variable_mat[x][7] = np.mod(np.abs(np.random.normal(kd_mean, kd_var)), 1e3 * kd_mean)
+                variable_mat[x][8] = np.mod(np.abs(np.random.normal(kcd_mean, kcd_var)), 1e3 * kcd_mean)
+                variable_mat[x][9] = np.mod(np.abs(np.random.normal(klys_mean, klys_var)), 1e3 * klys_mean)
                 variable_mat[x][10] = random.uniform(math.log(Y_lower), math.log(Y_upper))
-                variable_mat[x][11] = np.random.lognormal(a_mean, a_var)
-                variable_mat[x][12] = np.random.lognormal(b_mean, b_var)
+                variable_mat[x][11] = np.abs(np.random.normal(a_mean, a_var))
+                variable_mat[x][12] = np.abs(np.random.normal(b_mean, b_var))
                 variable_mat[x][13] = Dm_chlorine
                 variable_mat[x][14] = random.uniform(Dm_rdoc_lower, Dm_rdoc_upper)
                 variable_mat[x][15] = random.uniform(Dm_bdoc_lower, Dm_bdoc_upper)
@@ -275,16 +273,17 @@ class module:
         # num1 - water quality time step;num2 - pipe number; num3- grid number;
         # num4 - pipe flow velocity (m/s); num5 - pipe diameter (mm); num6 - pipe length; num7 - width of link segment (m)
         # arr1 - matrix of variables; arr2 = array of pipe concentration
+        T = arr1[0]
         kbNC = arr1[1]
         kwC = arr1[2]
         YN = arr1[3]
-        umax = arr1[4]
-        Ks = arr1[5]
+        umax = math.exp(arr1[4]) * math.exp(-((37 - T) / 30) ** 2)
+        Ks = math.exp(arr1[5])
         kin = arr1[6]
         kd = arr1[7]
         kcd = arr1[8]
         klys = arr1[9]
-        Y = arr1[10]
+        Y = math.exp(arr1[10])
         a = arr1[11]
         b = arr1[12]
         Dm_chlorine = arr1[13]

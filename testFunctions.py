@@ -1,7 +1,6 @@
 """
 EPyT-C Test Part 1
 This file is provided to ensure that all functions can be executed correctly using Net3.inp.
-Step-by-step execution. You may also use breakpoints.
 """
 from epyt_c.epyt_c_functions import fn 
 fn.install("epyt")
