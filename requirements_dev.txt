@@ -3,3 +3,4 @@ numpy
 pandas
 xlsxwriter
 hydra-core
+sphinx

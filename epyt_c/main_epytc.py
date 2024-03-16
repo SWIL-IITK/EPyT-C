@@ -34,6 +34,11 @@ class epytc_class:
 
 
 def create_epytc():
+    """Creates an object of dataclass epytc-class
+
+    :return: An epytc-class object
+    :rtype: epytc-class
+    """
     print("Creating instance of EPyT-C with default values")
     file_dir = os.path.dirname(os.path.abspath(__file__))
     default_config = OmegaConf.load(os.path.join(file_dir, "default_values.yaml"))
