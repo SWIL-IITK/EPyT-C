@@ -4,3 +4,4 @@ pandas
 xlsxwriter
 hydra-core
 sphinx
+sphinx-rtd-theme
