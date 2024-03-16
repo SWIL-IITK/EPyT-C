@@ -1,4 +1,4 @@
-epyt_c
+EPyT-C
 ======
 
 .. toctree::

@@ -1,4 +1,4 @@
-epyt\_c package
+package
 ===============
 
 Submodules
