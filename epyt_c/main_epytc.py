@@ -36,8 +36,8 @@ class epytc_class:
 def create_epytc():
     """Creates an object of dataclass epytc-class
 
-    :return: An epytc-class object
-    :rtype: epytc-class
+    :return: An epytc_class object
+    :rtype: epytc_class
     """
     print("Creating instance of EPyT-C with default values")
     file_dir = os.path.dirname(os.path.abspath(__file__))
@@ -48,5 +48,10 @@ def create_epytc():
 
 
 def execute_epytc(epytc: epytc_class):
+    """Execute the epytc module
+
+    :param epytc: epytc object
+    :type epytc: epytc_class
+    """
     print("EPyT-C loaded for execution...")
     run_epytc(epytc)

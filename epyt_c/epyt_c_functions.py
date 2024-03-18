@@ -5,12 +5,23 @@ import math
 
 
 class fn:
-    # Install EPyT
+    # TODO Remove
     def install(package):
+        """Install EPyT
+
+        :param package: _description_
+        :type package: _type_
+        """
         subprocess.call([sys.executable, "-m", "pip", "install", package])
 
-    # Getting basic details of the network
     def network(d):
+        """Getting basic details of the network
+
+        :param d: EPANET model
+        :type d: EPANET object
+        :return: Network details
+        :rtype: List
+        """
         network_info = [
             d.getNodeCount(),
             d.getLinkCount(),
