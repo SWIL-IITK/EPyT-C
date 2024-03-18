@@ -1,5 +1,5 @@
 """
-EPyT-C Test Part 3
+EPyT-C Test Part 2
 This file is provided to ensure that all functions can be executed correctly using Net3.inp 
 and MSRT-1: Chlorine decay and trihalomethanes formation module.
 """
