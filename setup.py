@@ -33,6 +33,6 @@ setup(
     ],
     keywords="epanet, water, networks, hydraulics, quality, simulations, water quality modelling",
     python_requires=">=3.8",
-    packages=find_packages(include=["epyt_c"]),
+    packages=find_packages(include=["epyt_c", "epyt_c.*"]),
     install_requires=["epyt"],
 )
