@@ -1,5 +1,5 @@
 import os
-from .run_epyt_c import run_epytc
+from .run import run_epytc
 from dataclasses import dataclass
 from hydra.utils import instantiate
 from omegaconf import OmegaConf
