@@ -54,7 +54,7 @@ We provide a sample python script (`run_sample.py`) to demonstrate the functioni
 
 ### Examples
 
-We provide examples as Jupyter Notebooks. Please update the INP file path before running the notebooks.
+We provide examples as Jupyter Notebooks. Please update the network INP file path to the network that you would like to use before running the notebooks. Make sure that the `epyt_c` package is installed in the environment that you are using to run the notebooks.
 
 ## Dependencies
 - EPyT
