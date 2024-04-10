@@ -28,8 +28,6 @@ def run_epytc(epytc):
     elif epytc.module == "MSRT-4":
         from .pfas_formation import module
 
-    fn.install("epyt")
-
     start_time = time.time()
     # Display MSRT module details
     module.details()
