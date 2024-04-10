@@ -34,5 +34,7 @@ setup(
     keywords="epanet, water, networks, hydraulics, quality, simulations, water quality modelling",
     python_requires=">=3.8",
     packages=find_packages(include=["epyt_c", "epyt_c.*"]),
+    # include the defaul_values.yaml file
+    package_data={"": ["*.yaml"]},
     install_requires=["epyt"],
 )
