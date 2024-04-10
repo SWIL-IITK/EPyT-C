@@ -8,14 +8,14 @@ https://github.com/pypa/sampleproject
 from setuptools import setup, find_packages
 import pathlib
 
-here = pathlib.Path(__file__).parent.resolve()
+root = pathlib.Path(__file__).parent.resolve()
 
 # Get the long description from the README file
-long_description = (here / "README.md").read_text(encoding="utf-8")
+long_description = (root / "README.md").read_text(encoding="utf-8")
 
 setup(
     name="epyt_c",
-    version="0.0.1",
+    version="0.1.0",
     description="An open-source Python package for modeling water quality in water distribution systems",
     long_description=long_description,
     long_description_content_type="text/markdown",
@@ -23,22 +23,18 @@ setup(
     author="Gopinbathan R Abhijith",
     author_email="abhijith@iitk.ac.in",
     classifiers=[
-        "Development Status :: 3 - Alpha",
-        "Intended Audience :: Developers",
-        "License :: OSI Approved :: MIT License",
-        "Programming Language :: Python :: 3",  # todo - specify the supported python versions
-        "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9",
         "Programming Language :: Python :: 3.10",
-        "Programming Language :: Python :: 3 :: Only",
+        "Programming Language :: Python :: 3.11",
+        "Programming Language :: Python :: 3.12",
+        "Programming Language :: Python",
+        "Operating System :: OS Independent",
     ],
-    keywords="EPANET, EPyT, water quality modelling",
+    keywords="epanet, water, networks, quality, simulations, water quality modelling",
+    python_requires=">=3.8",
     packages=find_packages(include=["epyt_c", "epyt_c.*"]),
-    python_requires=">=3.7, <4",
-    install_requires=["epyt", "numpy", "pandas", "xlsxwriter"],
-    extras_require={  # Optional
-        "dev": ["check-manifest"],
-        "test": ["coverage"],
-    },
+    # include the defaul_values.yaml file
+    package_data={"": ["*.yaml"]},
+    install_requires=["epyt"],
 )

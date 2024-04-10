@@ -5,3 +5,7 @@ xlsxwriter
 hydra-core
 sphinx
 sphinx-rtd-theme
+jupyterlab
+setuptools
+wheel
+build

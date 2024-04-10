@@ -46,7 +46,7 @@ We provide two network INP fles (Net1 and Net3) in the Networks folder. The user
 path_name = r"path\to\INP\file.inp"
 epytc.network_name = os.path.normpath(path_name)
 ```
-where `epytc` is a object of `epytc_class` class (please refer to `main_epytc.py`). The above code must be run after creating the `epytc_class` object. Please use the absoulte path.
+where `epytc` is an object of `epytc_class` class (please refer to `main_epytc.py`). The above code must be run after creating the `epytc_class` object. Please use the absoulte path.
 
 ### Sample python script
 
@@ -54,7 +54,7 @@ We provide a sample python script (`run_sample.py`) to demonstrate the functioni
 
 ### Examples
 
-We provide examples as Jupyter Notebooks. Please update the INP file path before running the notebooks.
+We provide examples as Jupyter Notebooks. Please update the network INP file path to the network that you would like to use before running the notebooks. Make sure that the `epyt_c` package is installed in the environment that you are using to run the notebooks.
 
 ## Dependencies
 - EPyT

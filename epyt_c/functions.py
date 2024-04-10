@@ -1,19 +1,8 @@
-import subprocess
-import sys
 import numpy as np
 import math
 
 
 class fn:
-    # TODO Remove
-    def install(package):
-        """Install EPyT
-
-        :param package: _description_
-        :type package: _type_
-        """
-        subprocess.call([sys.executable, "-m", "pip", "install", package])
-
     def network(d):
         """Getting basic details of the network
 
@@ -42,7 +31,9 @@ class fn:
             index_pumps.append(x + 1)
         network_info.append(index_pumps)
         index_valves = []
-        for x in range(d.getLinkCount() - d.getLinkValveCount(), len(d.getLinkNameID())):
+        for x in range(
+            d.getLinkCount() - d.getLinkValveCount(), len(d.getLinkNameID())
+        ):
             index_valves.append(x + 1)
         network_info.append(index_valves)
         network_info.extend(
@@ -144,12 +135,16 @@ class fn:
             else:
                 h_step_expected = num8
                 wq_time_cycle = num1 - (num5 - 1) * num6 * 24 * 3600
-                wq_time_hydraulic_report = wq_time_cycle + (int(d.getTimeSimulationDuration()) - num3)
+                wq_time_hydraulic_report = wq_time_cycle + (
+                    int(d.getTimeSimulationDuration()) - num3
+                )
                 for x in range(num8, num2):
                     if wq_time_hydraulic_report <= H.Time[x]:
                         h_step = math.floor(x)
                         break
-                reservoir_pattern_step = injection_pattern_step = len(arr2[0]) - (num2 - h_step) + 1
+                reservoir_pattern_step = injection_pattern_step = (
+                    len(arr2[0]) - (num2 - h_step) + 1
+                )
         elif arr1 == "dynamic":
             if num1 == 0:
                 h_step_expected = 0
