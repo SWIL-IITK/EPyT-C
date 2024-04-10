@@ -46,7 +46,7 @@ We provide two network INP fles (Net1 and Net3) in the Networks folder. The user
 path_name = r"path\to\INP\file.inp"
 epytc.network_name = os.path.normpath(path_name)
 ```
-where `epytc` is a object of `epytc_class` class (please refer to `main_epytc.py`). The above code must be run after creating the `epytc_class` object. Please use the absoulte path.
+where `epytc` is an object of `epytc_class` class (please refer to `main_epytc.py`). The above code must be run after creating the `epytc_class` object. Please use the absoulte path.
 
 ### Sample python script
 
