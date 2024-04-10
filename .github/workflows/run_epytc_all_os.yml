@@ -5,7 +5,7 @@ name: check epyt-c
 
 on:
   push:
-    branches: [ "main", "jay" , "feature"]
+    branches: [ "main", "optimizing"]
   pull_request:
     branches: [ "main" ]
 
