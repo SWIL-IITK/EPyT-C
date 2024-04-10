@@ -8,4 +8,4 @@ sphinx-rtd-theme
 jupyterlab
 setuptools
 wheel
-twine
+build
