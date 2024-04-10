@@ -5,4 +5,4 @@ xlsxwriter
 hydra-core
 sphinx
 sphinx-rtd-theme
-jupyter
+jupyterlab

@@ -33,4 +33,6 @@ jobs:
     - name: run epyt-c
       run: python run_sample.py
     - name: run EX1 jupyter notebook
-      run: jupyter ./Examples/EX1_Adding_water_quality_input_values_for_source_nodes.ipynb
+      run: |
+        jupyter nbconvert --to script Examples/EX1_Adding_water_quality_input_values_for_source_nodes.ipynb
+        python ./Examples/EX1_Adding_water_quality_input_values_for_source_nodes.py
