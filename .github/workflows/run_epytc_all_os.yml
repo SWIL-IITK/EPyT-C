@@ -33,7 +33,7 @@ jobs:
     - name: build and install package
       run: |
         python -m build
-        pip install dist/epyt_c-0.0.1-py3-none-any.whl
+        pip install dist/epyt_c-0.1.0-py3-none-any.whl
     - name: run run_sample.py
       run: python run_sample.py
     - name: run EX1 jupyter notebook
