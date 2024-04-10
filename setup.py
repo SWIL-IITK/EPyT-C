@@ -15,7 +15,7 @@ long_description = (root / "README.md").read_text(encoding="utf-8")
 
 setup(
     name="epyt_c",
-    version="0.0.1",
+    version="0.1.0",
     description="An open-source Python package for modeling water quality in water distribution systems",
     long_description=long_description,
     long_description_content_type="text/markdown",
@@ -31,7 +31,7 @@ setup(
         "Programming Language :: Python",
         "Operating System :: OS Independent",
     ],
-    keywords="epanet, water, networks, hydraulics, quality, simulations, water quality modelling",
+    keywords="epanet, water, networks, quality, simulations, water quality modelling",
     python_requires=">=3.8",
     packages=find_packages(include=["epyt_c", "epyt_c.*"]),
     # include the defaul_values.yaml file
