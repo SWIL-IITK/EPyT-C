@@ -34,6 +34,8 @@ EPyT-C offers the following flexibilities, making it a handy tool for research a
 
 ## Code instructions
 
+The documentation can be found at http://epyt-c.readthedocs.io/.
+
 ### Environment setup
 
 - Create a new Conda environment as `epyt-c`
