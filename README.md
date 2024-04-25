@@ -40,7 +40,7 @@ The documentation can be found at http://epyt-c.readthedocs.io/ (in progress).
 
 - Create a new Conda environment as `epyt-c`
 - Install the requirements from `requirements.txt`
-- Install the package using `pip install .`
+- Install the package using `pip install epyt-c`
 
 ### Specifying the INP file (network data)
 
