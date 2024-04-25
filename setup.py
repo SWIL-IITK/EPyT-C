@@ -14,8 +14,8 @@ root = pathlib.Path(__file__).parent.resolve()
 long_description = (root / "README.md").read_text(encoding="utf-8")
 
 setup(
-    name="epyt_c",
-    version="0.1.0",
+    name="epytc",
+    version="0.2.0",
     description="An open-source Python package for modeling water quality in water distribution systems",
     long_description=long_description,
     long_description_content_type="text/markdown",
@@ -33,8 +33,8 @@ setup(
     ],
     keywords="epanet, water, networks, quality, simulations, water quality modelling",
     python_requires=">=3.8",
-    packages=find_packages(include=["epyt_c", "epyt_c.*"]),
+    packages=find_packages(include=["epytc", "epytc.*"]),
     # include the defaul_values.yaml file
     package_data={"": ["*.yaml"]},
-    install_requires=["epyt"],
+    install_requires=["epyt", "hydra-core"],
 )
