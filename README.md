@@ -55,11 +55,11 @@ where `epytc` is an object of `epytc_class` class (please refer to `main_epytc.p
 
 ### Sample python script
 
-We provide a sample python script (`run_sample.py`) to demonstrate the functioning of EPyT-C. The default values for the parameters can be found in `default_values.yaml` under `epyt_c` and the associated `README.md` file provides an explanation of the parameters. To run the script with the default values for the parameters run `run_sample.py`. Please update the INP file path before running the script.
+We provide a sample python script (`run_sample.py`) to demonstrate the functioning of EPyT-C. The default values for the parameters can be found in `default_values.yaml` under `epytc` and the associated `README.md` file provides an explanation of the parameters. To run the script with the default values for the parameters run `run_sample.py`. Please update the INP file path before running the script.
 
 ### Examples
 
-We provide examples as Jupyter Notebooks. Please update the network INP file path to the network that you would like to use before running the notebooks. Make sure that the `epyt_c` package is installed in the environment that you are using to run the notebooks.
+We provide examples as Jupyter Notebooks. Please update the network INP file path to the network that you would like to use before running the notebooks. Make sure that the `epytc` package is installed in the environment that you are using to run the notebooks.
 
 ## Dependencies
 

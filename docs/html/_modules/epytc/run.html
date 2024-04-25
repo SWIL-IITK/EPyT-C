@@ -1,0 +1,928 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>epytc.run &mdash; EPyT-C  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            EPyT-C
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">epytc</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">EPyT-C</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">epytc.run</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for epytc.run</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">sys</span> <span class="kn">import</span> <span class="n">exit</span>
+<span class="kn">from</span> <span class="nn">.functions</span> <span class="kn">import</span> <span class="n">fn</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">os</span> <span class="kn">import</span> <span class="n">getcwd</span>
+<span class="kn">import</span> <span class="nn">math</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">copy</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">from</span> <span class="nn">epyt</span> <span class="kn">import</span> <span class="n">epanet</span>
+
+<span class="c1"># TODO</span>
+<span class="c1"># epyt_c/run_epyt_c.py:70:5: `link_connectivity_array` is assigned to but never used</span>
+<span class="c1"># epyt_c/run_epyt_c.py:71:5: `connectivity_mat` is assigned to but never used</span>
+<span class="c1"># epyt_c/run_epyt_c.py:146:9: `link_flow_velocity_mat` is assigned to but never used</span>
+<span class="c1"># epyt_c/run_epyt_c.py:147:9: `link_flow_Reynolds_num_mat` is assigned to but never used</span>
+<span class="c1"># epyt_c/run_epyt_c.py:176:9: `link_conc_initial_mat` is assigned to but never used</span>
+<span class="c1"># epyt_c/run_epyt_c.py:528:25: `incoming_flow` is assigned to but never used</span>
+
+
+<div class="viewcode-block" id="run_epytc">
+<a class="viewcode-back" href="../../epytc.html#epytc.run.run_epytc">[docs]</a>
+<span class="k">def</span> <span class="nf">run_epytc</span><span class="p">(</span><span class="n">epytc</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">epytc</span><span class="o">.</span><span class="n">module</span> <span class="o">==</span> <span class="s2">&quot;MSRT-1&quot;</span><span class="p">:</span>
+        <span class="kn">from</span> <span class="nn">.chlorine_decay_thms_formation</span> <span class="kn">import</span> <span class="n">module</span>
+    <span class="k">elif</span> <span class="n">epytc</span><span class="o">.</span><span class="n">module</span> <span class="o">==</span> <span class="s2">&quot;MSRT-2&quot;</span><span class="p">:</span>
+        <span class="kn">from</span> <span class="nn">.bacterial_regrowth</span> <span class="kn">import</span> <span class="n">module</span>
+    <span class="k">elif</span> <span class="n">epytc</span><span class="o">.</span><span class="n">module</span> <span class="o">==</span> <span class="s2">&quot;MSRT-3&quot;</span><span class="p">:</span>
+        <span class="kn">from</span> <span class="nn">.arsenite_oxidation_arsenate_attachment_detachment</span> <span class="kn">import</span> <span class="n">module</span>
+    <span class="k">elif</span> <span class="n">epytc</span><span class="o">.</span><span class="n">module</span> <span class="o">==</span> <span class="s2">&quot;MSRT-4&quot;</span><span class="p">:</span>
+        <span class="kn">from</span> <span class="nn">.pfas_formation</span> <span class="kn">import</span> <span class="n">module</span>
+
+    <span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+    <span class="c1"># Display MSRT module details</span>
+    <span class="n">module</span><span class="o">.</span><span class="n">details</span><span class="p">()</span>
+    <span class="c1"># Input data</span>
+    <span class="n">wq_max_iteration</span> <span class="o">=</span> <span class="n">epytc</span><span class="o">.</span><span class="n">maximum_iterations_required</span>
+    <span class="n">wq_sim_days</span> <span class="o">=</span> <span class="n">epytc</span><span class="o">.</span><span class="n">simulation_period_days</span>
+    <span class="n">wq_sim_time_step_s</span> <span class="o">=</span> <span class="n">epytc</span><span class="o">.</span><span class="n">simulation_time_step</span>
+    <span class="n">base_time_cycle_day</span> <span class="o">=</span> <span class="n">epytc</span><span class="o">.</span><span class="n">base_period_days</span>
+    <span class="n">total_wq_steps</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(((</span><span class="n">wq_sim_days</span> <span class="o">*</span> <span class="mi">24</span> <span class="o">*</span> <span class="mi">3600</span><span class="p">)</span> <span class="o">/</span> <span class="n">wq_sim_time_step_s</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">base_time_cycle_s</span> <span class="o">=</span> <span class="n">base_time_cycle_day</span> <span class="o">*</span> <span class="mi">24</span> <span class="o">*</span> <span class="mi">3600</span>
+    <span class="n">Tolerable_u</span> <span class="o">=</span> <span class="n">epytc</span><span class="o">.</span><span class="n">minimum_pipe_flow_velocity</span>
+    <span class="n">reservoir_quality_input</span> <span class="o">=</span> <span class="n">epytc</span><span class="o">.</span><span class="n">reservoir_quality_matrix</span>
+    <span class="n">reservoir_quality_pattern</span> <span class="o">=</span> <span class="n">epytc</span><span class="o">.</span><span class="n">reservoir_quality_pattern</span>
+    <span class="n">reservoir_quality_pattern_rand_var</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">epytc</span><span class="o">.</span><span class="n">reservoir_quality_pattern_random_variability</span>
+    <span class="p">)</span>
+    <span class="n">reservoir_injection_pattern</span> <span class="o">=</span> <span class="n">epytc</span><span class="o">.</span><span class="n">reservoir_injection_pattern</span>
+    <span class="n">reservoir_injection_pattern_rand_var</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">epytc</span><span class="o">.</span><span class="n">reservoir_injection_pattern_random_variability</span>
+    <span class="p">)</span>
+    <span class="n">reservoir_injection_start_time</span> <span class="o">=</span> <span class="n">epytc</span><span class="o">.</span><span class="n">reservoir_injection_start_time</span>
+    <span class="n">reservoir_injection_end_time</span> <span class="o">=</span> <span class="n">epytc</span><span class="o">.</span><span class="n">reservoir_injection_end_time</span>
+    <span class="n">reservoir_injection_input_val</span> <span class="o">=</span> <span class="n">epytc</span><span class="o">.</span><span class="n">reservoir_injection_input_value</span>
+    <span class="n">index_injection_nodes</span> <span class="o">=</span> <span class="n">epytc</span><span class="o">.</span><span class="n">injection_nodes_index</span>
+    <span class="n">injection_nodes_quality_mat</span> <span class="o">=</span> <span class="n">epytc</span><span class="o">.</span><span class="n">injection_nodes_quality_matrix</span>
+    <span class="n">injection_node_quality_pattern</span> <span class="o">=</span> <span class="n">epytc</span><span class="o">.</span><span class="n">injection_node_quality_pattern</span>
+    <span class="n">injection_node_quality_pattern_rand_var</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">epytc</span><span class="o">.</span><span class="n">injection_node_quality_pattern_random_variability</span>
+    <span class="p">)</span>
+    <span class="n">injection_node_injection_pattern</span> <span class="o">=</span> <span class="n">epytc</span><span class="o">.</span><span class="n">injection_node_injection_pattern</span>
+    <span class="n">injection_node_injection_pattern_rand_var</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">epytc</span><span class="o">.</span><span class="n">injection_node_injection_pattern_random_variability</span>
+    <span class="p">)</span>
+    <span class="n">injection_node_injection_start_time</span> <span class="o">=</span> <span class="n">epytc</span><span class="o">.</span><span class="n">injection_node_injection_start_time</span>
+    <span class="n">injection_node_injection_end_time</span> <span class="o">=</span> <span class="n">epytc</span><span class="o">.</span><span class="n">injection_node_injection_end_time</span>
+    <span class="n">injection_node_injection_input_val</span> <span class="o">=</span> <span class="n">epytc</span><span class="o">.</span><span class="n">injection_node_injection_input_value</span>
+    <span class="n">sync_option</span> <span class="o">=</span> <span class="n">epytc</span><span class="o">.</span><span class="n">hyd_wq_sync_option</span>
+    <span class="c1"># Load network</span>
+    <span class="n">d</span> <span class="o">=</span> <span class="n">epanet</span><span class="p">(</span><span class="n">epytc</span><span class="o">.</span><span class="n">network_name</span><span class="p">)</span>
+    <span class="c1"># Creating variables</span>
+    <span class="n">num_nodes</span> <span class="o">=</span> <span class="n">fn</span><span class="o">.</span><span class="n">network</span><span class="p">(</span><span class="n">d</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">num_links</span> <span class="o">=</span> <span class="n">fn</span><span class="o">.</span><span class="n">network</span><span class="p">(</span><span class="n">d</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">num_reservoirs</span> <span class="o">=</span> <span class="n">fn</span><span class="o">.</span><span class="n">network</span><span class="p">(</span><span class="n">d</span><span class="p">)[</span><span class="mi">2</span><span class="p">]</span>
+    <span class="n">num_tanks</span> <span class="o">=</span> <span class="n">fn</span><span class="o">.</span><span class="n">network</span><span class="p">(</span><span class="n">d</span><span class="p">)[</span><span class="mi">3</span><span class="p">]</span>
+    <span class="n">num_pumps</span> <span class="o">=</span> <span class="n">fn</span><span class="o">.</span><span class="n">network</span><span class="p">(</span><span class="n">d</span><span class="p">)[</span><span class="mi">4</span><span class="p">]</span>
+    <span class="n">num_valves</span> <span class="o">=</span> <span class="n">fn</span><span class="o">.</span><span class="n">network</span><span class="p">(</span><span class="n">d</span><span class="p">)[</span><span class="mi">5</span><span class="p">]</span>
+    <span class="n">name_nodes</span> <span class="o">=</span> <span class="n">fn</span><span class="o">.</span><span class="n">network</span><span class="p">(</span><span class="n">d</span><span class="p">)[</span><span class="mi">6</span><span class="p">]</span>
+    <span class="n">name_links</span> <span class="o">=</span> <span class="n">fn</span><span class="o">.</span><span class="n">network</span><span class="p">(</span><span class="n">d</span><span class="p">)[</span><span class="mi">7</span><span class="p">]</span>
+    <span class="n">index_reservoirs</span> <span class="o">=</span> <span class="n">fn</span><span class="o">.</span><span class="n">network</span><span class="p">(</span><span class="n">d</span><span class="p">)[</span><span class="mi">8</span><span class="p">]</span>
+    <span class="n">index_tanks</span> <span class="o">=</span> <span class="n">fn</span><span class="o">.</span><span class="n">network</span><span class="p">(</span><span class="n">d</span><span class="p">)[</span><span class="mi">9</span><span class="p">]</span>
+    <span class="n">index_pumps</span> <span class="o">=</span> <span class="n">fn</span><span class="o">.</span><span class="n">network</span><span class="p">(</span><span class="n">d</span><span class="p">)[</span><span class="mi">10</span><span class="p">]</span>
+    <span class="n">index_valves</span> <span class="o">=</span> <span class="n">fn</span><span class="o">.</span><span class="n">network</span><span class="p">(</span><span class="n">d</span><span class="p">)[</span><span class="mi">11</span><span class="p">]</span>
+    <span class="n">unit</span> <span class="o">=</span> <span class="n">fn</span><span class="o">.</span><span class="n">network</span><span class="p">(</span><span class="n">d</span><span class="p">)[</span><span class="mi">12</span><span class="p">]</span>
+    <span class="n">link_connectivity_array</span> <span class="o">=</span> <span class="n">fn</span><span class="o">.</span><span class="n">network</span><span class="p">(</span><span class="n">d</span><span class="p">)[</span><span class="mi">13</span><span class="p">]</span>
+    <span class="n">connectivity_mat</span> <span class="o">=</span> <span class="n">fn</span><span class="o">.</span><span class="n">network</span><span class="p">(</span><span class="n">d</span><span class="p">)[</span><span class="mi">14</span><span class="p">]</span>
+    <span class="n">length_links</span> <span class="o">=</span> <span class="n">fn</span><span class="o">.</span><span class="n">network</span><span class="p">(</span><span class="n">d</span><span class="p">)[</span><span class="mi">15</span><span class="p">]</span>
+    <span class="n">diameter_links</span> <span class="o">=</span> <span class="n">fn</span><span class="o">.</span><span class="n">network</span><span class="p">(</span><span class="n">d</span><span class="p">)[</span><span class="mi">16</span><span class="p">]</span>
+    <span class="n">start_node_mat</span> <span class="o">=</span> <span class="n">fn</span><span class="o">.</span><span class="n">network</span><span class="p">(</span><span class="n">d</span><span class="p">)[</span><span class="mi">17</span><span class="p">]</span>
+    <span class="n">end_node_mat</span> <span class="o">=</span> <span class="n">fn</span><span class="o">.</span><span class="n">network</span><span class="p">(</span><span class="n">d</span><span class="p">)[</span><span class="mi">18</span><span class="p">]</span>
+    <span class="n">num_omitted_nodes</span> <span class="o">=</span> <span class="n">fn</span><span class="o">.</span><span class="n">network</span><span class="p">(</span><span class="n">d</span><span class="p">)[</span><span class="mi">19</span><span class="p">]</span>
+    <span class="n">index_omitted_nodes</span> <span class="o">=</span> <span class="n">fn</span><span class="o">.</span><span class="n">network</span><span class="p">(</span><span class="n">d</span><span class="p">)[</span><span class="mi">20</span><span class="p">]</span>
+    <span class="n">num_omitted_links</span> <span class="o">=</span> <span class="n">fn</span><span class="o">.</span><span class="n">network</span><span class="p">(</span><span class="n">d</span><span class="p">)[</span><span class="mi">21</span><span class="p">]</span>
+    <span class="n">index_omitted_links</span> <span class="o">=</span> <span class="n">fn</span><span class="o">.</span><span class="n">network</span><span class="p">(</span><span class="n">d</span><span class="p">)[</span><span class="mi">22</span><span class="p">]</span>
+    <span class="n">wq_parameter_num</span> <span class="o">=</span> <span class="n">module</span><span class="o">.</span><span class="n">species</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">bulk_wq_parameter_num</span> <span class="o">=</span> <span class="n">module</span><span class="o">.</span><span class="n">species</span><span class="p">()[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">wall_wq_parameter_num</span> <span class="o">=</span> <span class="n">module</span><span class="o">.</span><span class="n">species</span><span class="p">()[</span><span class="mi">2</span><span class="p">]</span>
+    <span class="n">num_variables</span> <span class="o">=</span> <span class="n">module</span><span class="o">.</span><span class="n">species</span><span class="p">()[</span><span class="mi">3</span><span class="p">]</span>
+    <span class="c1"># Displaying relevant information</span>
+    <span class="n">fn</span><span class="o">.</span><span class="n">reservoir_names</span><span class="p">(</span><span class="n">num_reservoirs</span><span class="p">,</span> <span class="n">name_nodes</span><span class="p">,</span> <span class="n">index_reservoirs</span><span class="p">)</span>
+    <span class="n">fn</span><span class="o">.</span><span class="n">tank_names</span><span class="p">(</span><span class="n">num_tanks</span><span class="p">,</span> <span class="n">name_nodes</span><span class="p">,</span> <span class="n">index_tanks</span><span class="p">)</span>
+    <span class="n">fn</span><span class="o">.</span><span class="n">pump_names</span><span class="p">(</span><span class="n">num_pumps</span><span class="p">,</span> <span class="n">num_valves</span><span class="p">,</span> <span class="n">name_links</span><span class="p">)</span>
+    <span class="n">fn</span><span class="o">.</span><span class="n">valve_names</span><span class="p">(</span><span class="n">num_valves</span><span class="p">,</span> <span class="n">name_links</span><span class="p">)</span>
+    <span class="n">fn</span><span class="o">.</span><span class="n">simulation_info</span><span class="p">(</span>
+        <span class="n">wq_max_iteration</span><span class="p">,</span> <span class="n">wq_sim_days</span><span class="p">,</span> <span class="n">wq_sim_time_step_s</span><span class="p">,</span> <span class="n">total_wq_steps</span>
+    <span class="p">)</span>
+    <span class="n">fn</span><span class="o">.</span><span class="n">msrt_info</span><span class="p">(</span><span class="n">wq_parameter_num</span><span class="p">,</span> <span class="n">bulk_wq_parameter_num</span><span class="p">,</span> <span class="n">wall_wq_parameter_num</span><span class="p">)</span>
+    <span class="n">fn</span><span class="o">.</span><span class="n">omitted_nodes</span><span class="p">(</span><span class="n">num_omitted_nodes</span><span class="p">,</span> <span class="n">name_nodes</span><span class="p">,</span> <span class="n">index_omitted_nodes</span><span class="p">)</span>
+    <span class="n">fn</span><span class="o">.</span><span class="n">omitted_links</span><span class="p">(</span><span class="n">num_omitted_links</span><span class="p">,</span> <span class="n">name_links</span><span class="p">,</span> <span class="n">index_omitted_links</span><span class="p">)</span>
+    <span class="c1"># Getting the values of MSRT module variables</span>
+    <span class="n">variable_values_mat</span> <span class="o">=</span> <span class="n">module</span><span class="o">.</span><span class="n">variables</span><span class="p">(</span><span class="n">wq_max_iteration</span><span class="p">,</span> <span class="n">num_variables</span><span class="p">)</span>
+    <span class="c1"># Getting the quality characteristics of reservoir(s)</span>
+    <span class="n">reservoir_quality</span> <span class="o">=</span> <span class="n">module</span><span class="o">.</span><span class="n">reservoir_quality</span><span class="p">(</span>
+        <span class="n">d</span><span class="p">,</span>
+        <span class="n">wq_max_iteration</span><span class="p">,</span>
+        <span class="n">reservoir_quality_input</span><span class="p">,</span>
+        <span class="n">reservoir_quality_pattern</span><span class="p">,</span>
+        <span class="n">reservoir_quality_pattern_rand_var</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="c1"># Getting the quality characteristics of reservoir(s)</span>
+    <span class="n">injection_quality</span> <span class="o">=</span> <span class="n">module</span><span class="o">.</span><span class="n">injection_quality</span><span class="p">(</span>
+        <span class="n">wq_max_iteration</span><span class="p">,</span>
+        <span class="n">index_injection_nodes</span><span class="p">,</span>
+        <span class="n">injection_nodes_quality_mat</span><span class="p">,</span>
+        <span class="n">injection_node_quality_pattern</span><span class="p">,</span>
+        <span class="n">injection_node_quality_pattern_rand_var</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">wq_iteration_count</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="c1"># Start of water quality simulation</span>
+    <span class="k">while</span> <span class="n">wq_iteration_count</span> <span class="o">&lt;=</span> <span class="n">wq_max_iteration</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span>
+            <span class="s2">&quot;Water quality simulation (Iteration </span><span class="si">%d</span><span class="s2">) is starting...&quot;</span>
+            <span class="o">%</span> <span class="p">(</span><span class="n">wq_iteration_count</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="c1"># Hydraulic simulation Module</span>
+        <span class="c1"># Number of seconds for which hydraulics is simulated</span>
+        <span class="n">h_sim_s</span> <span class="o">=</span> <span class="n">d</span><span class="o">.</span><span class="n">getTimeSimulationDuration</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">h_sim_s</span> <span class="o">&lt;</span> <span class="p">(</span><span class="n">wq_sim_days</span> <span class="o">*</span> <span class="mi">24</span> <span class="o">*</span> <span class="mi">3600</span><span class="p">):</span>
+            <span class="n">d</span><span class="o">.</span><span class="n">setTimeSimulationDuration</span><span class="p">(</span><span class="n">wq_sim_days</span> <span class="o">*</span> <span class="mi">24</span> <span class="o">*</span> <span class="mi">3600</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span>
+                <span class="s2">&quot;Hydraulic analysis simulation period (changed to): </span><span class="si">%d</span><span class="s2"> days&quot;</span>
+                <span class="o">%</span> <span class="p">(</span><span class="n">wq_sim_days</span><span class="p">)</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span>
+                <span class="s2">&quot;Hydraulic analysis simulation period: </span><span class="si">%d</span><span class="s2"> days&quot;</span>
+                <span class="o">%</span> <span class="p">(</span><span class="n">h_sim_s</span> <span class="o">/</span> <span class="p">(</span><span class="mi">24</span> <span class="o">*</span> <span class="mi">3600</span><span class="p">))</span>
+            <span class="p">)</span>
+        <span class="c1"># Storing hydraulic time step in seconds</span>
+        <span class="n">h_sim_time_step_s</span> <span class="o">=</span> <span class="n">d</span><span class="o">.</span><span class="n">getTimeHydraulicStep</span><span class="p">()</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Time period for hydraulic analysis: </span><span class="si">%d</span><span class="s2"> seconds&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">h_sim_time_step_s</span><span class="p">))</span>
+        <span class="c1"># EPANET analysis</span>
+        <span class="n">d</span><span class="o">.</span><span class="n">setQualityType</span><span class="p">(</span><span class="s2">&quot;age&quot;</span><span class="p">)</span>
+        <span class="n">H</span> <span class="o">=</span> <span class="n">d</span><span class="o">.</span><span class="n">getComputedHydraulicTimeSeries</span><span class="p">()</span>
+        <span class="n">Q</span> <span class="o">=</span> <span class="n">d</span><span class="o">.</span><span class="n">getComputedQualityTimeSeries</span><span class="p">()</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Analysis with EPANET completed...&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Information successfully stored.&quot;</span><span class="p">)</span>
+        <span class="c1"># Interpreting hydraulic analysis report</span>
+        <span class="n">total_h_steps_reported</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">H</span><span class="o">.</span><span class="n">Time</span><span class="p">)</span>
+        <span class="n">total_h_steps_expected</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span>
+            <span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">getTimeSimulationDuration</span><span class="p">()</span> <span class="o">/</span> <span class="n">h_sim_time_step_s</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+        <span class="p">)</span>
+        <span class="n">h_ratio_report</span> <span class="o">=</span> <span class="p">(</span><span class="n">total_h_steps_reported</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">total_h_steps_expected</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="c1"># Filter uneven timesteps</span>
+        <span class="n">filter_steps_mat</span> <span class="o">=</span> <span class="n">fn</span><span class="o">.</span><span class="n">time_filter</span><span class="p">(</span>
+            <span class="n">H</span><span class="p">,</span> <span class="n">h_ratio_report</span><span class="p">,</span> <span class="n">total_h_steps_reported</span><span class="p">,</span> <span class="n">h_sim_time_step_s</span>
+        <span class="p">)</span>
+        <span class="n">H</span><span class="o">.</span><span class="n">Time</span> <span class="o">=</span> <span class="n">fn</span><span class="o">.</span><span class="n">time_data</span><span class="p">(</span><span class="n">H</span><span class="o">.</span><span class="n">Time</span><span class="p">,</span> <span class="n">filter_steps_mat</span><span class="p">)</span>
+        <span class="n">H</span><span class="o">.</span><span class="n">Velocity</span> <span class="o">=</span> <span class="n">fn</span><span class="o">.</span><span class="n">velocity_data</span><span class="p">(</span><span class="n">H</span><span class="o">.</span><span class="n">Velocity</span><span class="p">,</span> <span class="n">filter_steps_mat</span><span class="p">,</span> <span class="n">unit</span><span class="p">)</span>
+        <span class="n">H</span><span class="o">.</span><span class="n">Demand</span> <span class="o">=</span> <span class="n">fn</span><span class="o">.</span><span class="n">demand_data</span><span class="p">(</span><span class="n">H</span><span class="o">.</span><span class="n">Demand</span><span class="p">,</span> <span class="n">filter_steps_mat</span><span class="p">,</span> <span class="n">unit</span><span class="p">)</span>
+        <span class="n">H</span><span class="o">.</span><span class="n">Flow</span> <span class="o">=</span> <span class="n">fn</span><span class="o">.</span><span class="n">flow_data</span><span class="p">(</span><span class="n">H</span><span class="o">.</span><span class="n">Flow</span><span class="p">,</span> <span class="n">filter_steps_mat</span><span class="p">,</span> <span class="n">unit</span><span class="p">)</span>
+        <span class="n">H</span><span class="o">.</span><span class="n">TankVolume</span> <span class="o">=</span> <span class="n">fn</span><span class="o">.</span><span class="n">tank_volume_data</span><span class="p">(</span><span class="n">H</span><span class="o">.</span><span class="n">TankVolume</span><span class="p">,</span> <span class="n">filter_steps_mat</span><span class="p">,</span> <span class="n">unit</span><span class="p">)</span>
+        <span class="c1"># Creating temporary storage matrices</span>
+        <span class="n">link_conc_data_points_mat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">total_wq_steps</span><span class="p">,</span> <span class="n">num_links</span><span class="p">))</span>
+        <span class="n">link_segments_width_mat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">total_wq_steps</span><span class="p">,</span> <span class="n">num_links</span><span class="p">))</span>
+        <span class="n">link_flow_velocity_mat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">total_wq_steps</span><span class="p">,</span> <span class="n">num_links</span><span class="p">))</span>
+        <span class="n">link_flow_Reynolds_num_mat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">total_wq_steps</span><span class="p">,</span> <span class="n">num_links</span><span class="p">))</span>
+        <span class="n">tank_flow_volume_mat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">total_wq_steps</span><span class="p">,</span> <span class="n">num_tanks</span><span class="p">))</span>
+        <span class="c1"># Getting the maximum number of link grid points required</span>
+        <span class="n">link_conc_data_points_max</span> <span class="o">=</span> <span class="n">fn</span><span class="o">.</span><span class="n">maximum_segments</span><span class="p">(</span>
+            <span class="n">Tolerable_u</span><span class="p">,</span> <span class="n">wq_sim_time_step_s</span><span class="p">,</span> <span class="n">length_links</span><span class="p">,</span> <span class="n">H</span><span class="o">.</span><span class="n">Velocity</span>
+        <span class="p">)</span>
+        <span class="n">link_conc_array_a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span>
+            <span class="p">(</span><span class="n">wq_parameter_num</span><span class="p">,</span> <span class="n">link_conc_data_points_max</span><span class="p">,</span> <span class="n">num_links</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="n">link_conc_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span>
+            <span class="p">(</span><span class="n">wq_parameter_num</span><span class="p">,</span> <span class="n">link_conc_data_points_max</span><span class="p">,</span> <span class="n">num_links</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="n">node_conc_array_a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">bulk_wq_parameter_num</span><span class="p">,</span> <span class="n">total_wq_steps</span><span class="p">,</span> <span class="n">num_nodes</span><span class="p">))</span>
+        <span class="n">node_conc_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">bulk_wq_parameter_num</span><span class="p">,</span> <span class="n">total_wq_steps</span><span class="p">,</span> <span class="n">num_nodes</span><span class="p">))</span>
+        <span class="c1"># Reservoir water quality</span>
+        <span class="n">reservoir_quality_mat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">num_reservoirs</span><span class="p">,</span> <span class="n">bulk_wq_parameter_num</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_reservoirs</span><span class="p">):</span>
+            <span class="n">reservoir_quality_mat</span><span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="o">=</span> <span class="n">reservoir_quality</span><span class="p">[</span><span class="n">x</span><span class="p">][</span><span class="n">wq_iteration_count</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span>
+        <span class="c1"># Injection node(s) water quality</span>
+        <span class="n">injection_quality_mat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span>
+            <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">index_injection_nodes</span><span class="p">),</span> <span class="n">bulk_wq_parameter_num</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">index_injection_nodes</span><span class="p">)):</span>
+            <span class="n">injection_quality_mat</span><span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="o">=</span> <span class="n">injection_quality</span><span class="p">[</span><span class="n">x</span><span class="p">][</span><span class="n">wq_iteration_count</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span>
+        <span class="c1"># Storing the initial condition for all nodes</span>
+        <span class="n">node_conc_initial_mat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">num_nodes</span><span class="p">,</span> <span class="n">bulk_wq_parameter_num</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_reservoirs</span><span class="p">):</span>
+            <span class="n">node_conc_initial_mat</span><span class="p">[</span><span class="n">index_reservoirs</span><span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">reservoir_quality_mat</span><span class="p">[</span><span class="n">x</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">index_injection_nodes</span><span class="p">)):</span>
+            <span class="k">for</span> <span class="n">sp</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">bulk_wq_parameter_num</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">injection_quality</span><span class="p">[</span><span class="n">x</span><span class="p">][</span><span class="n">wq_iteration_count</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="n">sp</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">node_conc_initial_mat</span><span class="p">[</span><span class="n">index_injection_nodes</span><span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="n">sp</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+                        <span class="n">injection_quality</span><span class="p">[</span><span class="n">x</span><span class="p">][</span><span class="n">wq_iteration_count</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="n">sp</span><span class="p">]</span>
+                    <span class="p">)</span>
+        <span class="c1"># Storing the initial condition for all links</span>
+        <span class="n">link_conc_initial_mat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">num_links</span><span class="p">,</span> <span class="n">wall_wq_parameter_num</span><span class="p">))</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Water quality simulation started...&quot;</span><span class="p">)</span>
+        <span class="n">wq_time</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">wq_step</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">reservoir_pattern</span> <span class="o">=</span> <span class="n">module</span><span class="o">.</span><span class="n">reservoir_pattern</span><span class="p">(</span>
+            <span class="n">d</span><span class="p">,</span>
+            <span class="n">base_time_cycle_day</span><span class="p">,</span>
+            <span class="n">reservoir_injection_pattern</span><span class="p">,</span>
+            <span class="n">reservoir_injection_pattern_rand_var</span><span class="p">,</span>
+            <span class="n">reservoir_injection_start_time</span><span class="p">,</span>
+            <span class="n">reservoir_injection_end_time</span><span class="p">,</span>
+            <span class="n">reservoir_injection_input_val</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">injection_pattern</span> <span class="o">=</span> <span class="n">module</span><span class="o">.</span><span class="n">injection_pattern</span><span class="p">(</span>
+            <span class="n">d</span><span class="p">,</span>
+            <span class="n">base_time_cycle_day</span><span class="p">,</span>
+            <span class="n">index_injection_nodes</span><span class="p">,</span>
+            <span class="n">injection_node_injection_pattern</span><span class="p">,</span>
+            <span class="n">injection_node_injection_pattern_rand_var</span><span class="p">,</span>
+            <span class="n">injection_node_injection_start_time</span><span class="p">,</span>
+            <span class="n">injection_node_injection_end_time</span><span class="p">,</span>
+            <span class="n">injection_node_injection_input_val</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">while</span> <span class="n">wq_time</span> <span class="o">&lt;=</span> <span class="n">wq_sim_days</span> <span class="o">*</span> <span class="mi">24</span> <span class="o">*</span> <span class="mi">3600</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span>
+                <span class="s2">&quot;Water quality simulation step (Iteration </span><span class="si">{}</span><span class="s2">/ </span><span class="si">{}</span><span class="s2">): </span><span class="si">{}</span><span class="s2"> (/ </span><span class="si">{}</span><span class="s2">)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                    <span class="n">wq_iteration_count</span><span class="p">,</span> <span class="n">wq_max_iteration</span><span class="p">,</span> <span class="n">wq_step</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">total_wq_steps</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+            <span class="n">wq_step</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="n">time_cycle_count</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span>
+                <span class="p">(</span><span class="n">wq_time</span> <span class="o">/</span> <span class="p">(</span><span class="n">base_time_cycle_day</span> <span class="o">*</span> <span class="mi">24</span> <span class="o">*</span> <span class="mi">3600</span><span class="p">))</span> <span class="o">/</span> <span class="mi">1</span>
+            <span class="p">)</span>
+
+            <span class="c1"># Synchronizing hydraulic and water quality information</span>
+            <span class="k">if</span> <span class="n">wq_time</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">h_step_expected</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="n">sync_out</span> <span class="o">=</span> <span class="n">fn</span><span class="o">.</span><span class="n">sync_time</span><span class="p">(</span>
+                <span class="n">d</span><span class="p">,</span>
+                <span class="n">H</span><span class="p">,</span>
+                <span class="n">wq_time</span><span class="p">,</span>
+                <span class="n">total_h_steps_expected</span><span class="p">,</span>
+                <span class="n">base_time_cycle_s</span><span class="p">,</span>
+                <span class="n">h_sim_time_step_s</span><span class="p">,</span>
+                <span class="n">time_cycle_count</span><span class="p">,</span>
+                <span class="n">base_time_cycle_day</span><span class="p">,</span>
+                <span class="n">wq_sim_time_step_s</span><span class="p">,</span>
+                <span class="n">h_step_expected</span><span class="p">,</span>
+                <span class="n">sync_option</span><span class="p">,</span>
+                <span class="n">reservoir_pattern</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="n">h_step</span> <span class="o">=</span> <span class="n">sync_out</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">h_step_expected</span> <span class="o">=</span> <span class="n">sync_out</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">reservoir_pattern_step</span> <span class="o">=</span> <span class="n">sync_out</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+            <span class="n">injection_pattern_step</span> <span class="o">=</span> <span class="n">sync_out</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+            <span class="c1"># Lagrangian stage</span>
+            <span class="n">count_links_lagrangian</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="n">link_flow_velocity_time_step</span> <span class="o">=</span> <span class="n">H</span><span class="o">.</span><span class="n">Velocity</span><span class="p">[</span><span class="n">h_step</span><span class="p">]</span>
+            <span class="n">link_flow_rate_time_step</span> <span class="o">=</span> <span class="n">H</span><span class="o">.</span><span class="n">Flow</span><span class="p">[</span><span class="n">h_step</span><span class="p">]</span>
+            <span class="n">link_flow_rate_prev_time_step</span> <span class="o">=</span> <span class="n">H</span><span class="o">.</span><span class="n">Flow</span><span class="p">[</span><span class="n">h_step</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_links</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">index_omitted_links</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="n">p</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">count_links_lagrangian</span> <span class="o">+=</span> <span class="mi">0</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">count_links_lagrangian</span> <span class="o">+=</span> <span class="mi">1</span>
+                    <span class="n">nodes_connecting_link</span> <span class="o">=</span> <span class="n">d</span><span class="o">.</span><span class="n">getLinkNodesIndex</span><span class="p">(</span><span class="n">p</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+                    <span class="c1"># Getting the flow velocity of link</span>
+                    <span class="n">link_flow_velocity</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">link_flow_velocity_time_step</span><span class="p">[</span><span class="n">p</span><span class="p">])</span>
+                    <span class="c1"># Getting the flow rate inside link</span>
+                    <span class="n">link_flow_rate</span> <span class="o">=</span> <span class="n">link_flow_rate_time_step</span><span class="p">[</span><span class="n">p</span><span class="p">]</span>
+                    <span class="c1"># Getting the flow rate inside link for previous time step</span>
+                    <span class="n">link_flow_rate_prev</span> <span class="o">=</span> <span class="n">link_flow_rate_prev_time_step</span><span class="p">[</span><span class="n">p</span><span class="p">]</span>
+
+                    <span class="k">if</span> <span class="n">index_pumps</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="n">p</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">index_valves</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="n">p</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                        <span class="n">length_links</span><span class="p">[</span><span class="n">p</span><span class="p">]</span> <span class="o">=</span> <span class="n">fn</span><span class="o">.</span><span class="n">minimum_link_length</span><span class="p">(</span>
+                            <span class="n">total_h_steps_expected</span><span class="p">,</span>
+                            <span class="n">wq_sim_time_step_s</span><span class="p">,</span>
+                            <span class="n">Tolerable_u</span><span class="p">,</span>
+                            <span class="n">H</span><span class="o">.</span><span class="n">Velocity</span><span class="p">,</span>
+                        <span class="p">)</span>
+                        <span class="n">diameter_links</span><span class="p">[</span><span class="n">p</span><span class="p">]</span> <span class="o">=</span> <span class="n">fn</span><span class="o">.</span><span class="n">minimum_link_diameter</span><span class="p">(</span>
+                            <span class="n">num_links</span><span class="p">,</span> <span class="n">num_pumps</span><span class="p">,</span> <span class="n">num_valves</span><span class="p">,</span> <span class="n">diameter_links</span>
+                        <span class="p">)</span>
+                    <span class="k">elif</span> <span class="n">link_flow_velocity</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">link_flow_velocity</span> <span class="o">&lt;</span> <span class="n">Tolerable_u</span><span class="p">:</span>
+                        <span class="n">link_flow_velocity</span> <span class="o">=</span> <span class="mi">0</span>
+                    <span class="k">if</span> <span class="n">length_links</span><span class="p">[</span><span class="n">p</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+                        <span class="c1"># Getting the number of segments into which a link is divided</span>
+                        <span class="k">if</span> <span class="n">link_flow_velocity</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                            <span class="n">link_segments_num</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">floor</span><span class="p">(</span>
+                                <span class="n">length_links</span><span class="p">[</span><span class="n">p</span><span class="p">]</span>
+                                <span class="o">/</span> <span class="p">(</span><span class="n">link_flow_velocity</span> <span class="o">*</span> <span class="n">wq_sim_time_step_s</span><span class="p">)</span>
+                            <span class="p">)</span>
+                        <span class="k">else</span><span class="p">:</span>
+                            <span class="n">link_segments_num</span> <span class="o">=</span> <span class="mi">0</span>
+                        <span class="k">if</span> <span class="n">link_segments_num</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">:</span>
+                            <span class="n">link_segments_num</span> <span class="o">=</span> <span class="mi">2</span>
+                        <span class="k">elif</span> <span class="n">link_segments_num</span> <span class="o">&gt;</span> <span class="p">(</span><span class="n">link_conc_data_points_max</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+                            <span class="n">link_segments_num</span> <span class="o">=</span> <span class="n">link_conc_data_points_max</span> <span class="o">-</span> <span class="mi">1</span>
+                        <span class="c1"># Getting the width of the segments into which a link is divided</span>
+                        <span class="n">link_segments_width</span> <span class="o">=</span> <span class="n">length_links</span><span class="p">[</span><span class="n">p</span><span class="p">]</span> <span class="o">/</span> <span class="n">link_segments_num</span>
+                        <span class="n">link_segments_width_mat</span><span class="p">[</span><span class="n">wq_step</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="n">p</span><span class="p">]</span> <span class="o">=</span> <span class="n">link_segments_width</span>
+                        <span class="n">link_conc_data_points_mat</span><span class="p">[</span><span class="n">wq_step</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="n">p</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+                            <span class="n">link_segments_num</span> <span class="o">+</span> <span class="mi">1</span>
+                        <span class="p">)</span>
+                        <span class="c1"># Checking for reservoir connected to a link</span>
+                        <span class="n">start_node</span> <span class="o">=</span> <span class="n">nodes_connecting_link</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                        <span class="k">if</span> <span class="n">start_node</span> <span class="ow">in</span> <span class="n">index_reservoirs</span><span class="p">:</span>
+                            <span class="k">for</span> <span class="n">sp</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">bulk_wq_parameter_num</span><span class="p">):</span>
+                                <span class="k">if</span> <span class="n">wq_step</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                                    <span class="n">link_conc_array_a</span><span class="p">[</span><span class="n">sp</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="n">p</span><span class="p">]</span> <span class="o">=</span> <span class="n">reservoir_quality_mat</span><span class="p">[</span>
+                                        <span class="n">index_reservoirs</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">start_node</span><span class="p">)</span>
+                                    <span class="p">][</span><span class="n">sp</span><span class="p">]</span>
+                                <span class="k">else</span><span class="p">:</span>
+                                    <span class="n">link_conc_array_a</span><span class="p">[</span><span class="n">sp</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="n">p</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+                                        <span class="n">reservoir_quality_mat</span><span class="p">[</span>
+                                            <span class="n">index_reservoirs</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">start_node</span><span class="p">)</span>
+                                        <span class="p">][</span><span class="n">sp</span><span class="p">]</span>
+                                        <span class="o">*</span> <span class="n">reservoir_pattern</span><span class="p">[</span>
+                                            <span class="n">index_reservoirs</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">start_node</span><span class="p">)</span>
+                                        <span class="p">][</span><span class="n">reservoir_pattern_step</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="n">sp</span><span class="p">]</span>
+                                    <span class="p">)</span>
+                        <span class="k">elif</span> <span class="n">start_node</span> <span class="ow">in</span> <span class="n">index_injection_nodes</span><span class="p">:</span>
+                            <span class="k">for</span> <span class="n">sp</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">bulk_wq_parameter_num</span><span class="p">):</span>
+                                <span class="k">if</span> <span class="p">(</span>
+                                    <span class="n">injection_quality_mat</span><span class="p">[</span>
+                                        <span class="n">index_injection_nodes</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">start_node</span><span class="p">)</span>
+                                    <span class="p">][</span><span class="n">sp</span><span class="p">]</span>
+                                    <span class="o">!=</span> <span class="mi">0</span>
+                                <span class="p">):</span>
+                                    <span class="k">if</span> <span class="n">wq_step</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                                        <span class="n">link_conc_array_a</span><span class="p">[</span><span class="n">sp</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="n">p</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+                                            <span class="n">injection_quality_mat</span><span class="p">[</span>
+                                                <span class="n">index_injection_nodes</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">start_node</span><span class="p">)</span>
+                                            <span class="p">][</span><span class="n">sp</span><span class="p">]</span>
+                                        <span class="p">)</span>
+                                    <span class="k">else</span><span class="p">:</span>
+                                        <span class="n">link_conc_array_a</span><span class="p">[</span><span class="n">sp</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="n">p</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+                                            <span class="n">injection_quality_mat</span><span class="p">[</span>
+                                                <span class="n">index_injection_nodes</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">start_node</span><span class="p">)</span>
+                                            <span class="p">][</span><span class="n">sp</span><span class="p">]</span>
+                                            <span class="o">*</span> <span class="n">injection_pattern</span><span class="p">[</span>
+                                                <span class="n">index_injection_nodes</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">start_node</span><span class="p">)</span>
+                                            <span class="p">][</span><span class="n">injection_pattern_step</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="n">sp</span><span class="p">]</span>
+                                        <span class="p">)</span>
+                        <span class="c1"># Calculating the distance of grid points from rear end of a link</span>
+                        <span class="n">segment_time_step_mat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">link_segments_num</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+                        <span class="n">segment_prev_time_step_mat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span>
+                            <span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">link_conc_data_points_mat</span><span class="p">[</span><span class="n">wq_step</span> <span class="o">-</span> <span class="mi">2</span><span class="p">][</span><span class="n">p</span><span class="p">]),</span> <span class="mi">1</span><span class="p">)</span>
+                        <span class="p">)</span>
+                        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">link_segments_num</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+                            <span class="n">segment_time_step_mat</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+                                <span class="n">segment_time_step_mat</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">link_segments_width</span>
+                            <span class="p">)</span>
+
+                        <span class="c1"># Calculating the distance of grid points from rear end of a link for previous time step</span>
+                        <span class="k">if</span> <span class="n">wq_step</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                            <span class="n">segment_prev_time_step_mat</span> <span class="o">=</span> <span class="n">segment_time_step_mat</span>
+                        <span class="k">else</span><span class="p">:</span>
+                            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span>
+                                <span class="mi">1</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">link_conc_data_points_mat</span><span class="p">[</span><span class="n">wq_step</span> <span class="o">-</span> <span class="mi">2</span><span class="p">][</span><span class="n">p</span><span class="p">])</span>
+                            <span class="p">):</span>
+                                <span class="n">segment_prev_time_step_mat</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+                                    <span class="n">segment_prev_time_step_mat</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+                                    <span class="o">+</span> <span class="n">link_segments_width_mat</span><span class="p">[</span><span class="n">wq_step</span> <span class="o">-</span> <span class="mi">2</span><span class="p">][</span><span class="n">p</span><span class="p">]</span>
+                                <span class="p">)</span>
+                        <span class="c1"># Application of method of characteristics</span>
+                        <span class="n">alpha_mat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">link_segments_num</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+                        <span class="k">if</span> <span class="p">(</span>
+                            <span class="n">wq_step</span> <span class="o">==</span> <span class="mi">1</span>
+                            <span class="ow">or</span> <span class="n">h_step</span> <span class="o">==</span> <span class="n">h_step_expected</span>
+                            <span class="ow">or</span> <span class="n">np</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">link_flow_rate</span><span class="p">)</span> <span class="o">==</span> <span class="n">np</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">link_flow_rate_prev</span><span class="p">)</span>
+                        <span class="p">):</span>
+                            <span class="n">first_grid</span> <span class="o">=</span> <span class="mi">1</span>
+                            <span class="n">last_grid</span> <span class="o">=</span> <span class="n">link_segments_num</span> <span class="o">+</span> <span class="mi">1</span>
+                        <span class="k">else</span><span class="p">:</span>
+                            <span class="n">first_grid</span> <span class="o">=</span> <span class="mi">0</span>
+                            <span class="n">last_grid</span> <span class="o">=</span> <span class="n">link_segments_num</span>
+                        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">first_grid</span><span class="p">,</span> <span class="n">last_grid</span><span class="p">):</span>
+                            <span class="k">if</span> <span class="p">(</span>
+                                <span class="n">wq_step</span> <span class="o">==</span> <span class="mi">1</span>
+                                <span class="ow">or</span> <span class="n">h_step</span> <span class="o">==</span> <span class="n">h_step_expected</span>
+                                <span class="ow">or</span> <span class="n">np</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">link_flow_rate</span><span class="p">)</span>
+                                <span class="o">==</span> <span class="n">np</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">link_flow_rate_prev</span><span class="p">)</span>
+                            <span class="p">):</span>
+                                <span class="n">alpha_mat</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">segment_time_step_mat</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="p">(</span>
+                                    <span class="n">link_flow_velocity</span> <span class="o">*</span> <span class="n">wq_sim_time_step_s</span>
+                                <span class="p">)</span>
+                            <span class="k">else</span><span class="p">:</span>
+                                <span class="n">alpha_mat</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">segment_time_step_mat</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="p">(</span>
+                                    <span class="n">link_flow_velocity</span> <span class="o">*</span> <span class="n">wq_sim_time_step_s</span>
+                                <span class="p">)</span>
+                            <span class="k">if</span> <span class="n">alpha_mat</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+                                <span class="n">alpha_mat</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+                            <span class="k">elif</span> <span class="n">alpha_mat</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">length_links</span><span class="p">[</span><span class="n">p</span><span class="p">]:</span>
+                                <span class="n">alpha_mat</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">length_links</span><span class="p">[</span><span class="n">p</span><span class="p">]</span>
+                            <span class="k">if</span> <span class="n">wq_step</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                                <span class="n">ratio_segment</span> <span class="o">=</span> <span class="n">alpha_mat</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="n">link_segments_width</span>
+                            <span class="k">else</span><span class="p">:</span>
+                                <span class="n">ratio_segment</span> <span class="o">=</span> <span class="p">(</span>
+                                    <span class="n">alpha_mat</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+                                    <span class="o">/</span> <span class="n">link_segments_width_mat</span><span class="p">[</span><span class="n">wq_step</span> <span class="o">-</span> <span class="mi">2</span><span class="p">][</span><span class="n">p</span><span class="p">]</span>
+                                <span class="p">)</span>
+                            <span class="n">prev_grid</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">floor</span><span class="p">(</span><span class="n">ratio_segment</span><span class="p">)</span>
+                            <span class="k">if</span> <span class="n">prev_grid</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+                                <span class="n">prev_grid</span> <span class="o">=</span> <span class="mi">0</span>
+                            <span class="n">next_grid</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">ratio_segment</span><span class="p">)</span>
+                            <span class="k">if</span> <span class="n">next_grid</span> <span class="o">&gt;=</span> <span class="n">link_segments_num</span> <span class="o">+</span> <span class="mi">1</span><span class="p">:</span>
+                                <span class="n">next_grid</span> <span class="o">=</span> <span class="n">link_segments_num</span> <span class="o">+</span> <span class="mi">1</span>
+                            <span class="k">elif</span> <span class="n">next_grid</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                                <span class="n">next_grid</span> <span class="o">=</span> <span class="mi">1</span>
+                            <span class="k">for</span> <span class="n">sp</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">bulk_wq_parameter_num</span><span class="p">):</span>
+                                <span class="k">if</span> <span class="n">prev_grid</span> <span class="o">==</span> <span class="n">next_grid</span><span class="p">:</span>
+                                    <span class="k">if</span> <span class="p">(</span>
+                                        <span class="n">index_pumps</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="n">p</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span>
+                                        <span class="ow">or</span> <span class="n">index_valves</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="n">p</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span>
+                                    <span class="p">):</span>
+                                        <span class="n">link_conc_array_a</span><span class="p">[</span><span class="n">sp</span><span class="p">][</span><span class="n">i</span><span class="p">][</span><span class="n">p</span><span class="p">]</span> <span class="o">=</span> <span class="n">link_conc_array_a</span><span class="p">[</span>
+                                            <span class="n">sp</span>
+                                        <span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="n">p</span><span class="p">]</span>
+                                    <span class="k">else</span><span class="p">:</span>
+                                        <span class="n">prev_grid</span> <span class="o">-=</span> <span class="mi">1</span>
+                                        <span class="n">link_conc_array_a</span><span class="p">[</span><span class="n">sp</span><span class="p">][</span><span class="n">i</span><span class="p">][</span><span class="n">p</span><span class="p">]</span> <span class="o">=</span> <span class="n">link_conc_array</span><span class="p">[</span>
+                                            <span class="n">sp</span>
+                                        <span class="p">][</span><span class="n">prev_grid</span><span class="p">][</span><span class="n">p</span><span class="p">]</span>
+                                <span class="k">elif</span> <span class="n">wq_step</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                                    <span class="n">link_conc_array_a</span><span class="p">[</span><span class="n">sp</span><span class="p">][</span><span class="n">i</span><span class="p">][</span><span class="n">p</span><span class="p">]</span> <span class="o">=</span> <span class="n">link_conc_array</span><span class="p">[</span><span class="n">sp</span><span class="p">][</span>
+                                        <span class="n">prev_grid</span>
+                                    <span class="p">][</span><span class="n">p</span><span class="p">]</span> <span class="o">+</span> <span class="p">(</span>
+                                        <span class="p">(</span>
+                                            <span class="n">link_conc_array</span><span class="p">[</span><span class="n">sp</span><span class="p">][</span><span class="n">next_grid</span><span class="p">][</span><span class="n">p</span><span class="p">]</span>
+                                            <span class="o">-</span> <span class="n">link_conc_array</span><span class="p">[</span><span class="n">sp</span><span class="p">][</span><span class="n">prev_grid</span><span class="p">][</span><span class="n">p</span><span class="p">]</span>
+                                        <span class="p">)</span>
+                                        <span class="o">/</span> <span class="n">link_segments_width</span>
+                                    <span class="p">)</span> <span class="o">*</span> <span class="p">(</span>
+                                        <span class="n">alpha_mat</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+                                        <span class="o">-</span> <span class="n">segment_prev_time_step_mat</span><span class="p">[</span><span class="n">prev_grid</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+                                    <span class="p">)</span>
+                                <span class="k">else</span><span class="p">:</span>
+                                    <span class="n">link_conc_array_a</span><span class="p">[</span><span class="n">sp</span><span class="p">][</span><span class="n">i</span><span class="p">][</span><span class="n">p</span><span class="p">]</span> <span class="o">=</span> <span class="n">link_conc_array</span><span class="p">[</span><span class="n">sp</span><span class="p">][</span>
+                                        <span class="n">prev_grid</span>
+                                    <span class="p">][</span><span class="n">p</span><span class="p">]</span> <span class="o">+</span> <span class="p">(</span>
+                                        <span class="p">(</span>
+                                            <span class="n">link_conc_array</span><span class="p">[</span><span class="n">sp</span><span class="p">][</span><span class="n">next_grid</span><span class="p">][</span><span class="n">p</span><span class="p">]</span>
+                                            <span class="o">-</span> <span class="n">link_conc_array</span><span class="p">[</span><span class="n">sp</span><span class="p">][</span><span class="n">prev_grid</span><span class="p">][</span><span class="n">p</span><span class="p">]</span>
+                                        <span class="p">)</span>
+                                        <span class="o">/</span> <span class="n">link_segments_width_mat</span><span class="p">[</span><span class="n">wq_step</span> <span class="o">-</span> <span class="mi">2</span><span class="p">][</span><span class="n">p</span><span class="p">]</span>
+                                    <span class="p">)</span> <span class="o">*</span> <span class="p">(</span>
+                                        <span class="n">alpha_mat</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+                                        <span class="o">-</span> <span class="n">segment_prev_time_step_mat</span><span class="p">[</span><span class="n">prev_grid</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+                                    <span class="p">)</span>
+                            <span class="k">if</span> <span class="p">(</span>
+                                <span class="n">index_pumps</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="n">p</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span>
+                                <span class="ow">and</span> <span class="n">index_valves</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="n">p</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span>
+                            <span class="p">):</span>
+                                <span class="n">delta</span> <span class="o">=</span> <span class="n">module</span><span class="o">.</span><span class="n">pipe_reaction</span><span class="p">(</span>
+                                    <span class="n">wq_sim_time_step_s</span><span class="p">,</span>
+                                    <span class="n">p</span><span class="p">,</span>
+                                    <span class="n">i</span><span class="p">,</span>
+                                    <span class="n">link_flow_velocity</span><span class="p">,</span>
+                                    <span class="n">diameter_links</span><span class="p">[</span><span class="n">p</span><span class="p">],</span>
+                                    <span class="n">length_links</span><span class="p">[</span><span class="n">p</span><span class="p">],</span>
+                                    <span class="n">link_segments_width</span><span class="p">,</span>
+                                    <span class="n">variable_values_mat</span><span class="p">[</span><span class="n">wq_iteration_count</span> <span class="o">-</span> <span class="mi">1</span><span class="p">],</span>
+                                    <span class="n">link_conc_array_a</span><span class="p">,</span>
+                                <span class="p">)</span>
+                                <span class="k">for</span> <span class="n">sp</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">wq_parameter_num</span><span class="p">):</span>
+                                    <span class="n">link_conc_array_a</span><span class="p">[</span><span class="n">sp</span><span class="p">][</span><span class="n">i</span><span class="p">][</span><span class="n">p</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+                                        <span class="n">link_conc_array_a</span><span class="p">[</span><span class="n">sp</span><span class="p">][</span><span class="n">i</span><span class="p">][</span><span class="n">p</span><span class="p">]</span> <span class="o">+</span> <span class="n">delta</span><span class="p">[</span><span class="n">sp</span><span class="p">]</span>
+                                    <span class="p">)</span>
+                        <span class="n">link_conc_array_a</span><span class="p">[</span><span class="n">link_conc_array_a</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="k">if</span> <span class="n">count_links_lagrangian</span> <span class="o">!=</span> <span class="p">(</span><span class="n">num_links</span> <span class="o">-</span> <span class="n">num_omitted_links</span><span class="p">):</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Error in Lagrangian stage dedicated to pipes!&quot;</span><span class="p">)</span>
+                <span class="n">exit</span><span class="p">()</span>
+            <span class="n">count_nodes_lagrangian</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="n">node_demand_time_step</span> <span class="o">=</span> <span class="n">H</span><span class="o">.</span><span class="n">Demand</span><span class="p">[</span><span class="n">h_step</span><span class="p">]</span>
+            <span class="n">tank_flow_volume_time_step</span> <span class="o">=</span> <span class="n">H</span><span class="o">.</span><span class="n">TankVolume</span><span class="p">[</span><span class="n">h_step</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_nodes</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">index_omitted_nodes</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">count_nodes_lagrangian</span> <span class="o">+=</span> <span class="mi">0</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">count_nodes_lagrangian</span> <span class="o">+=</span> <span class="mi">1</span>
+                    <span class="n">flag_reservoir</span> <span class="o">=</span> <span class="mi">0</span>
+                    <span class="c1"># Getting the demand of node</span>
+                    <span class="n">node_demand</span> <span class="o">=</span> <span class="n">node_demand_time_step</span><span class="p">[</span><span class="n">n</span><span class="p">]</span>
+
+                    <span class="k">if</span> <span class="n">index_reservoirs</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                        <span class="c1"># Checking for reservoir</span>
+                        <span class="n">flag_reservoir</span> <span class="o">=</span> <span class="mi">1</span>
+                        <span class="k">for</span> <span class="n">sp</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">bulk_wq_parameter_num</span><span class="p">):</span>
+                            <span class="k">if</span> <span class="n">wq_step</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                                <span class="n">node_conc_array_a</span><span class="p">[</span><span class="n">sp</span><span class="p">][</span><span class="n">wq_step</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="n">n</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+                                    <span class="n">reservoir_quality_mat</span><span class="p">[</span>
+                                        <span class="n">index_reservoirs</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+                                    <span class="p">][</span><span class="n">sp</span><span class="p">]</span>
+                                <span class="p">)</span>
+                            <span class="k">else</span><span class="p">:</span>
+                                <span class="n">node_conc_array_a</span><span class="p">[</span><span class="n">sp</span><span class="p">][</span><span class="n">wq_step</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="n">n</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+                                    <span class="n">reservoir_quality_mat</span><span class="p">[</span>
+                                        <span class="n">index_reservoirs</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+                                    <span class="p">][</span><span class="n">sp</span><span class="p">]</span>
+                                    <span class="o">*</span> <span class="n">reservoir_pattern</span><span class="p">[</span><span class="n">index_reservoirs</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)][</span>
+                                        <span class="n">reservoir_pattern_step</span> <span class="o">-</span> <span class="mi">1</span>
+                                    <span class="p">][</span><span class="n">sp</span><span class="p">]</span>
+                                <span class="p">)</span>
+                    <span class="k">elif</span> <span class="n">index_tanks</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                        <span class="c1"># Checking for tank</span>
+                        <span class="n">t</span> <span class="o">=</span> <span class="n">index_tanks</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+                        <span class="c1"># Getting tank volume</span>
+                        <span class="n">tank_flow_volume</span> <span class="o">=</span> <span class="n">tank_flow_volume_time_step</span><span class="p">[</span><span class="n">n</span><span class="p">]</span>
+                        <span class="n">tank_flow_volume_mat</span><span class="p">[</span><span class="n">wq_step</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="n">t</span><span class="p">]</span> <span class="o">=</span> <span class="n">tank_flow_volume</span>
+                        <span class="n">tank_flow_volume_prev</span> <span class="o">=</span> <span class="n">tank_flow_volume_mat</span><span class="p">[</span><span class="n">wq_step</span> <span class="o">-</span> <span class="mi">2</span><span class="p">][</span><span class="n">t</span><span class="p">]</span>
+                        <span class="n">links_connecting_to_node</span> <span class="o">=</span> <span class="n">fn</span><span class="o">.</span><span class="n">incoming_links</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">end_node_mat</span><span class="p">)</span>
+                        <span class="n">links_connecting_from_node</span> <span class="o">=</span> <span class="n">fn</span><span class="o">.</span><span class="n">outgoing_links</span><span class="p">(</span>
+                            <span class="n">n</span><span class="p">,</span> <span class="n">start_node_mat</span>
+                        <span class="p">)</span>
+                        <span class="n">num_incoming_links</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">links_connecting_to_node</span><span class="p">)</span>
+                        <span class="n">num_outgoing_links</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">links_connecting_from_node</span><span class="p">)</span>
+                        <span class="n">mass_incoming_mat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">bulk_wq_parameter_num</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+                        <span class="n">tank_outflow</span> <span class="o">=</span> <span class="mi">0</span>
+                        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_incoming_links</span><span class="p">):</span>
+                            <span class="n">incoming_link</span> <span class="o">=</span> <span class="n">links_connecting_to_node</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+                            <span class="k">if</span> <span class="n">index_omitted_links</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="n">incoming_link</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                                <span class="k">break</span>
+                            <span class="k">else</span><span class="p">:</span>
+                                <span class="n">link_flow_rate</span> <span class="o">=</span> <span class="n">link_flow_rate_time_step</span><span class="p">[</span><span class="n">incoming_link</span><span class="p">]</span>
+                                <span class="k">if</span> <span class="n">link_flow_rate</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">:</span>
+                                    <span class="n">pos</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span>
+                                        <span class="n">link_conc_data_points_mat</span><span class="p">[</span><span class="n">wq_step</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span>
+                                            <span class="n">incoming_link</span>
+                                        <span class="p">]</span>
+                                        <span class="o">-</span> <span class="mi">1</span>
+                                    <span class="p">)</span>
+                                    <span class="k">for</span> <span class="n">sp</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">bulk_wq_parameter_num</span><span class="p">):</span>
+                                        <span class="n">mass_incoming_mat</span><span class="p">[</span><span class="n">sp</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+                                            <span class="n">mass_incoming_mat</span><span class="p">[</span><span class="n">sp</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+                                            <span class="o">+</span> <span class="nb">abs</span><span class="p">(</span><span class="n">link_flow_rate</span><span class="p">)</span>
+                                            <span class="o">*</span> <span class="n">link_conc_array_a</span><span class="p">[</span><span class="n">sp</span><span class="p">][</span><span class="n">pos</span><span class="p">][</span><span class="n">incoming_link</span><span class="p">]</span>
+                                        <span class="p">)</span>
+                                <span class="k">else</span><span class="p">:</span>
+                                    <span class="n">tank_outflow</span> <span class="o">=</span> <span class="n">tank_outflow</span> <span class="o">+</span> <span class="nb">abs</span><span class="p">(</span><span class="n">link_flow_rate</span><span class="p">)</span>
+                        <span class="k">for</span> <span class="n">o</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_outgoing_links</span><span class="p">):</span>
+                            <span class="n">outgoing_link</span> <span class="o">=</span> <span class="n">links_connecting_from_node</span><span class="p">[</span><span class="n">o</span><span class="p">]</span>
+                            <span class="k">if</span> <span class="n">index_omitted_links</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="n">outgoing_link</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                                <span class="k">break</span>
+                            <span class="k">else</span><span class="p">:</span>
+                                <span class="n">link_flow_rate</span> <span class="o">=</span> <span class="n">link_flow_rate_time_step</span><span class="p">[</span><span class="n">outgoing_link</span><span class="p">]</span>
+                                <span class="k">if</span> <span class="n">link_flow_rate</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+                                    <span class="n">pos</span> <span class="o">=</span> <span class="mi">0</span>
+                                    <span class="k">for</span> <span class="n">sp</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">bulk_wq_parameter_num</span><span class="p">):</span>
+                                        <span class="n">mass_incoming_mat</span><span class="p">[</span><span class="n">sp</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+                                            <span class="n">mass_incoming_mat</span><span class="p">[</span><span class="n">sp</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+                                            <span class="o">+</span> <span class="nb">abs</span><span class="p">(</span><span class="n">link_flow_rate</span><span class="p">)</span>
+                                            <span class="o">*</span> <span class="n">link_conc_array_a</span><span class="p">[</span><span class="n">sp</span><span class="p">][</span><span class="n">pos</span><span class="p">][</span><span class="n">outgoing_link</span><span class="p">]</span>
+                                        <span class="p">)</span>
+                                <span class="k">else</span><span class="p">:</span>
+                                    <span class="n">tank_outflow</span> <span class="o">=</span> <span class="n">tank_outflow</span> <span class="o">+</span> <span class="nb">abs</span><span class="p">(</span><span class="n">link_flow_rate</span><span class="p">)</span>
+                        <span class="k">for</span> <span class="n">sp</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">bulk_wq_parameter_num</span><span class="p">):</span>
+                            <span class="k">if</span> <span class="n">wq_step</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                                <span class="n">tank_flow_volume_prev</span> <span class="o">=</span> <span class="n">tank_flow_volume</span>
+                                <span class="n">tank_initial_conc</span> <span class="o">=</span> <span class="n">node_conc_initial_mat</span><span class="p">[</span><span class="n">n</span><span class="p">][</span><span class="n">sp</span><span class="p">]</span>
+                            <span class="k">else</span><span class="p">:</span>
+                                <span class="n">tank_initial_conc</span> <span class="o">=</span> <span class="n">node_conc_array_a</span><span class="p">[</span><span class="n">sp</span><span class="p">][</span><span class="n">wq_step</span> <span class="o">-</span> <span class="mi">2</span><span class="p">][</span>
+                                    <span class="n">n</span>
+                                <span class="p">]</span>
+                            <span class="c1"># CSTR model</span>
+                            <span class="n">node_conc_array_a</span><span class="p">[</span><span class="n">sp</span><span class="p">][</span><span class="n">wq_step</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="n">n</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+                                <span class="n">tank_flow_volume_prev</span> <span class="o">*</span> <span class="n">tank_initial_conc</span>
+                                <span class="o">+</span> <span class="n">mass_incoming_mat</span><span class="p">[</span><span class="n">sp</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">wq_sim_time_step_s</span>
+                            <span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">tank_flow_volume</span> <span class="o">+</span> <span class="n">tank_outflow</span> <span class="o">*</span> <span class="n">wq_sim_time_step_s</span><span class="p">)</span>
+                        <span class="c1"># Reactions</span>
+                        <span class="n">delta</span> <span class="o">=</span> <span class="n">module</span><span class="o">.</span><span class="n">tank_reaction</span><span class="p">(</span>
+                            <span class="n">wq_sim_time_step_s</span><span class="p">,</span>
+                            <span class="n">wq_step</span><span class="p">,</span>
+                            <span class="n">n</span><span class="p">,</span>
+                            <span class="n">tank_flow_volume_prev</span><span class="p">,</span>
+                            <span class="n">tank_flow_volume</span><span class="p">,</span>
+                            <span class="n">variable_values_mat</span><span class="p">[</span><span class="n">wq_iteration_count</span> <span class="o">-</span> <span class="mi">1</span><span class="p">],</span>
+                            <span class="n">node_conc_initial_mat</span><span class="p">,</span>
+                            <span class="n">node_conc_array_a</span><span class="p">,</span>
+                        <span class="p">)</span>
+                        <span class="k">for</span> <span class="n">sp</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">bulk_wq_parameter_num</span><span class="p">):</span>
+                            <span class="n">node_conc_array_a</span><span class="p">[</span><span class="n">sp</span><span class="p">][</span><span class="n">wq_step</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="n">n</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+                                <span class="n">node_conc_array_a</span><span class="p">[</span><span class="n">sp</span><span class="p">][</span><span class="n">wq_step</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="n">n</span><span class="p">]</span> <span class="o">+</span> <span class="n">delta</span><span class="p">[</span><span class="n">sp</span><span class="p">]</span>
+                            <span class="p">)</span>
+
+                        <span class="c1"># Check for injection node</span>
+                        <span class="k">for</span> <span class="n">sp</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">bulk_wq_parameter_num</span><span class="p">):</span>
+                            <span class="k">if</span> <span class="p">(</span>
+                                <span class="n">index_injection_nodes</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span>
+                                <span class="ow">and</span> <span class="n">injection_quality_mat</span><span class="p">[</span>
+                                    <span class="n">index_injection_nodes</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+                                <span class="p">][</span><span class="n">sp</span><span class="p">]</span>
+                                <span class="o">!=</span> <span class="mi">0</span>
+                            <span class="p">):</span>
+                                <span class="k">if</span> <span class="n">wq_step</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                                    <span class="n">node_conc_array_a</span><span class="p">[</span><span class="n">sp</span><span class="p">][</span><span class="n">wq_step</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="n">n</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+                                        <span class="n">injection_quality_mat</span><span class="p">[</span>
+                                            <span class="n">index_injection_nodes</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+                                        <span class="p">][</span><span class="n">sp</span><span class="p">]</span>
+                                    <span class="p">)</span>
+                                <span class="k">else</span><span class="p">:</span>
+                                    <span class="n">node_conc_array_a</span><span class="p">[</span><span class="n">sp</span><span class="p">][</span><span class="n">wq_step</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="n">n</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+                                        <span class="n">injection_quality_mat</span><span class="p">[</span>
+                                            <span class="n">index_injection_nodes</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+                                        <span class="p">][</span><span class="n">sp</span><span class="p">]</span>
+                                        <span class="o">*</span> <span class="n">injection_pattern</span><span class="p">[</span>
+                                            <span class="n">index_injection_nodes</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+                                        <span class="p">][</span><span class="n">injection_pattern_step</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="n">sp</span><span class="p">]</span>
+                                    <span class="p">)</span>
+                        <span class="n">node_conc_array_a</span><span class="p">[</span><span class="n">node_conc_array_a</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">node_outflow</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">node_demand</span><span class="p">)</span>
+                        <span class="n">links_connecting_to_node</span> <span class="o">=</span> <span class="n">fn</span><span class="o">.</span><span class="n">incoming_links</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">end_node_mat</span><span class="p">)</span>
+                        <span class="n">links_connecting_from_node</span> <span class="o">=</span> <span class="n">fn</span><span class="o">.</span><span class="n">outgoing_links</span><span class="p">(</span>
+                            <span class="n">n</span><span class="p">,</span> <span class="n">start_node_mat</span>
+                        <span class="p">)</span>
+                        <span class="n">num_incoming_links</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">links_connecting_to_node</span><span class="p">)</span>
+                        <span class="n">num_outgoing_links</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">links_connecting_from_node</span><span class="p">)</span>
+                        <span class="n">incoming_flow</span> <span class="o">=</span> <span class="mi">0</span>
+                        <span class="n">outgoing_flow</span> <span class="o">=</span> <span class="mi">0</span>
+                        <span class="n">mass_incoming_mat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">bulk_wq_parameter_num</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+                        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_incoming_links</span><span class="p">):</span>
+                            <span class="n">incoming_link</span> <span class="o">=</span> <span class="n">links_connecting_to_node</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+                            <span class="k">if</span> <span class="n">index_omitted_links</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="n">incoming_link</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                                <span class="k">break</span>
+                            <span class="k">else</span><span class="p">:</span>
+                                <span class="n">link_flow_rate</span> <span class="o">=</span> <span class="n">link_flow_rate_time_step</span><span class="p">[</span><span class="n">incoming_link</span><span class="p">]</span>
+                                <span class="k">if</span> <span class="n">link_flow_rate</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">:</span>
+                                    <span class="n">pos</span> <span class="o">=</span> <span class="p">(</span>
+                                        <span class="nb">int</span><span class="p">(</span>
+                                            <span class="n">link_conc_data_points_mat</span><span class="p">[</span><span class="n">wq_step</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span>
+                                                <span class="n">incoming_link</span>
+                                            <span class="p">]</span>
+                                        <span class="p">)</span>
+                                        <span class="o">-</span> <span class="mi">1</span>
+                                    <span class="p">)</span>
+                                    <span class="k">for</span> <span class="n">sp</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">bulk_wq_parameter_num</span><span class="p">):</span>
+                                        <span class="n">mass_incoming_mat</span><span class="p">[</span><span class="n">sp</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+                                            <span class="n">mass_incoming_mat</span><span class="p">[</span><span class="n">sp</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+                                            <span class="o">+</span> <span class="nb">abs</span><span class="p">(</span><span class="n">link_flow_rate</span><span class="p">)</span>
+                                            <span class="o">*</span> <span class="n">link_conc_array_a</span><span class="p">[</span><span class="n">sp</span><span class="p">][</span><span class="n">pos</span><span class="p">][</span><span class="n">incoming_link</span><span class="p">]</span>
+                                        <span class="p">)</span>
+                                <span class="k">else</span><span class="p">:</span>
+                                    <span class="n">outgoing_flow</span> <span class="o">=</span> <span class="n">outgoing_flow</span> <span class="o">+</span> <span class="nb">abs</span><span class="p">(</span><span class="n">link_flow_rate</span><span class="p">)</span>
+                        <span class="k">for</span> <span class="n">o</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_outgoing_links</span><span class="p">):</span>
+                            <span class="n">outgoing_link</span> <span class="o">=</span> <span class="n">links_connecting_from_node</span><span class="p">[</span><span class="n">o</span><span class="p">]</span>
+                            <span class="k">if</span> <span class="n">index_omitted_links</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="n">outgoing_link</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                                <span class="k">break</span>
+                            <span class="k">else</span><span class="p">:</span>
+                                <span class="n">link_flow_rate</span> <span class="o">=</span> <span class="n">link_flow_rate_time_step</span><span class="p">[</span><span class="n">outgoing_link</span><span class="p">]</span>
+                                <span class="k">if</span> <span class="n">link_flow_rate</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+                                    <span class="n">pos</span> <span class="o">=</span> <span class="p">(</span>
+                                        <span class="nb">int</span><span class="p">(</span>
+                                            <span class="n">link_conc_data_points_mat</span><span class="p">[</span><span class="n">wq_step</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span>
+                                                <span class="n">outgoing_link</span>
+                                            <span class="p">]</span>
+                                        <span class="p">)</span>
+                                        <span class="o">-</span> <span class="mi">1</span>
+                                    <span class="p">)</span>
+                                    <span class="k">for</span> <span class="n">sp</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">bulk_wq_parameter_num</span><span class="p">):</span>
+                                        <span class="n">mass_incoming_mat</span><span class="p">[</span><span class="n">sp</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+                                            <span class="n">mass_incoming_mat</span><span class="p">[</span><span class="n">sp</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+                                            <span class="o">+</span> <span class="nb">abs</span><span class="p">(</span><span class="n">link_flow_rate</span><span class="p">)</span>
+                                            <span class="o">*</span> <span class="n">link_conc_array_a</span><span class="p">[</span><span class="n">sp</span><span class="p">][</span><span class="n">pos</span><span class="p">][</span><span class="n">outgoing_link</span><span class="p">]</span>
+                                        <span class="p">)</span>
+                                <span class="k">else</span><span class="p">:</span>
+                                    <span class="n">outgoing_flow</span> <span class="o">=</span> <span class="n">outgoing_flow</span> <span class="o">+</span> <span class="nb">abs</span><span class="p">(</span><span class="n">link_flow_rate</span><span class="p">)</span>
+                        <span class="n">total_outflow</span> <span class="o">=</span> <span class="n">node_outflow</span> <span class="o">+</span> <span class="n">outgoing_flow</span>
+                        <span class="k">if</span> <span class="n">total_outflow</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                            <span class="k">for</span> <span class="n">sp</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">bulk_wq_parameter_num</span><span class="p">):</span>
+                                <span class="n">node_conc_array_a</span><span class="p">[</span><span class="n">sp</span><span class="p">][</span><span class="n">wq_step</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="n">n</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+                        <span class="k">else</span><span class="p">:</span>
+                            <span class="k">for</span> <span class="n">sp</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">bulk_wq_parameter_num</span><span class="p">):</span>
+                                <span class="n">node_conc_array_a</span><span class="p">[</span><span class="n">sp</span><span class="p">][</span><span class="n">wq_step</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="n">n</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+                                    <span class="n">mass_incoming_mat</span><span class="p">[</span><span class="n">sp</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="n">total_outflow</span>
+                                <span class="p">)</span>
+
+                        <span class="c1"># Check for injection node</span>
+                        <span class="k">for</span> <span class="n">sp</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">bulk_wq_parameter_num</span><span class="p">):</span>
+                            <span class="k">if</span> <span class="p">(</span>
+                                <span class="n">index_injection_nodes</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span>
+                                <span class="ow">and</span> <span class="n">injection_quality_mat</span><span class="p">[</span>
+                                    <span class="n">index_injection_nodes</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+                                <span class="p">][</span><span class="n">sp</span><span class="p">]</span>
+                                <span class="o">!=</span> <span class="mi">0</span>
+                            <span class="p">):</span>
+                                <span class="k">if</span> <span class="n">wq_step</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                                    <span class="n">node_conc_array_a</span><span class="p">[</span><span class="n">sp</span><span class="p">][</span><span class="n">wq_step</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="n">n</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+                                        <span class="n">injection_quality_mat</span><span class="p">[</span>
+                                            <span class="n">index_injection_nodes</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+                                        <span class="p">][</span><span class="n">sp</span><span class="p">]</span>
+                                    <span class="p">)</span>
+                                <span class="k">else</span><span class="p">:</span>
+                                    <span class="n">node_conc_array_a</span><span class="p">[</span><span class="n">sp</span><span class="p">][</span><span class="n">wq_step</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="n">n</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+                                        <span class="n">injection_quality_mat</span><span class="p">[</span>
+                                            <span class="n">index_injection_nodes</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+                                        <span class="p">][</span><span class="n">sp</span><span class="p">]</span>
+                                        <span class="o">*</span> <span class="n">injection_pattern</span><span class="p">[</span>
+                                            <span class="n">index_injection_nodes</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+                                        <span class="p">][</span><span class="n">injection_pattern_step</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="n">sp</span><span class="p">]</span>
+                                    <span class="p">)</span>
+                    <span class="k">if</span> <span class="n">flag_reservoir</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_incoming_links</span><span class="p">):</span>
+                            <span class="n">incoming_link</span> <span class="o">=</span> <span class="n">links_connecting_to_node</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+                            <span class="k">if</span> <span class="n">index_omitted_links</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="n">incoming_link</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                                <span class="k">break</span>
+                            <span class="k">else</span><span class="p">:</span>
+                                <span class="n">link_flow_rate</span> <span class="o">=</span> <span class="n">link_flow_rate_time_step</span><span class="p">[</span><span class="n">incoming_link</span><span class="p">]</span>
+                                <span class="k">if</span> <span class="n">link_flow_rate</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">:</span>
+                                    <span class="n">pos</span> <span class="o">=</span> <span class="p">(</span>
+                                        <span class="nb">int</span><span class="p">(</span>
+                                            <span class="n">link_conc_data_points_mat</span><span class="p">[</span><span class="n">wq_step</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span>
+                                                <span class="n">incoming_link</span>
+                                            <span class="p">]</span>
+                                        <span class="p">)</span>
+                                        <span class="o">-</span> <span class="mi">1</span>
+                                    <span class="p">)</span>
+                                <span class="k">else</span><span class="p">:</span>
+                                    <span class="n">pos</span> <span class="o">=</span> <span class="mi">0</span>
+
+                                <span class="k">for</span> <span class="n">sp</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">bulk_wq_parameter_num</span><span class="p">):</span>
+                                    <span class="n">link_conc_array_a</span><span class="p">[</span><span class="n">sp</span><span class="p">][</span><span class="n">pos</span><span class="p">][</span><span class="n">incoming_link</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+                                        <span class="n">node_conc_array_a</span><span class="p">[</span><span class="n">sp</span><span class="p">][</span><span class="n">wq_step</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="n">n</span><span class="p">]</span>
+                                    <span class="p">)</span>
+                        <span class="k">for</span> <span class="n">o</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_outgoing_links</span><span class="p">):</span>
+                            <span class="n">outgoing_link</span> <span class="o">=</span> <span class="n">links_connecting_from_node</span><span class="p">[</span><span class="n">o</span><span class="p">]</span>
+                            <span class="k">if</span> <span class="n">index_omitted_links</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="n">outgoing_link</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                                <span class="k">break</span>
+                            <span class="k">else</span><span class="p">:</span>
+                                <span class="n">link_flow_rate</span> <span class="o">=</span> <span class="n">link_flow_rate_time_step</span><span class="p">[</span><span class="n">outgoing_link</span><span class="p">]</span>
+                                <span class="k">if</span> <span class="n">link_flow_rate</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">:</span>
+                                    <span class="n">pos</span> <span class="o">=</span> <span class="mi">0</span>
+                                <span class="k">else</span><span class="p">:</span>
+                                    <span class="n">pos</span> <span class="o">=</span> <span class="p">(</span>
+                                        <span class="nb">int</span><span class="p">(</span>
+                                            <span class="n">link_conc_data_points_mat</span><span class="p">[</span><span class="n">wq_step</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span>
+                                                <span class="n">outgoing_link</span>
+                                            <span class="p">]</span>
+                                        <span class="p">)</span>
+                                        <span class="o">-</span> <span class="mi">1</span>
+                                    <span class="p">)</span>
+
+                                <span class="k">for</span> <span class="n">sp</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">bulk_wq_parameter_num</span><span class="p">):</span>
+                                    <span class="n">link_conc_array_a</span><span class="p">[</span><span class="n">sp</span><span class="p">][</span><span class="n">pos</span><span class="p">][</span><span class="n">outgoing_link</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+                                        <span class="n">node_conc_array_a</span><span class="p">[</span><span class="n">sp</span><span class="p">][</span><span class="n">wq_step</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="n">n</span><span class="p">]</span>
+                                    <span class="p">)</span>
+            <span class="k">if</span> <span class="n">count_nodes_lagrangian</span> <span class="o">!=</span> <span class="p">(</span><span class="n">num_nodes</span> <span class="o">-</span> <span class="n">num_omitted_nodes</span><span class="p">):</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Error in Lagrangian stage dedicated to nodes!&quot;</span><span class="p">)</span>
+                <span class="n">exit</span><span class="p">()</span>
+            <span class="n">link_conc_array</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">link_conc_array_a</span><span class="p">)</span>
+            <span class="n">node_conc_array</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">node_conc_array_a</span><span class="p">)</span>
+            <span class="n">wq_time</span> <span class="o">+=</span> <span class="n">wq_sim_time_step_s</span>
+        <span class="nb">print</span><span class="p">(</span>
+            <span class="s2">&quot;Water quality simulation (Iteration </span><span class="si">%d</span><span class="s2">) completed.&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">wq_iteration_count</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="c1"># Creating folder to save simulation results</span>
+        <span class="n">folder_name</span> <span class="o">=</span> <span class="s2">&quot;Results_Iteration&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">wq_iteration_count</span><span class="p">)</span>
+        <span class="n">path</span> <span class="o">=</span> <span class="n">getcwd</span><span class="p">()</span> <span class="o">+</span> <span class="n">folder_name</span>
+        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
+            <span class="nb">print</span><span class="p">(</span>
+                <span class="s2">&quot;Output folder already exists in the directory. No new folder created.&quot;</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+        <span class="c1"># Reporting the water quality simulation results</span>
+        <span class="n">reporting_time_cycle_s</span> <span class="o">=</span> <span class="n">wq_sim_days</span> <span class="o">*</span> <span class="mi">24</span> <span class="o">*</span> <span class="mi">3600</span>
+        <span class="n">reporting_time_steps</span> <span class="o">=</span> <span class="p">(</span><span class="n">reporting_time_cycle_s</span> <span class="o">/</span> <span class="n">wq_sim_time_step_s</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+        <span class="n">reporting_step_start</span> <span class="o">=</span> <span class="n">total_wq_steps</span> <span class="o">-</span> <span class="n">reporting_time_steps</span>
+        <span class="n">reporting_step_end</span> <span class="o">=</span> <span class="n">total_wq_steps</span>
+        <span class="n">node_conc_report</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span>
+            <span class="p">(</span><span class="n">bulk_wq_parameter_num</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">reporting_time_steps</span><span class="p">),</span> <span class="n">num_nodes</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="k">for</span> <span class="n">sp</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">bulk_wq_parameter_num</span><span class="p">):</span>
+            <span class="n">node_conc_report</span><span class="p">[</span><span class="n">sp</span><span class="p">]</span> <span class="o">=</span> <span class="n">node_conc_array</span><span class="p">[</span><span class="n">sp</span><span class="p">][</span>
+                <span class="nb">int</span><span class="p">(</span><span class="n">reporting_step_start</span><span class="p">)</span> <span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">reporting_step_end</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+            <span class="p">]</span>
+        <span class="n">time_mat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="nb">int</span><span class="p">(</span><span class="n">reporting_time_steps</span><span class="p">),</span> <span class="mi">1</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">reporting_time_steps</span><span class="p">)):</span>
+            <span class="n">time_mat</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">t</span> <span class="o">*</span> <span class="n">wq_sim_time_step_s</span><span class="p">)</span> <span class="o">/</span> <span class="mi">3600</span>
+        <span class="n">data_time</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">time_mat</span><span class="p">)</span>
+        <span class="c1"># Printing the time versus node concentration as Excel</span>
+        <span class="n">file_path1</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s2">&quot;Time versus node_concentration.xlsx&quot;</span><span class="p">)</span>
+        <span class="n">w1</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">ExcelWriter</span><span class="p">(</span><span class="n">file_path1</span><span class="p">,</span> <span class="n">engine</span><span class="o">=</span><span class="s2">&quot;xlsxwriter&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">sp</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">bulk_wq_parameter_num</span><span class="p">):</span>
+            <span class="n">data_conc</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">node_conc_report</span><span class="p">[</span><span class="n">sp</span><span class="p">])</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">data_time</span><span class="p">,</span> <span class="n">data_conc</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+            <span class="n">data</span><span class="o">.</span><span class="n">to_excel</span><span class="p">(</span><span class="n">w1</span><span class="p">,</span> <span class="n">sheet_name</span><span class="o">=</span><span class="s2">&quot;Bulk parameter &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">sp</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
+        <span class="n">data_water_age</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+            <span class="n">Q</span><span class="o">.</span><span class="n">NodeQuality</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">reporting_step_start</span><span class="p">)</span> <span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">reporting_step_end</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span>
+        <span class="p">)</span>
+        <span class="n">data_water_age_out</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">data_time</span><span class="p">,</span> <span class="n">data_water_age</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">data_water_age_out</span><span class="o">.</span><span class="n">to_excel</span><span class="p">(</span><span class="n">w1</span><span class="p">,</span> <span class="n">sheet_name</span><span class="o">=</span><span class="s2">&quot;Water age&quot;</span><span class="p">)</span>
+        <span class="n">w1</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Excel files created.&quot;</span><span class="p">)</span>
+        <span class="n">wq_iteration_count</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="n">file_path2</span> <span class="o">=</span> <span class="s2">&quot;Quality Input values.xlsx&quot;</span>
+    <span class="n">w2</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">ExcelWriter</span><span class="p">(</span><span class="n">file_path2</span><span class="p">,</span> <span class="n">engine</span><span class="o">=</span><span class="s2">&quot;xlsxwriter&quot;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_reservoirs</span><span class="p">):</span>
+        <span class="n">data_source_quality</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">reservoir_quality</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+        <span class="n">data_source_quality</span><span class="o">.</span><span class="n">to_excel</span><span class="p">(</span><span class="n">w2</span><span class="p">,</span> <span class="n">sheet_name</span><span class="o">=</span><span class="s2">&quot;Source Quality &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">injection_quality</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">injection_quality</span><span class="p">)):</span>
+            <span class="n">data_injection_quality</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">injection_quality</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+            <span class="n">data_injection_quality</span><span class="o">.</span><span class="n">to_excel</span><span class="p">(</span>
+                <span class="n">w2</span><span class="p">,</span> <span class="n">sheet_name</span><span class="o">=</span><span class="s2">&quot;Injection Quality &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="p">)</span>
+    <span class="n">data_para</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">variable_values_mat</span><span class="p">)</span>
+    <span class="n">data_para</span><span class="o">.</span><span class="n">to_excel</span><span class="p">(</span><span class="n">w2</span><span class="p">,</span> <span class="n">sheet_name</span><span class="o">=</span><span class="s2">&quot;Parameter values&quot;</span><span class="p">)</span>
+    <span class="n">w2</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Anlysis completed...&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Simulation time in seconds is </span><span class="si">%f</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start_time</span><span class="p">))</span>
+    <span class="n">exit</span><span class="p">()</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Gopinathan R Abhijith.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

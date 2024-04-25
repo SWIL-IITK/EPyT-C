@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>epytc.pfas_formation &mdash; EPyT-C  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            EPyT-C
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">epytc</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">EPyT-C</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">epytc.pfas_formation</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for epytc.pfas_formation</h1><div class="highlight"><pre>
+<span></span><span class="c1"># Perfluorooctanoic acid formation module</span>
+<span class="c1"># Reactive species (bulk) - Chlorine (mg-Cl/L), TOC (mg-C/L), PFOAA (ng/L), PFOAAmS (ng/L), and PFOA (ng/L)</span>
+<span class="c1"># Reactive species (wall) - &#39;&#39;</span>
+
+<span class="kn">import</span> <span class="nn">math</span>
+<span class="kn">import</span> <span class="nn">random</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+
+<div class="viewcode-block" id="module">
+<a class="viewcode-back" href="../../epytc.html#epytc.pfas_formation.module">[docs]</a>
+<span class="k">class</span> <span class="nc">module</span><span class="p">:</span>
+    <span class="c1"># Display modulde details</span>
+<div class="viewcode-block" id="module.details">
+<a class="viewcode-back" href="../../epytc.html#epytc.pfas_formation.module.details">[docs]</a>
+    <span class="k">def</span> <span class="nf">details</span><span class="p">():</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Perfluorooctanoic acid formation module loaded.&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Reactive species (bulk):&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Chlorine (mg/L)</span><span class="se">\n</span><span class="s2">TOC (mg/L)</span><span class="se">\n</span><span class="s2">PFOAB (ng/L)</span><span class="se">\n</span><span class="s2">PFOAAmS (ng/L)</span><span class="se">\n</span><span class="s2">PFOA (ng/L)&quot;</span><span class="p">)</span></div>
+
+
+    <span class="c1"># Getting basic details of the network</span>
+<div class="viewcode-block" id="module.network">
+<a class="viewcode-back" href="../../epytc.html#epytc.pfas_formation.module.network">[docs]</a>
+    <span class="k">def</span> <span class="nf">network</span><span class="p">(</span><span class="n">d</span><span class="p">):</span>
+        <span class="n">network_info</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">d</span><span class="o">.</span><span class="n">getNodeCount</span><span class="p">(),</span>
+            <span class="n">d</span><span class="o">.</span><span class="n">getLinkCount</span><span class="p">(),</span>
+            <span class="n">d</span><span class="o">.</span><span class="n">getNodeReservoirCount</span><span class="p">(),</span>
+            <span class="n">d</span><span class="o">.</span><span class="n">getNodeTankCount</span><span class="p">(),</span>
+            <span class="n">d</span><span class="o">.</span><span class="n">getLinkPumpCount</span><span class="p">(),</span>
+            <span class="n">d</span><span class="o">.</span><span class="n">getLinkValveCount</span><span class="p">(),</span>
+            <span class="n">d</span><span class="o">.</span><span class="n">getNodeNameID</span><span class="p">(),</span>
+            <span class="n">d</span><span class="o">.</span><span class="n">getLinkNameID</span><span class="p">(),</span>
+            <span class="n">d</span><span class="o">.</span><span class="n">getNodeReservoirIndex</span><span class="p">(),</span>
+            <span class="n">d</span><span class="o">.</span><span class="n">getNodeTankIndex</span><span class="p">(),</span>
+        <span class="p">]</span>
+        <span class="n">index_pumps</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span>
+            <span class="n">d</span><span class="o">.</span><span class="n">getLinkCount</span><span class="p">()</span> <span class="o">-</span> <span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">getLinkPumpCount</span><span class="p">()</span> <span class="o">+</span> <span class="n">d</span><span class="o">.</span><span class="n">getLinkValveCount</span><span class="p">()),</span>
+            <span class="nb">len</span><span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">getLinkNameID</span><span class="p">())</span> <span class="o">-</span> <span class="n">d</span><span class="o">.</span><span class="n">getLinkValveCount</span><span class="p">(),</span>
+        <span class="p">):</span>
+            <span class="n">index_pumps</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">network_info</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">index_pumps</span><span class="p">)</span>
+        <span class="n">index_valves</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">getLinkCount</span><span class="p">()</span> <span class="o">-</span> <span class="n">d</span><span class="o">.</span><span class="n">getLinkValveCount</span><span class="p">(),</span> <span class="nb">len</span><span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">getLinkNameID</span><span class="p">())):</span>
+            <span class="n">index_valves</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">network_info</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">index_valves</span><span class="p">)</span>
+        <span class="n">network_info</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span>
+            <span class="p">[</span>
+                <span class="n">d</span><span class="o">.</span><span class="n">getFlowUnits</span><span class="p">(),</span>
+                <span class="n">d</span><span class="o">.</span><span class="n">getNodesConnectingLinksIndex</span><span class="p">(),</span>
+                <span class="n">d</span><span class="o">.</span><span class="n">getConnectivityMatrix</span><span class="p">(),</span>
+            <span class="p">]</span>
+        <span class="p">)</span>
+        <span class="c1"># Conversion of GPM units to SI units</span>
+        <span class="k">if</span> <span class="n">d</span><span class="o">.</span><span class="n">getFlowUnits</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;GPM&quot;</span><span class="p">:</span>
+            <span class="n">network_info</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mf">0.3048</span> <span class="o">*</span> <span class="n">d</span><span class="o">.</span><span class="n">getLinkLength</span><span class="p">())</span>
+            <span class="n">network_info</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mf">25.4</span> <span class="o">*</span> <span class="n">d</span><span class="o">.</span><span class="n">getLinkDiameter</span><span class="p">())</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">network_info</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="n">d</span><span class="o">.</span><span class="n">getLinkLength</span><span class="p">(),</span> <span class="n">d</span><span class="o">.</span><span class="n">getLinkDiameter</span><span class="p">()])</span>
+        <span class="n">start_node_matrix</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">end_node_matrix</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">getLinkCount</span><span class="p">()):</span>
+            <span class="n">var1</span> <span class="o">=</span> <span class="n">d</span><span class="o">.</span><span class="n">getNodesConnectingLinksIndex</span><span class="p">()[</span><span class="n">x</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">var2</span> <span class="o">=</span> <span class="n">d</span><span class="o">.</span><span class="n">getNodesConnectingLinksIndex</span><span class="p">()[</span><span class="n">x</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">start_node_matrix</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">var1</span><span class="p">)</span>
+            <span class="n">end_node_matrix</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">var2</span><span class="p">)</span>
+        <span class="n">network_info</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="n">start_node_matrix</span><span class="p">,</span> <span class="n">end_node_matrix</span><span class="p">])</span>
+        <span class="c1"># Number of nodes omitted for analysis, if any</span>
+        <span class="n">number_omitted_nodes</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="c1"># Index of omitted nodes</span>
+        <span class="n">index_omitted_nodes</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="c1"># Number of links omitted for analysis, if any</span>
+        <span class="n">number_omitted_links</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="c1"># Index of omitted nodes</span>
+        <span class="n">index_omitted_links</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">network_info</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span>
+            <span class="p">[</span>
+                <span class="n">number_omitted_nodes</span><span class="p">,</span>
+                <span class="n">index_omitted_nodes</span><span class="p">,</span>
+                <span class="n">number_omitted_links</span><span class="p">,</span>
+                <span class="n">index_omitted_links</span><span class="p">,</span>
+            <span class="p">]</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">network_info</span></div>
+
+
+    <span class="c1"># Defining the species information of the MSRT module selected</span>
+<div class="viewcode-block" id="module.species">
+<a class="viewcode-back" href="../../epytc.html#epytc.pfas_formation.module.species">[docs]</a>
+    <span class="k">def</span> <span class="nf">species</span><span class="p">():</span>
+        <span class="n">msrt_info</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">number_water_quality_parameters</span> <span class="o">=</span> <span class="mi">5</span>
+        <span class="n">msrt_info</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">number_water_quality_parameters</span><span class="p">)</span>
+        <span class="n">number_bulk_water_quality_parameters</span> <span class="o">=</span> <span class="mi">5</span>
+        <span class="n">msrt_info</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">number_bulk_water_quality_parameters</span><span class="p">)</span>
+        <span class="n">number_wall_water_quality_parameters</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">msrt_info</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">number_wall_water_quality_parameters</span><span class="p">)</span>
+        <span class="n">number_model_variables</span> <span class="o">=</span> <span class="mi">13</span>
+        <span class="n">msrt_info</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">number_model_variables</span><span class="p">)</span>
+        <span class="n">msrt_info</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">number_water_quality_parameters</span><span class="p">,</span>
+            <span class="n">number_bulk_water_quality_parameters</span><span class="p">,</span>
+            <span class="n">number_wall_water_quality_parameters</span><span class="p">,</span>
+            <span class="n">number_model_variables</span><span class="p">,</span>
+        <span class="p">]</span>
+        <span class="k">return</span> <span class="n">msrt_info</span></div>
+
+
+    <span class="c1"># Defining zero order reaction</span>
+<div class="viewcode-block" id="module.zero_order_reaction">
+<a class="viewcode-back" href="../../epytc.html#epytc.pfas_formation.module.zero_order_reaction">[docs]</a>
+    <span class="k">def</span> <span class="nf">zero_order_reaction</span><span class="p">(</span><span class="n">num1</span><span class="p">):</span>
+        <span class="c1"># num1 - water quality time step</span>
+        <span class="n">delta_zero_order</span> <span class="o">=</span> <span class="n">num1</span>
+        <span class="k">return</span> <span class="n">delta_zero_order</span></div>
+
+
+    <span class="c1"># Defining first order reaction</span>
+<div class="viewcode-block" id="module.first_order_reaction">
+<a class="viewcode-back" href="../../epytc.html#epytc.pfas_formation.module.first_order_reaction">[docs]</a>
+    <span class="k">def</span> <span class="nf">first_order_reaction</span><span class="p">(</span><span class="n">num1</span><span class="p">,</span> <span class="n">num2</span><span class="p">,</span> <span class="n">num3</span><span class="p">):</span>
+        <span class="c1"># num1 - reaction rate constant; num2 - concentration value; num3 - water quality time step</span>
+        <span class="n">m1</span> <span class="o">=</span> <span class="n">num1</span> <span class="o">*</span> <span class="n">num1</span>
+        <span class="n">m2</span> <span class="o">=</span> <span class="n">num1</span> <span class="o">*</span> <span class="p">(</span><span class="n">num2</span> <span class="o">+</span> <span class="p">(</span><span class="n">num3</span> <span class="o">/</span> <span class="mi">4</span><span class="p">)</span> <span class="o">*</span> <span class="n">m1</span><span class="p">)</span>
+        <span class="n">m3</span> <span class="o">=</span> <span class="n">num1</span> <span class="o">*</span> <span class="p">(</span><span class="n">num2</span> <span class="o">+</span> <span class="p">(</span><span class="n">num3</span> <span class="o">/</span> <span class="mi">4</span><span class="p">)</span> <span class="o">*</span> <span class="n">m2</span><span class="p">)</span>
+        <span class="n">m4</span> <span class="o">=</span> <span class="n">num1</span> <span class="o">*</span> <span class="p">(</span><span class="n">num2</span> <span class="o">+</span> <span class="p">(</span><span class="n">num3</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">m3</span><span class="p">)</span>
+        <span class="n">delta_first_order</span> <span class="o">=</span> <span class="p">(</span><span class="n">num3</span> <span class="o">/</span> <span class="mi">6</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">m1</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">m2</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">m3</span> <span class="o">+</span> <span class="n">m4</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">delta_first_order</span></div>
+
+
+    <span class="c1"># Defining Reynolds number</span>
+<div class="viewcode-block" id="module.Reynolds_number">
+<a class="viewcode-back" href="../../epytc.html#epytc.pfas_formation.module.Reynolds_number">[docs]</a>
+    <span class="k">def</span> <span class="nf">Reynolds_number</span><span class="p">(</span><span class="n">num1</span><span class="p">,</span> <span class="n">num2</span><span class="p">,</span> <span class="n">num3</span><span class="p">):</span>
+        <span class="c1"># num1 - pipe flow velocity (m/s); num2 - pipe diameter (mm); num3 - kinematic viscosity of water (sq.m/s)</span>
+        <span class="n">num4</span> <span class="o">=</span> <span class="n">num2</span> <span class="o">*</span> <span class="mf">1e-3</span>
+        <span class="n">reynolds_num</span> <span class="o">=</span> <span class="p">(</span><span class="n">num1</span> <span class="o">*</span> <span class="n">num4</span><span class="p">)</span> <span class="o">/</span> <span class="n">num3</span>
+        <span class="k">return</span> <span class="n">reynolds_num</span></div>
+
+
+    <span class="c1"># Defining Schmidt number</span>
+<div class="viewcode-block" id="module.Schmidt_number">
+<a class="viewcode-back" href="../../epytc.html#epytc.pfas_formation.module.Schmidt_number">[docs]</a>
+    <span class="k">def</span> <span class="nf">Schmidt_number</span><span class="p">(</span><span class="n">num1</span><span class="p">,</span> <span class="n">num2</span><span class="p">):</span>
+        <span class="c1"># num1 - kinematic viscosity of water (sq.m/s); num2 - molecular diffusivity of bulk species (sq.m/s)</span>
+        <span class="n">schmidt_num</span> <span class="o">=</span> <span class="n">num1</span> <span class="o">/</span> <span class="n">num2</span>
+        <span class="k">return</span> <span class="n">schmidt_num</span></div>
+
+
+    <span class="c1"># Defining Sherwood number</span>
+<div class="viewcode-block" id="module.Sherwood_number">
+<a class="viewcode-back" href="../../epytc.html#epytc.pfas_formation.module.Sherwood_number">[docs]</a>
+    <span class="k">def</span> <span class="nf">Sherwood_number</span><span class="p">(</span><span class="n">num1</span><span class="p">,</span> <span class="n">num2</span><span class="p">,</span> <span class="n">num3</span><span class="p">,</span> <span class="n">num4</span><span class="p">):</span>
+        <span class="c1"># num1 - Reynolds number; num2 - Schmidt number; num3 - pipe diameter (mm); num4 - pipe length (m)</span>
+        <span class="n">num5</span> <span class="o">=</span> <span class="n">num3</span> <span class="o">*</span> <span class="mf">1e-3</span>
+        <span class="k">if</span> <span class="n">num1</span> <span class="o">&lt;</span> <span class="mi">2300</span><span class="p">:</span>
+            <span class="n">sherwood_num</span> <span class="o">=</span> <span class="mf">0.023</span> <span class="o">*</span> <span class="p">(</span><span class="n">num1</span><span class="o">**</span><span class="mf">0.83</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">num2</span><span class="o">**</span><span class="mf">0.33</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">sherwood_num</span> <span class="o">=</span> <span class="mf">3.65</span> <span class="o">+</span> <span class="p">(</span>
+                <span class="p">(</span><span class="mf">0.0668</span> <span class="o">*</span> <span class="p">(</span><span class="n">num5</span> <span class="o">/</span> <span class="n">num4</span><span class="p">)</span> <span class="o">*</span> <span class="n">num1</span> <span class="o">*</span> <span class="n">num2</span><span class="p">)</span>
+                <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="mf">0.04</span> <span class="o">*</span> <span class="p">((</span><span class="n">num5</span> <span class="o">/</span> <span class="n">num4</span><span class="p">)</span> <span class="o">*</span> <span class="n">num1</span> <span class="o">*</span> <span class="n">num2</span><span class="p">)</span> <span class="o">**</span> <span class="p">(</span><span class="mi">2</span> <span class="o">/</span> <span class="mi">3</span><span class="p">))</span>
+            <span class="p">)</span>
+        <span class="k">return</span> <span class="n">sherwood_num</span></div>
+
+
+    <span class="c1"># Defining Mass transfer coefficient</span>
+<div class="viewcode-block" id="module.mass_transfer_coefficient">
+<a class="viewcode-back" href="../../epytc.html#epytc.pfas_formation.module.mass_transfer_coefficient">[docs]</a>
+    <span class="k">def</span> <span class="nf">mass_transfer_coefficient</span><span class="p">(</span><span class="n">num1</span><span class="p">,</span> <span class="n">num2</span><span class="p">,</span> <span class="n">num3</span><span class="p">):</span>
+        <span class="c1"># num1 - Sherwood number; num2 - molecular diffusivity of bulk species (sq.m/s); num3 - pipe diameter (mm)</span>
+        <span class="n">num4</span> <span class="o">=</span> <span class="n">num3</span> <span class="o">*</span> <span class="mf">1e-3</span>
+        <span class="n">kf_value</span> <span class="o">=</span> <span class="n">num1</span> <span class="o">*</span> <span class="p">(</span><span class="n">num2</span> <span class="o">/</span> <span class="n">num4</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">kf_value</span></div>
+
+
+    <span class="c1"># Defining Hydrauic mean radius</span>
+<div class="viewcode-block" id="module.hydraulic_mean_radius">
+<a class="viewcode-back" href="../../epytc.html#epytc.pfas_formation.module.hydraulic_mean_radius">[docs]</a>
+    <span class="k">def</span> <span class="nf">hydraulic_mean_radius</span><span class="p">(</span><span class="n">num1</span><span class="p">):</span>
+        <span class="c1"># num1 - pipe diameter (mm)</span>
+        <span class="n">num2</span> <span class="o">=</span> <span class="n">num1</span> <span class="o">*</span> <span class="mf">1e-3</span>
+        <span class="n">rh_value</span> <span class="o">=</span> <span class="n">num2</span> <span class="o">/</span> <span class="mi">4</span>
+        <span class="k">return</span> <span class="n">rh_value</span></div>
+
+
+    <span class="c1"># Defining variables of the MSRT module</span>
+<div class="viewcode-block" id="module.variables">
+<a class="viewcode-back" href="../../epytc.html#epytc.pfas_formation.module.variables">[docs]</a>
+    <span class="k">def</span> <span class="nf">variables</span><span class="p">(</span><span class="n">num1</span><span class="p">,</span> <span class="n">num2</span><span class="p">):</span>
+        <span class="c1"># num1 - number of iterations; num2 - number of variables</span>
+        <span class="n">variable_mat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">num1</span><span class="p">,</span> <span class="n">num2</span><span class="p">))</span>
+        <span class="c1"># Temperature (degree Celsius)</span>
+        <span class="n">temperature_mean</span> <span class="o">=</span> <span class="mi">25</span>
+        <span class="n">temperature_var</span> <span class="o">=</span> <span class="mf">0.5</span>
+        <span class="c1"># Rate constant (chlorine - TOC reaction) (L/mg/s)</span>
+        <span class="n">kbNC_lower</span> <span class="o">=</span> <span class="mf">2.19e4</span>
+        <span class="n">kbNC_upper</span> <span class="o">=</span> <span class="mf">3.81e4</span>
+        <span class="n">kbNC_mean</span> <span class="o">=</span> <span class="mf">3e4</span>
+        <span class="c1"># Rate constant (chlorine wall reaction) (m/s)</span>
+        <span class="n">kwC_lower</span> <span class="o">=</span> <span class="mf">1.04e-7</span>
+        <span class="n">kwC_upper</span> <span class="o">=</span> <span class="mf">1.43e-5</span>
+        <span class="n">kwC_mean</span> <span class="o">=</span> <span class="mf">1.22e-6</span>
+        <span class="c1"># Reaction yield constant (chlorine - TOC reaction) (mg/mg)</span>
+        <span class="n">YN_upper</span> <span class="o">=</span> <span class="mf">0.15</span>
+        <span class="n">YN_lower</span> <span class="o">=</span> <span class="mf">2.50</span>
+        <span class="n">YN_mean</span> <span class="o">=</span> <span class="mf">0.61</span>
+        <span class="c1"># Rate constant for chlorine-PFOAB reactions (L/mg/s)</span>
+        <span class="n">kbCP1_upper</span> <span class="o">=</span> <span class="mf">1.39e-5</span>
+        <span class="n">kbCP1_lower</span> <span class="o">=</span> <span class="mf">8.33e-7</span>
+        <span class="n">kbCP1_mean</span> <span class="o">=</span> <span class="mf">7.22e-6</span>
+        <span class="c1"># Rate constant for chlorine-PFOAAmS reactions (L/mg/s)</span>
+        <span class="n">kbCP2_upper</span> <span class="o">=</span> <span class="mf">2.22e-5</span>
+        <span class="n">kbCP2_lower</span> <span class="o">=</span> <span class="mf">8.33e-7</span>
+        <span class="n">kbCP2_mean</span> <span class="o">=</span> <span class="mf">1.11e-5</span>
+        <span class="c1"># Reaction yield constant (chlorine - PFOAB reaction) (mg/ng)</span>
+        <span class="n">YC1_upper</span> <span class="o">=</span> <span class="mf">2.5e-5</span>
+        <span class="n">YC1_lower</span> <span class="o">=</span> <span class="mf">7.5e-6</span>
+        <span class="n">YC1_mean</span> <span class="o">=</span> <span class="mf">1.6e-5</span>
+        <span class="c1"># Reaction yield constant (chlorine - PFOAAmS reaction) (mg/ng)</span>
+        <span class="n">YC2_upper</span> <span class="o">=</span> <span class="mf">3e-5</span>
+        <span class="n">YC2_lower</span> <span class="o">=</span> <span class="mf">7.5e-6</span>
+        <span class="n">YC2_mean</span> <span class="o">=</span> <span class="mf">1.8e-5</span>
+        <span class="c1"># Reaction yield constant (PFOA formation from chlorine-PFOAB reaction) (ng/ng)</span>
+        <span class="n">Yf1_upper</span> <span class="o">=</span> <span class="mf">0.55</span>
+        <span class="n">Yf1_lower</span> <span class="o">=</span> <span class="mf">0.18</span>
+        <span class="n">Yf1_mean</span> <span class="o">=</span> <span class="mf">0.37</span>
+        <span class="c1"># Reaction yield constant (PFOA formation from chlorine-PFOAmS reaction) (ng/ng)</span>
+        <span class="n">Yf2_upper</span> <span class="o">=</span> <span class="mf">0.55</span>
+        <span class="n">Yf2_lower</span> <span class="o">=</span> <span class="mf">0.26</span>
+        <span class="n">Yf2_mean</span> <span class="o">=</span> <span class="mf">0.40</span>
+        <span class="c1"># Molecular diffusivity of chlorine (sq.m/s)</span>
+        <span class="n">Dm_chlorine</span> <span class="o">=</span> <span class="mf">12.5e-10</span>
+        <span class="c1"># Molecular diffusivity of TOC (sq.m/s)</span>
+        <span class="n">Dm_toc_lower</span> <span class="o">=</span> <span class="mf">7.8e-10</span>
+        <span class="n">Dm_toc_upper</span> <span class="o">=</span> <span class="mf">11.5e-10</span>
+        <span class="n">Dm_toc_mean</span> <span class="o">=</span> <span class="mf">9.5e-10</span>
+        <span class="c1"># Kinematic viscosity of water (sq.m/s)</span>
+        <span class="n">nu_water</span> <span class="o">=</span> <span class="mf">9.31e-7</span>
+        <span class="k">if</span> <span class="n">num1</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">variable_mat</span><span class="p">[</span><span class="n">num1</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">temperature_mean</span>
+            <span class="n">variable_mat</span><span class="p">[</span><span class="n">num1</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">kbNC_mean</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="mi">6050</span> <span class="o">/</span> <span class="p">(</span><span class="n">temperature_mean</span> <span class="o">+</span> <span class="mi">273</span><span class="p">))</span>
+            <span class="n">variable_mat</span><span class="p">[</span><span class="n">num1</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">kwC_mean</span>
+            <span class="n">variable_mat</span><span class="p">[</span><span class="n">num1</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="n">YN_mean</span>
+            <span class="n">variable_mat</span><span class="p">[</span><span class="n">num1</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="mi">4</span><span class="p">]</span> <span class="o">=</span> <span class="n">kbCP1_mean</span>
+            <span class="n">variable_mat</span><span class="p">[</span><span class="n">num1</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="mi">5</span><span class="p">]</span> <span class="o">=</span> <span class="n">kbCP2_mean</span>
+            <span class="n">variable_mat</span><span class="p">[</span><span class="n">num1</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="mi">6</span><span class="p">]</span> <span class="o">=</span> <span class="n">YC1_mean</span>
+            <span class="n">variable_mat</span><span class="p">[</span><span class="n">num1</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="mi">7</span><span class="p">]</span> <span class="o">=</span> <span class="n">YC2_mean</span>
+            <span class="n">variable_mat</span><span class="p">[</span><span class="n">num1</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="mi">8</span><span class="p">]</span> <span class="o">=</span> <span class="n">Yf1_mean</span>
+            <span class="n">variable_mat</span><span class="p">[</span><span class="n">num1</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="mi">9</span><span class="p">]</span> <span class="o">=</span> <span class="n">Yf2_mean</span>
+            <span class="n">variable_mat</span><span class="p">[</span><span class="n">num1</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="mi">10</span><span class="p">]</span> <span class="o">=</span> <span class="n">Dm_chlorine</span>
+            <span class="n">variable_mat</span><span class="p">[</span><span class="n">num1</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="mi">11</span><span class="p">]</span> <span class="o">=</span> <span class="n">Dm_toc_mean</span>
+            <span class="n">variable_mat</span><span class="p">[</span><span class="n">num1</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="mi">12</span><span class="p">]</span> <span class="o">=</span> <span class="n">nu_water</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num1</span><span class="p">):</span>
+                <span class="n">variable_mat</span><span class="p">[</span><span class="n">x</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">temperature_var</span><span class="p">)</span> <span class="o">*</span> <span class="n">temperature_mean</span> <span class="o">+</span> <span class="p">(</span>
+                    <span class="mi">2</span> <span class="o">*</span> <span class="n">temperature_var</span> <span class="o">*</span> <span class="n">temperature_mean</span>
+                <span class="p">)</span> <span class="o">*</span> <span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+                <span class="n">variable_mat</span><span class="p">[</span><span class="n">x</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="n">kbNC_lower</span><span class="p">,</span> <span class="n">kbNC_upper</span><span class="p">)</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span>
+                    <span class="o">-</span><span class="mi">6050</span> <span class="o">/</span> <span class="p">((</span><span class="n">variable_mat</span><span class="p">[</span><span class="n">x</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span> <span class="o">+</span> <span class="mi">273</span><span class="p">)</span>
+                <span class="p">)</span>
+                <span class="n">variable_mat</span><span class="p">[</span><span class="n">x</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="n">kwC_lower</span><span class="p">,</span> <span class="n">kwC_upper</span><span class="p">)</span>
+                <span class="n">variable_mat</span><span class="p">[</span><span class="n">x</span><span class="p">][</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="n">YN_lower</span><span class="p">,</span> <span class="n">YN_upper</span><span class="p">)</span>
+                <span class="n">variable_mat</span><span class="p">[</span><span class="n">x</span><span class="p">][</span><span class="mi">4</span><span class="p">]</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="n">kbCP1_lower</span><span class="p">,</span> <span class="n">kbCP1_upper</span><span class="p">)</span>
+                <span class="n">variable_mat</span><span class="p">[</span><span class="n">x</span><span class="p">][</span><span class="mi">5</span><span class="p">]</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="n">kbCP2_lower</span><span class="p">,</span> <span class="n">kbCP2_upper</span><span class="p">)</span>
+                <span class="n">variable_mat</span><span class="p">[</span><span class="n">x</span><span class="p">][</span><span class="mi">6</span><span class="p">]</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="n">YC1_lower</span><span class="p">,</span> <span class="n">YC1_upper</span><span class="p">)</span>
+                <span class="n">variable_mat</span><span class="p">[</span><span class="n">x</span><span class="p">][</span><span class="mi">7</span><span class="p">]</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="n">YC2_lower</span><span class="p">,</span> <span class="n">YC2_upper</span><span class="p">)</span>
+                <span class="n">variable_mat</span><span class="p">[</span><span class="n">x</span><span class="p">][</span><span class="mi">8</span><span class="p">]</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="n">Yf1_lower</span><span class="p">,</span> <span class="n">Yf1_upper</span><span class="p">)</span>
+                <span class="n">variable_mat</span><span class="p">[</span><span class="n">x</span><span class="p">][</span><span class="mi">9</span><span class="p">]</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="n">Yf2_lower</span><span class="p">,</span> <span class="n">Yf2_upper</span><span class="p">)</span>
+                <span class="n">variable_mat</span><span class="p">[</span><span class="n">x</span><span class="p">][</span><span class="mi">10</span><span class="p">]</span> <span class="o">=</span> <span class="n">Dm_chlorine</span>
+                <span class="n">variable_mat</span><span class="p">[</span><span class="n">x</span><span class="p">][</span><span class="mi">11</span><span class="p">]</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="n">Dm_toc_lower</span><span class="p">,</span> <span class="n">Dm_toc_upper</span><span class="p">)</span>
+                <span class="n">variable_mat</span><span class="p">[</span><span class="n">x</span><span class="p">][</span><span class="mi">12</span><span class="p">]</span> <span class="o">=</span> <span class="n">nu_water</span>
+        <span class="k">return</span> <span class="n">variable_mat</span></div>
+
+
+    <span class="c1"># Defining pipe reactions for the MSRT model selected</span>
+<div class="viewcode-block" id="module.pipe_reaction">
+<a class="viewcode-back" href="../../epytc.html#epytc.pfas_formation.module.pipe_reaction">[docs]</a>
+    <span class="k">def</span> <span class="nf">pipe_reaction</span><span class="p">(</span><span class="n">num1</span><span class="p">,</span> <span class="n">num2</span><span class="p">,</span> <span class="n">num3</span><span class="p">,</span> <span class="n">num4</span><span class="p">,</span> <span class="n">num5</span><span class="p">,</span> <span class="n">num6</span><span class="p">,</span> <span class="n">num7</span><span class="p">,</span> <span class="n">arr1</span><span class="p">,</span> <span class="n">arr2</span><span class="p">):</span>
+        <span class="c1"># num1 - water quality time step;num2 - pipe number; num3- grid number;</span>
+        <span class="c1"># num4 - pipe flow velocity (m/s); num5 - pipe diameter (mm); num6 - pipe length; num7 - width of link segment (m)</span>
+        <span class="c1"># arr1 - matrix of variables; arr2 = array of pipe concentration</span>
+        <span class="n">kbNC</span> <span class="o">=</span> <span class="n">arr1</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">kwC</span> <span class="o">=</span> <span class="n">arr1</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+        <span class="n">YN</span> <span class="o">=</span> <span class="n">arr1</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+        <span class="n">kbCP1</span> <span class="o">=</span> <span class="n">arr1</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span>
+        <span class="n">kbCP2</span> <span class="o">=</span> <span class="n">arr1</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span>
+        <span class="n">YC1</span> <span class="o">=</span> <span class="n">arr1</span><span class="p">[</span><span class="mi">6</span><span class="p">]</span>
+        <span class="n">YC2</span> <span class="o">=</span> <span class="n">arr1</span><span class="p">[</span><span class="mi">7</span><span class="p">]</span>
+        <span class="n">Yf1</span> <span class="o">=</span> <span class="n">arr1</span><span class="p">[</span><span class="mi">8</span><span class="p">]</span>
+        <span class="n">Yf2</span> <span class="o">=</span> <span class="n">arr1</span><span class="p">[</span><span class="mi">9</span><span class="p">]</span>
+        <span class="n">Dm_chlorine</span> <span class="o">=</span> <span class="n">arr1</span><span class="p">[</span><span class="mi">10</span><span class="p">]</span>
+        <span class="n">nu_water</span> <span class="o">=</span> <span class="n">arr1</span><span class="p">[</span><span class="mi">12</span><span class="p">]</span>
+
+        <span class="n">KbNC</span> <span class="o">=</span> <span class="n">kbNC</span> <span class="o">*</span> <span class="n">arr2</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="n">num3</span><span class="p">][</span><span class="n">num2</span><span class="p">]</span>
+        <span class="n">Re</span> <span class="o">=</span> <span class="n">module</span><span class="o">.</span><span class="n">Reynolds_number</span><span class="p">(</span><span class="n">num4</span><span class="p">,</span> <span class="n">num5</span><span class="p">,</span> <span class="n">nu_water</span><span class="p">)</span>
+        <span class="n">Sc_chlorine</span> <span class="o">=</span> <span class="n">module</span><span class="o">.</span><span class="n">Schmidt_number</span><span class="p">(</span><span class="n">nu_water</span><span class="p">,</span> <span class="n">Dm_chlorine</span><span class="p">)</span>
+        <span class="n">Sh_chlorine</span> <span class="o">=</span> <span class="n">module</span><span class="o">.</span><span class="n">Sherwood_number</span><span class="p">(</span><span class="n">Re</span><span class="p">,</span> <span class="n">Sc_chlorine</span><span class="p">,</span> <span class="n">num5</span><span class="p">,</span> <span class="n">num6</span><span class="p">)</span>
+        <span class="n">kfC</span> <span class="o">=</span> <span class="n">module</span><span class="o">.</span><span class="n">mass_transfer_coefficient</span><span class="p">(</span><span class="n">Sh_chlorine</span><span class="p">,</span> <span class="n">Dm_chlorine</span><span class="p">,</span> <span class="n">num5</span><span class="p">)</span>
+        <span class="n">rh</span> <span class="o">=</span> <span class="n">module</span><span class="o">.</span><span class="n">hydraulic_mean_radius</span><span class="p">(</span><span class="n">num5</span><span class="p">)</span>
+        <span class="n">KwC</span> <span class="o">=</span> <span class="p">(</span><span class="n">kwC</span> <span class="o">*</span> <span class="n">kfC</span><span class="p">)</span> <span class="o">/</span> <span class="p">((</span><span class="n">kwC</span> <span class="o">+</span> <span class="n">kfC</span><span class="p">)</span> <span class="o">*</span> <span class="n">rh</span><span class="p">)</span>
+        <span class="n">KbCP1</span> <span class="o">=</span> <span class="n">kbCP1</span> <span class="o">*</span> <span class="n">arr2</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">num3</span><span class="p">][</span><span class="n">num2</span><span class="p">]</span>
+        <span class="n">KbCP2</span> <span class="o">=</span> <span class="n">kbCP2</span> <span class="o">*</span> <span class="n">arr2</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">num3</span><span class="p">][</span><span class="n">num2</span><span class="p">]</span>
+
+        <span class="c1"># Reactions within pipe</span>
+        <span class="n">delta_chlorine_toc_reac_pipe</span> <span class="o">=</span> <span class="n">module</span><span class="o">.</span><span class="n">first_order_reaction</span><span class="p">(</span><span class="n">KbNC</span><span class="p">,</span> <span class="n">arr2</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">num3</span><span class="p">][</span><span class="n">num2</span><span class="p">],</span> <span class="n">num1</span><span class="p">)</span>
+        <span class="n">delta_chlorine_wall_reac_pipe</span> <span class="o">=</span> <span class="n">module</span><span class="o">.</span><span class="n">first_order_reaction</span><span class="p">(</span><span class="n">KwC</span><span class="p">,</span> <span class="n">arr2</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">num3</span><span class="p">][</span><span class="n">num2</span><span class="p">],</span> <span class="n">num1</span><span class="p">)</span>
+        <span class="n">delta_toc_chlorine_reac_pipe</span> <span class="o">=</span> <span class="n">YN</span> <span class="o">*</span> <span class="n">delta_chlorine_toc_reac_pipe</span>
+        <span class="n">delta_pfoab_chlorine_reac_pipe</span> <span class="o">=</span> <span class="n">module</span><span class="o">.</span><span class="n">first_order_reaction</span><span class="p">(</span><span class="n">KbCP1</span><span class="p">,</span> <span class="n">arr2</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="n">num3</span><span class="p">][</span><span class="n">num2</span><span class="p">],</span> <span class="n">num1</span><span class="p">)</span>
+        <span class="n">delta_pfoaams_chlorine_reac_pipe</span> <span class="o">=</span> <span class="n">module</span><span class="o">.</span><span class="n">first_order_reaction</span><span class="p">(</span><span class="n">KbCP2</span><span class="p">,</span> <span class="n">arr2</span><span class="p">[</span><span class="mi">3</span><span class="p">][</span><span class="n">num3</span><span class="p">][</span><span class="n">num2</span><span class="p">],</span> <span class="n">num1</span><span class="p">)</span>
+        <span class="n">delta_chlorine_pfoab_reac_pipe</span> <span class="o">=</span> <span class="n">YC1</span> <span class="o">*</span> <span class="n">delta_pfoab_chlorine_reac_pipe</span>
+        <span class="n">delta_chlorine_pfoaams_reac_pipe</span> <span class="o">=</span> <span class="n">YC2</span> <span class="o">*</span> <span class="n">delta_pfoaams_chlorine_reac_pipe</span>
+        <span class="n">delta_pfoa_formation_pfoab_reac_pipe</span> <span class="o">=</span> <span class="n">Yf1</span> <span class="o">*</span> <span class="n">delta_pfoab_chlorine_reac_pipe</span>
+        <span class="n">delta_pfoa_formation_pfoaams_reac_pipe</span> <span class="o">=</span> <span class="n">Yf2</span> <span class="o">*</span> <span class="n">delta_pfoaams_chlorine_reac_pipe</span>
+
+        <span class="n">net_delta_chlorine_reac</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="o">-</span><span class="n">delta_chlorine_toc_reac_pipe</span>
+            <span class="o">-</span> <span class="n">delta_chlorine_wall_reac_pipe</span>
+            <span class="o">-</span> <span class="n">delta_chlorine_pfoab_reac_pipe</span>
+            <span class="o">-</span> <span class="n">delta_chlorine_pfoaams_reac_pipe</span>
+        <span class="p">)</span>
+        <span class="n">net_delta_toc_reac</span> <span class="o">=</span> <span class="o">-</span><span class="n">delta_toc_chlorine_reac_pipe</span>
+        <span class="n">net_delta_pfoab_reac</span> <span class="o">=</span> <span class="o">-</span><span class="n">delta_pfoab_chlorine_reac_pipe</span>
+        <span class="n">net_delta_pfoaams_reac</span> <span class="o">=</span> <span class="o">-</span><span class="n">delta_pfoaams_chlorine_reac_pipe</span>
+        <span class="n">net_delta_pfoa_reac</span> <span class="o">=</span> <span class="n">delta_pfoa_formation_pfoab_reac_pipe</span> <span class="o">+</span> <span class="n">delta_pfoa_formation_pfoaams_reac_pipe</span>
+
+        <span class="n">delta_mat</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">net_delta_chlorine_reac</span><span class="p">,</span>
+            <span class="n">net_delta_toc_reac</span><span class="p">,</span>
+            <span class="n">net_delta_pfoab_reac</span><span class="p">,</span>
+            <span class="n">net_delta_pfoaams_reac</span><span class="p">,</span>
+            <span class="n">net_delta_pfoa_reac</span><span class="p">,</span>
+        <span class="p">]</span>
+        <span class="k">return</span> <span class="n">delta_mat</span></div>
+
+
+    <span class="c1"># Defining tank reactions for the MSRT model selected</span>
+<div class="viewcode-block" id="module.tank_reaction">
+<a class="viewcode-back" href="../../epytc.html#epytc.pfas_formation.module.tank_reaction">[docs]</a>
+    <span class="k">def</span> <span class="nf">tank_reaction</span><span class="p">(</span><span class="n">num1</span><span class="p">,</span> <span class="n">num2</span><span class="p">,</span> <span class="n">num3</span><span class="p">,</span> <span class="n">num4</span><span class="p">,</span> <span class="n">num5</span><span class="p">,</span> <span class="n">arr1</span><span class="p">,</span> <span class="n">arr2</span><span class="p">,</span> <span class="n">arr3</span><span class="p">):</span>
+        <span class="c1"># num1 - water quality time step; num2 - water quality step, num3 - tank number;</span>
+        <span class="c1"># num4 - tank volume in the previous time step; num5 - tank volume in the present time step;</span>
+        <span class="c1"># arr1 - matrix of variables; arr2 = initial water quality condition array; arr3 - array of tank concentration</span>
+        <span class="n">kbNC</span> <span class="o">=</span> <span class="n">arr1</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">YN</span> <span class="o">=</span> <span class="n">arr1</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+        <span class="n">kbCP1</span> <span class="o">=</span> <span class="n">arr1</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span>
+        <span class="n">kbCP2</span> <span class="o">=</span> <span class="n">arr1</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span>
+        <span class="n">YC1</span> <span class="o">=</span> <span class="n">arr1</span><span class="p">[</span><span class="mi">6</span><span class="p">]</span>
+        <span class="n">YC2</span> <span class="o">=</span> <span class="n">arr1</span><span class="p">[</span><span class="mi">7</span><span class="p">]</span>
+        <span class="n">Yf1</span> <span class="o">=</span> <span class="n">arr1</span><span class="p">[</span><span class="mi">8</span><span class="p">]</span>
+        <span class="n">Yf2</span> <span class="o">=</span> <span class="n">arr1</span><span class="p">[</span><span class="mi">9</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="n">num2</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">tank_chlorine_conc</span> <span class="o">=</span> <span class="n">arr2</span><span class="p">[</span><span class="n">num3</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">tank_toc_conc</span> <span class="o">=</span> <span class="n">arr2</span><span class="p">[</span><span class="n">num3</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">tank_pfoab_conc</span> <span class="o">=</span> <span class="n">arr2</span><span class="p">[</span><span class="n">num3</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span>
+            <span class="n">tank_pfoaams_conc</span> <span class="o">=</span> <span class="n">arr2</span><span class="p">[</span><span class="n">num3</span><span class="p">][</span><span class="mi">3</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">tank_chlorine_conc</span> <span class="o">=</span> <span class="n">arr3</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">num2</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="n">num3</span><span class="p">]</span>
+            <span class="n">tank_toc_conc</span> <span class="o">=</span> <span class="n">arr3</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="n">num2</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="n">num3</span><span class="p">]</span>
+            <span class="n">tank_pfoab_conc</span> <span class="o">=</span> <span class="n">arr3</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="n">num2</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="n">num3</span><span class="p">]</span>
+            <span class="n">tank_pfoaams_conc</span> <span class="o">=</span> <span class="n">arr3</span><span class="p">[</span><span class="mi">3</span><span class="p">][</span><span class="n">num2</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="n">num3</span><span class="p">]</span>
+
+        <span class="n">KbNC</span> <span class="o">=</span> <span class="n">kbNC</span> <span class="o">*</span> <span class="n">tank_toc_conc</span>
+        <span class="n">KbCP1</span> <span class="o">=</span> <span class="n">kbCP1</span> <span class="o">*</span> <span class="n">tank_chlorine_conc</span>
+        <span class="n">KbCP2</span> <span class="o">=</span> <span class="n">kbCP2</span> <span class="o">*</span> <span class="n">tank_chlorine_conc</span>
+        <span class="c1"># Reactions within tank</span>
+        <span class="n">delta_chlorine_toc_reac_tank</span> <span class="o">=</span> <span class="p">(</span><span class="n">num4</span> <span class="o">/</span> <span class="n">num5</span><span class="p">)</span> <span class="o">*</span> <span class="n">module</span><span class="o">.</span><span class="n">first_order_reaction</span><span class="p">(</span>
+            <span class="n">KbNC</span><span class="p">,</span> <span class="n">tank_chlorine_conc</span><span class="p">,</span> <span class="n">num1</span>
+        <span class="p">)</span>
+        <span class="n">delta_toc_chlorine_reac_tank</span> <span class="o">=</span> <span class="n">YN</span> <span class="o">*</span> <span class="n">delta_chlorine_toc_reac_tank</span>
+        <span class="n">delta_pfoab_chlorine_reac_tank</span> <span class="o">=</span> <span class="p">(</span><span class="n">num4</span> <span class="o">/</span> <span class="n">num5</span><span class="p">)</span> <span class="o">*</span> <span class="n">module</span><span class="o">.</span><span class="n">first_order_reaction</span><span class="p">(</span>
+            <span class="n">KbCP1</span><span class="p">,</span> <span class="n">tank_pfoab_conc</span><span class="p">,</span> <span class="n">num1</span>
+        <span class="p">)</span>
+        <span class="n">delta_pfoaams_chlorine_reac_tank</span> <span class="o">=</span> <span class="p">(</span><span class="n">num4</span> <span class="o">/</span> <span class="n">num5</span><span class="p">)</span> <span class="o">*</span> <span class="n">module</span><span class="o">.</span><span class="n">first_order_reaction</span><span class="p">(</span>
+            <span class="n">KbCP2</span><span class="p">,</span> <span class="n">tank_pfoaams_conc</span><span class="p">,</span> <span class="n">num1</span>
+        <span class="p">)</span>
+        <span class="n">delta_chlorine_pfoab_reac_tank</span> <span class="o">=</span> <span class="n">YC1</span> <span class="o">*</span> <span class="n">delta_pfoab_chlorine_reac_tank</span>
+        <span class="n">delta_chlorine_pfoaams_reac_tank</span> <span class="o">=</span> <span class="n">YC2</span> <span class="o">*</span> <span class="n">delta_pfoaams_chlorine_reac_tank</span>
+        <span class="n">delta_pfoa_formation_pfoab_reac_tank</span> <span class="o">=</span> <span class="n">Yf1</span> <span class="o">*</span> <span class="n">delta_pfoab_chlorine_reac_tank</span>
+        <span class="n">delta_pfoa_formation_pfoaams_reac_tank</span> <span class="o">=</span> <span class="n">Yf2</span> <span class="o">*</span> <span class="n">delta_pfoaams_chlorine_reac_tank</span>
+
+        <span class="n">net_delta_chlorine_reac</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="o">-</span><span class="n">delta_chlorine_toc_reac_tank</span> <span class="o">-</span> <span class="n">delta_chlorine_pfoab_reac_tank</span> <span class="o">-</span> <span class="n">delta_chlorine_pfoaams_reac_tank</span>
+        <span class="p">)</span>
+        <span class="n">net_delta_toc_reac</span> <span class="o">=</span> <span class="o">-</span><span class="n">delta_toc_chlorine_reac_tank</span>
+        <span class="n">net_delta_pfoab_reac</span> <span class="o">=</span> <span class="o">-</span><span class="n">delta_pfoab_chlorine_reac_tank</span>
+        <span class="n">net_delta_pfoaams_reac</span> <span class="o">=</span> <span class="o">-</span><span class="n">delta_pfoaams_chlorine_reac_tank</span>
+        <span class="n">net_delta_pfoa_reac</span> <span class="o">=</span> <span class="n">delta_pfoa_formation_pfoab_reac_tank</span> <span class="o">+</span> <span class="n">delta_pfoa_formation_pfoaams_reac_tank</span>
+
+        <span class="n">delta_mat</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">net_delta_chlorine_reac</span><span class="p">,</span>
+            <span class="n">net_delta_toc_reac</span><span class="p">,</span>
+            <span class="n">net_delta_pfoab_reac</span><span class="p">,</span>
+            <span class="n">net_delta_pfoaams_reac</span><span class="p">,</span>
+            <span class="n">net_delta_pfoa_reac</span><span class="p">,</span>
+        <span class="p">]</span>
+        <span class="k">return</span> <span class="n">delta_mat</span></div>
+
+
+    <span class="c1"># Defining source quality at the reservoir(s)</span>
+<div class="viewcode-block" id="module.reservoir_quality">
+<a class="viewcode-back" href="../../epytc.html#epytc.pfas_formation.module.reservoir_quality">[docs]</a>
+    <span class="k">def</span> <span class="nf">reservoir_quality</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">num1</span><span class="p">,</span> <span class="n">arr1</span><span class="p">,</span> <span class="n">str1</span><span class="p">,</span> <span class="n">num2</span><span class="p">):</span>
+        <span class="c1"># num1 - number of iterations; arr1 - source water quality input</span>
+        <span class="c1"># str1 - input value for pattern; num2 - percentage variation in the random pattern</span>
+        <span class="n">num_reservoirs</span> <span class="o">=</span> <span class="n">module</span><span class="o">.</span><span class="n">network</span><span class="p">(</span><span class="n">d</span><span class="p">)[</span><span class="mi">2</span><span class="p">]</span>
+        <span class="n">num_bulk_parameters</span> <span class="o">=</span> <span class="n">module</span><span class="o">.</span><span class="n">species</span><span class="p">()[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">arr1</span><span class="p">)</span> <span class="o">==</span> <span class="n">num_reservoirs</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">arr1</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">==</span> <span class="n">num_bulk_parameters</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Reservoir quality updated.&quot;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Reservoir quality input error.&quot;</span><span class="p">)</span>
+                <span class="n">exit</span><span class="p">()</span>
+        <span class="n">reservoir_quality</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">num_reservoirs</span><span class="p">,</span> <span class="n">num1</span><span class="p">,</span> <span class="n">num_bulk_parameters</span><span class="p">))</span>
+        <span class="c1"># Input</span>
+        <span class="c1"># &#39;none&#39; - constant values; &#39;rand&#39; - randomly varying values</span>
+        <span class="nb">input</span> <span class="o">=</span> <span class="n">str1</span>
+        <span class="n">rand_vary</span> <span class="o">=</span> <span class="n">num2</span>  <span class="c1"># percentage variation</span>
+        <span class="k">if</span> <span class="nb">input</span> <span class="o">==</span> <span class="s2">&quot;none&quot;</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_reservoirs</span><span class="p">):</span>
+                <span class="n">reservoir_quality</span><span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="o">=</span> <span class="n">arr1</span><span class="p">[</span><span class="n">x</span><span class="p">]</span>
+        <span class="k">elif</span> <span class="nb">input</span> <span class="o">==</span> <span class="s2">&quot;rand&quot;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">num1</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">mat_min</span> <span class="o">=</span> <span class="n">arr1</span>
+                <span class="n">mat_max</span> <span class="o">=</span> <span class="n">arr1</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">mat_min</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">multiply</span><span class="p">(</span><span class="n">arr1</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">rand_vary</span><span class="p">))</span>
+                <span class="n">mat_max</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">multiply</span><span class="p">(</span><span class="n">arr1</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">rand_vary</span><span class="p">))</span>
+            <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_reservoirs</span><span class="p">):</span>
+                <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_bulk_parameters</span><span class="p">):</span>
+                    <span class="n">z</span> <span class="o">=</span> <span class="mi">0</span>
+                    <span class="k">while</span> <span class="n">z</span> <span class="o">&lt;</span> <span class="n">num1</span><span class="p">:</span>
+                        <span class="n">reservoir_quality</span><span class="p">[</span><span class="n">x</span><span class="p">][</span><span class="n">z</span><span class="p">][</span><span class="n">y</span><span class="p">]</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="n">mat_min</span><span class="p">[</span><span class="n">x</span><span class="p">][</span><span class="n">y</span><span class="p">],</span> <span class="n">mat_max</span><span class="p">[</span><span class="n">x</span><span class="p">][</span><span class="n">y</span><span class="p">])</span>
+                        <span class="n">z</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="n">reservoir_quality</span></div>
+
+
+    <span class="c1"># Defining source quality pattern for the reservoir(s)</span>
+<div class="viewcode-block" id="module.reservoir_pattern">
+<a class="viewcode-back" href="../../epytc.html#epytc.pfas_formation.module.reservoir_pattern">[docs]</a>
+    <span class="k">def</span> <span class="nf">reservoir_pattern</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">num1</span><span class="p">,</span> <span class="n">str1</span><span class="p">,</span> <span class="n">num2</span><span class="p">,</span> <span class="n">arr1</span><span class="p">,</span> <span class="n">arr2</span><span class="p">,</span> <span class="n">arr3</span><span class="p">):</span>
+        <span class="c1"># num1 - base time in days # str1 - input value for pattern; num2 - percentage variation in the random pattern</span>
+        <span class="c1"># arr1 - reservoir injection start time steps; arr2 - reservoir injection stop time steps</span>
+        <span class="c1"># arr3 - reservoir injection input value</span>
+        <span class="n">num_reservoirs</span> <span class="o">=</span> <span class="n">module</span><span class="o">.</span><span class="n">network</span><span class="p">(</span><span class="n">d</span><span class="p">)[</span><span class="mi">2</span><span class="p">]</span>
+        <span class="n">num_bulk_parameters</span> <span class="o">=</span> <span class="n">module</span><span class="o">.</span><span class="n">species</span><span class="p">()[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">h_time</span> <span class="o">=</span> <span class="n">d</span><span class="o">.</span><span class="n">getTimeHydraulicStep</span><span class="p">()</span>
+        <span class="n">pattern_steps</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">num1</span> <span class="o">*</span> <span class="mi">24</span> <span class="o">*</span> <span class="mi">3600</span> <span class="o">/</span> <span class="n">h_time</span><span class="p">)</span>
+        <span class="n">pattern_mat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">num_reservoirs</span><span class="p">,</span> <span class="n">pattern_steps</span><span class="p">,</span> <span class="n">num_bulk_parameters</span><span class="p">))</span>
+        <span class="c1"># Input</span>
+        <span class="c1"># &#39;none&#39; - constant pattern; &#39;rand&#39; - random variations; &#39;specific - specify pattern</span>
+        <span class="nb">input</span> <span class="o">=</span> <span class="n">str1</span>
+        <span class="n">rand_vary</span> <span class="o">=</span> <span class="n">num2</span>  <span class="c1"># percentage variation</span>
+        <span class="k">if</span> <span class="nb">input</span> <span class="o">==</span> <span class="s2">&quot;none&quot;</span><span class="p">:</span>
+            <span class="n">pattern_mat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">pattern_mat</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">input</span> <span class="o">==</span> <span class="s2">&quot;rand&quot;</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_reservoirs</span><span class="p">):</span>
+                <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_bulk_parameters</span><span class="p">):</span>
+                    <span class="n">z</span> <span class="o">=</span> <span class="mi">0</span>
+                    <span class="k">while</span> <span class="n">z</span> <span class="o">&lt;</span> <span class="n">pattern_steps</span><span class="p">:</span>
+                        <span class="n">pattern_mat</span><span class="p">[</span><span class="n">x</span><span class="p">][</span><span class="n">z</span><span class="p">][</span><span class="n">y</span><span class="p">]</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">rand_vary</span><span class="p">,</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">rand_vary</span><span class="p">)</span>
+                        <span class="n">z</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">elif</span> <span class="nb">input</span> <span class="o">==</span> <span class="s2">&quot;specific&quot;</span><span class="p">:</span>
+            <span class="n">start_step_mat</span> <span class="o">=</span> <span class="n">arr1</span>
+            <span class="n">end_step_mat</span> <span class="o">=</span> <span class="n">arr2</span>
+            <span class="n">val_input</span> <span class="o">=</span> <span class="n">arr3</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">start_step_mat</span><span class="p">)</span> <span class="o">==</span> <span class="n">num_reservoirs</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">end_step_mat</span><span class="p">)</span> <span class="o">==</span> <span class="n">num_reservoirs</span><span class="p">:</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">start_step_mat</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">&lt;=</span> <span class="n">pattern_steps</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">end_step_mat</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">&lt;=</span> <span class="n">pattern_steps</span><span class="p">:</span>
+                    <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_reservoirs</span><span class="p">):</span>
+                        <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">start_step_mat</span><span class="p">[</span><span class="n">x</span><span class="p">])):</span>
+                            <span class="n">pattern_mat</span><span class="p">[</span><span class="n">x</span><span class="p">][</span><span class="n">start_step_mat</span><span class="p">[</span><span class="n">x</span><span class="p">][</span><span class="n">y</span><span class="p">]</span> <span class="p">:</span> <span class="n">end_step_mat</span><span class="p">[</span><span class="n">x</span><span class="p">][</span><span class="n">y</span><span class="p">]]</span> <span class="o">=</span> <span class="n">val_input</span><span class="p">[</span><span class="n">x</span><span class="p">][</span><span class="n">y</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">exit</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">pattern_mat</span></div>
+
+
+    <span class="c1"># Defining quality at the injection node(s)</span>
+<div class="viewcode-block" id="module.injection_quality">
+<a class="viewcode-back" href="../../epytc.html#epytc.pfas_formation.module.injection_quality">[docs]</a>
+    <span class="k">def</span> <span class="nf">injection_quality</span><span class="p">(</span><span class="n">num1</span><span class="p">,</span> <span class="n">arr1</span><span class="p">,</span> <span class="n">arr2</span><span class="p">,</span> <span class="n">str1</span><span class="p">,</span> <span class="n">num2</span><span class="p">):</span>
+        <span class="c1"># num1 - number of iterations; arr1 - matrix of injection nodes indices; arr2 - matrix of injection nodes quality</span>
+        <span class="c1"># str1 - input value for pattern; num2 - percentage variation in the random pattern</span>
+        <span class="n">num_injection_nodes</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">arr1</span><span class="p">)</span>
+        <span class="n">num_bulk_parameters</span> <span class="o">=</span> <span class="n">module</span><span class="o">.</span><span class="n">species</span><span class="p">()[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">arr2</span><span class="p">)</span> <span class="o">==</span> <span class="n">num_injection_nodes</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">arr2</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">==</span> <span class="n">num_bulk_parameters</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Reservoir quality updated.&quot;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Injection node quality input error.&quot;</span><span class="p">)</span>
+                <span class="n">exit</span><span class="p">()</span>
+        <span class="n">injection_quality</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">num_injection_nodes</span><span class="p">,</span> <span class="n">num1</span><span class="p">,</span> <span class="n">num_bulk_parameters</span><span class="p">))</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Injection nodes quality updated.&quot;</span><span class="p">)</span>
+        <span class="c1"># Input</span>
+        <span class="c1"># &#39;none&#39; - constant values; &#39;rand&#39; - randomly varying values</span>
+        <span class="nb">input</span> <span class="o">=</span> <span class="n">str1</span>
+        <span class="n">rand_vary</span> <span class="o">=</span> <span class="n">num2</span>  <span class="c1"># percentage variation</span>
+        <span class="k">if</span> <span class="nb">input</span> <span class="o">==</span> <span class="s2">&quot;none&quot;</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_injection_nodes</span><span class="p">):</span>
+                <span class="n">injection_quality</span><span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="o">=</span> <span class="n">arr2</span><span class="p">[</span><span class="n">x</span><span class="p">]</span>
+        <span class="k">elif</span> <span class="nb">input</span> <span class="o">==</span> <span class="s2">&quot;rand&quot;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">num1</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">mat_min</span> <span class="o">=</span> <span class="n">arr2</span>
+                <span class="n">mat_max</span> <span class="o">=</span> <span class="n">arr2</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">mat_min</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">multiply</span><span class="p">(</span><span class="n">arr2</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">rand_vary</span><span class="p">))</span>
+                <span class="n">mat_max</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">multiply</span><span class="p">(</span><span class="n">arr2</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">rand_vary</span><span class="p">))</span>
+            <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_injection_nodes</span><span class="p">):</span>
+                <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_bulk_parameters</span><span class="p">):</span>
+                    <span class="n">z</span> <span class="o">=</span> <span class="mi">0</span>
+                    <span class="k">while</span> <span class="n">z</span> <span class="o">&lt;</span> <span class="n">num1</span><span class="p">:</span>
+                        <span class="n">injection_quality</span><span class="p">[</span><span class="n">x</span><span class="p">][</span><span class="n">z</span><span class="p">][</span><span class="n">y</span><span class="p">]</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="n">mat_min</span><span class="p">[</span><span class="n">x</span><span class="p">][</span><span class="n">y</span><span class="p">],</span> <span class="n">mat_max</span><span class="p">[</span><span class="n">x</span><span class="p">][</span><span class="n">y</span><span class="p">])</span>
+                        <span class="n">z</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="n">injection_quality</span></div>
+
+
+    <span class="c1"># Defining injection pattern for the injection node(s)</span>
+<div class="viewcode-block" id="module.injection_pattern">
+<a class="viewcode-back" href="../../epytc.html#epytc.pfas_formation.module.injection_pattern">[docs]</a>
+    <span class="k">def</span> <span class="nf">injection_pattern</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">num1</span><span class="p">,</span> <span class="n">arr1</span><span class="p">,</span> <span class="n">str1</span><span class="p">,</span> <span class="n">num2</span><span class="p">,</span> <span class="n">arr2</span><span class="p">,</span> <span class="n">arr3</span><span class="p">,</span> <span class="n">arr4</span><span class="p">):</span>
+        <span class="c1"># num1 - base time in days; arr1 - matrix of injection nodes indices</span>
+        <span class="c1"># str1 - input value for pattern; num2 - percentage variation in the random pattern</span>
+        <span class="c1"># arr2 - injection node injection start time steps; arr3 - injection node injection stop time steps</span>
+        <span class="c1"># arr4 - injection node injection input value</span>
+        <span class="n">num_injection_nodes</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">arr1</span><span class="p">)</span>
+        <span class="n">num_bulk_parameters</span> <span class="o">=</span> <span class="n">module</span><span class="o">.</span><span class="n">species</span><span class="p">()[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">h_time</span> <span class="o">=</span> <span class="n">d</span><span class="o">.</span><span class="n">getTimeHydraulicStep</span><span class="p">()</span>
+        <span class="n">pattern_steps</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">num1</span> <span class="o">*</span> <span class="mi">24</span> <span class="o">*</span> <span class="mi">3600</span> <span class="o">/</span> <span class="n">h_time</span><span class="p">)</span>
+        <span class="n">inj_pattern_mat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">num_injection_nodes</span><span class="p">,</span> <span class="n">pattern_steps</span><span class="p">,</span> <span class="n">num_bulk_parameters</span><span class="p">))</span>
+        <span class="c1"># Input</span>
+        <span class="c1"># &#39;none&#39; - constant pattern; &#39;rand&#39; - random variations; &#39;specific - specify pattern</span>
+        <span class="nb">input</span> <span class="o">=</span> <span class="n">str1</span>
+        <span class="n">rand_vary</span> <span class="o">=</span> <span class="n">num2</span>  <span class="c1"># percentage variation</span>
+        <span class="k">if</span> <span class="nb">input</span> <span class="o">==</span> <span class="s2">&quot;none&quot;</span><span class="p">:</span>
+            <span class="n">inj_pattern_mat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">inj_pattern_mat</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">input</span> <span class="o">==</span> <span class="s2">&quot;rand&quot;</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_injection_nodes</span><span class="p">):</span>
+                <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_bulk_parameters</span><span class="p">):</span>
+                    <span class="n">z</span> <span class="o">=</span> <span class="mi">0</span>
+                    <span class="k">while</span> <span class="n">z</span> <span class="o">&lt;</span> <span class="n">pattern_steps</span><span class="p">:</span>
+                        <span class="n">inj_pattern_mat</span><span class="p">[</span><span class="n">x</span><span class="p">][</span><span class="n">z</span><span class="p">][</span><span class="n">y</span><span class="p">]</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">rand_vary</span><span class="p">,</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">rand_vary</span><span class="p">)</span>
+                        <span class="n">z</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">elif</span> <span class="nb">input</span> <span class="o">==</span> <span class="s2">&quot;specific&quot;</span><span class="p">:</span>
+            <span class="n">start_step_mat</span> <span class="o">=</span> <span class="n">arr2</span>
+            <span class="n">end_step_mat</span> <span class="o">=</span> <span class="n">arr3</span>
+            <span class="n">val_input</span> <span class="o">=</span> <span class="n">arr4</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">start_step_mat</span><span class="p">)</span> <span class="o">==</span> <span class="n">num_injection_nodes</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">end_step_mat</span><span class="p">)</span> <span class="o">==</span> <span class="n">num_injection_nodes</span><span class="p">:</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">start_step_mat</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">&lt;=</span> <span class="n">pattern_steps</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">end_step_mat</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">&lt;=</span> <span class="n">pattern_steps</span><span class="p">:</span>
+                    <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_injection_nodes</span><span class="p">):</span>
+                        <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">start_step_mat</span><span class="p">[</span><span class="n">x</span><span class="p">])):</span>
+                            <span class="n">inj_pattern_mat</span><span class="p">[</span><span class="n">x</span><span class="p">][</span><span class="n">start_step_mat</span><span class="p">[</span><span class="n">x</span><span class="p">][</span><span class="n">y</span><span class="p">]</span> <span class="p">:</span> <span class="n">end_step_mat</span><span class="p">[</span><span class="n">x</span><span class="p">][</span><span class="n">y</span><span class="p">]]</span> <span class="o">=</span> <span class="n">val_input</span><span class="p">[</span><span class="n">x</span><span class="p">][</span><span class="n">y</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">exit</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">inj_pattern_mat</span></div>
+</div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Gopinathan R Abhijith.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

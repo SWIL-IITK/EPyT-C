@@ -3,11 +3,11 @@ EPyT-C Test Part 4
 This file is provided to ensure that all functions can be executed correctly using Net3.inp 
 and MSRT-3: Arsenite oxidation and arsenate attachment/detachment module.
 """
-from epyt_c.epyt_c_functions import fn 
+from epytc.functions import fn 
 fn.install("epyt")
 from epyt import epanet
 d = epanet('Net3.inp') # load Net3.inp
-from epyt_c.arsenite_oxidation_arsenate_attachment_detachment import module
+from epytc.arsenite_oxidation_arsenate_attachment_detachment import module
 import numpy as np
 
 class TestEpytcModule3():

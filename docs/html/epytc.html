@@ -1,0 +1,827 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>epytc package &mdash; EPyT-C  documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="_static/doctools.js?v=888ff710"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="epytc" href="modules.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            EPyT-C
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">epytc</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">epytc package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-epytc.arsenite_oxidation_arsenate_attachment_detachment">epytc.arsenite_oxidation_arsenate_attachment_detachment module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#epytc.arsenite_oxidation_arsenate_attachment_detachment.module"><code class="docutils literal notranslate"><span class="pre">module</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-epytc.bacterial_regrowth">epytc.bacterial_regrowth module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#epytc.bacterial_regrowth.module"><code class="docutils literal notranslate"><span class="pre">module</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-epytc.chlorine_decay_thms_formation">epytc.chlorine_decay_thms_formation module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#epytc.chlorine_decay_thms_formation.module"><code class="docutils literal notranslate"><span class="pre">module</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-epytc.functions">epytc.functions module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#epytc.functions.fn"><code class="docutils literal notranslate"><span class="pre">fn</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-epytc.main">epytc.main module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#epytc.main.create_epytc"><code class="docutils literal notranslate"><span class="pre">create_epytc()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#epytc.main.epytc_class"><code class="docutils literal notranslate"><span class="pre">epytc_class</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#epytc.main.execute_epytc"><code class="docutils literal notranslate"><span class="pre">execute_epytc()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-epytc.pfas_formation">epytc.pfas_formation module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#epytc.pfas_formation.module"><code class="docutils literal notranslate"><span class="pre">module</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-epytc.run">epytc.run module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#epytc.run.run_epytc"><code class="docutils literal notranslate"><span class="pre">run_epytc()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-epytc">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">EPyT-C</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="modules.html">epytc</a></li>
+      <li class="breadcrumb-item active">epytc package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/epytc.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="epytc-package">
+<h1>epytc package<a class="headerlink" href="#epytc-package" title="Link to this heading"></a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading"></a></h2>
+</section>
+<section id="module-epytc.arsenite_oxidation_arsenate_attachment_detachment">
+<span id="epytc-arsenite-oxidation-arsenate-attachment-detachment-module"></span><h2>epytc.arsenite_oxidation_arsenate_attachment_detachment module<a class="headerlink" href="#module-epytc.arsenite_oxidation_arsenate_attachment_detachment" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="epytc.arsenite_oxidation_arsenate_attachment_detachment.module">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">epytc.arsenite_oxidation_arsenate_attachment_detachment.</span></span><span class="sig-name descname"><span class="pre">module</span></span><a class="reference internal" href="_modules/epytc/arsenite_oxidation_arsenate_attachment_detachment.html#module"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#epytc.arsenite_oxidation_arsenate_attachment_detachment.module" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="epytc.arsenite_oxidation_arsenate_attachment_detachment.module.Reynolds_number">
+<span class="sig-name descname"><span class="pre">Reynolds_number</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num3</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/epytc/arsenite_oxidation_arsenate_attachment_detachment.html#module.Reynolds_number"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#epytc.arsenite_oxidation_arsenate_attachment_detachment.module.Reynolds_number" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="epytc.arsenite_oxidation_arsenate_attachment_detachment.module.Schmidt_number">
+<span class="sig-name descname"><span class="pre">Schmidt_number</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/epytc/arsenite_oxidation_arsenate_attachment_detachment.html#module.Schmidt_number"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#epytc.arsenite_oxidation_arsenate_attachment_detachment.module.Schmidt_number" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="epytc.arsenite_oxidation_arsenate_attachment_detachment.module.Sherwood_number">
+<span class="sig-name descname"><span class="pre">Sherwood_number</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num4</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/epytc/arsenite_oxidation_arsenate_attachment_detachment.html#module.Sherwood_number"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#epytc.arsenite_oxidation_arsenate_attachment_detachment.module.Sherwood_number" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="epytc.arsenite_oxidation_arsenate_attachment_detachment.module.area_per_unit_vol">
+<span class="sig-name descname"><span class="pre">area_per_unit_vol</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/epytc/arsenite_oxidation_arsenate_attachment_detachment.html#module.area_per_unit_vol"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#epytc.arsenite_oxidation_arsenate_attachment_detachment.module.area_per_unit_vol" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="epytc.arsenite_oxidation_arsenate_attachment_detachment.module.details">
+<span class="sig-name descname"><span class="pre">details</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/epytc/arsenite_oxidation_arsenate_attachment_detachment.html#module.details"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#epytc.arsenite_oxidation_arsenate_attachment_detachment.module.details" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="epytc.arsenite_oxidation_arsenate_attachment_detachment.module.first_order_reaction">
+<span class="sig-name descname"><span class="pre">first_order_reaction</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num3</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/epytc/arsenite_oxidation_arsenate_attachment_detachment.html#module.first_order_reaction"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#epytc.arsenite_oxidation_arsenate_attachment_detachment.module.first_order_reaction" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="epytc.arsenite_oxidation_arsenate_attachment_detachment.module.hydraulic_mean_radius">
+<span class="sig-name descname"><span class="pre">hydraulic_mean_radius</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/epytc/arsenite_oxidation_arsenate_attachment_detachment.html#module.hydraulic_mean_radius"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#epytc.arsenite_oxidation_arsenate_attachment_detachment.module.hydraulic_mean_radius" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="epytc.arsenite_oxidation_arsenate_attachment_detachment.module.injection_pattern">
+<span class="sig-name descname"><span class="pre">injection_pattern</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arr1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">str1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arr2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arr3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arr4</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/epytc/arsenite_oxidation_arsenate_attachment_detachment.html#module.injection_pattern"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#epytc.arsenite_oxidation_arsenate_attachment_detachment.module.injection_pattern" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="epytc.arsenite_oxidation_arsenate_attachment_detachment.module.injection_quality">
+<span class="sig-name descname"><span class="pre">injection_quality</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arr1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arr2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">str1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/epytc/arsenite_oxidation_arsenate_attachment_detachment.html#module.injection_quality"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#epytc.arsenite_oxidation_arsenate_attachment_detachment.module.injection_quality" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="epytc.arsenite_oxidation_arsenate_attachment_detachment.module.mass_transfer_coefficient_ars">
+<span class="sig-name descname"><span class="pre">mass_transfer_coefficient_ars</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num4</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/epytc/arsenite_oxidation_arsenate_attachment_detachment.html#module.mass_transfer_coefficient_ars"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#epytc.arsenite_oxidation_arsenate_attachment_detachment.module.mass_transfer_coefficient_ars" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="epytc.arsenite_oxidation_arsenate_attachment_detachment.module.mass_transfer_coefficient_cl">
+<span class="sig-name descname"><span class="pre">mass_transfer_coefficient_cl</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num3</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/epytc/arsenite_oxidation_arsenate_attachment_detachment.html#module.mass_transfer_coefficient_cl"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#epytc.arsenite_oxidation_arsenate_attachment_detachment.module.mass_transfer_coefficient_cl" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="epytc.arsenite_oxidation_arsenate_attachment_detachment.module.network">
+<span class="sig-name descname"><span class="pre">network</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/epytc/arsenite_oxidation_arsenate_attachment_detachment.html#module.network"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#epytc.arsenite_oxidation_arsenate_attachment_detachment.module.network" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="epytc.arsenite_oxidation_arsenate_attachment_detachment.module.pipe_reaction">
+<span class="sig-name descname"><span class="pre">pipe_reaction</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num4</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num6</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num7</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arr1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arr2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/epytc/arsenite_oxidation_arsenate_attachment_detachment.html#module.pipe_reaction"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#epytc.arsenite_oxidation_arsenate_attachment_detachment.module.pipe_reaction" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="epytc.arsenite_oxidation_arsenate_attachment_detachment.module.reservoir_pattern">
+<span class="sig-name descname"><span class="pre">reservoir_pattern</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">str1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arr1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arr2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arr3</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/epytc/arsenite_oxidation_arsenate_attachment_detachment.html#module.reservoir_pattern"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#epytc.arsenite_oxidation_arsenate_attachment_detachment.module.reservoir_pattern" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="epytc.arsenite_oxidation_arsenate_attachment_detachment.module.reservoir_quality">
+<span class="sig-name descname"><span class="pre">reservoir_quality</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arr1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">str1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/epytc/arsenite_oxidation_arsenate_attachment_detachment.html#module.reservoir_quality"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#epytc.arsenite_oxidation_arsenate_attachment_detachment.module.reservoir_quality" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="epytc.arsenite_oxidation_arsenate_attachment_detachment.module.species">
+<span class="sig-name descname"><span class="pre">species</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/epytc/arsenite_oxidation_arsenate_attachment_detachment.html#module.species"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#epytc.arsenite_oxidation_arsenate_attachment_detachment.module.species" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="epytc.arsenite_oxidation_arsenate_attachment_detachment.module.tank_reaction">
+<span class="sig-name descname"><span class="pre">tank_reaction</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num4</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arr1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arr2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arr3</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/epytc/arsenite_oxidation_arsenate_attachment_detachment.html#module.tank_reaction"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#epytc.arsenite_oxidation_arsenate_attachment_detachment.module.tank_reaction" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="epytc.arsenite_oxidation_arsenate_attachment_detachment.module.variables">
+<span class="sig-name descname"><span class="pre">variables</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/epytc/arsenite_oxidation_arsenate_attachment_detachment.html#module.variables"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#epytc.arsenite_oxidation_arsenate_attachment_detachment.module.variables" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="epytc.arsenite_oxidation_arsenate_attachment_detachment.module.zero_order_reaction">
+<span class="sig-name descname"><span class="pre">zero_order_reaction</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/epytc/arsenite_oxidation_arsenate_attachment_detachment.html#module.zero_order_reaction"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#epytc.arsenite_oxidation_arsenate_attachment_detachment.module.zero_order_reaction" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-epytc.bacterial_regrowth">
+<span id="epytc-bacterial-regrowth-module"></span><h2>epytc.bacterial_regrowth module<a class="headerlink" href="#module-epytc.bacterial_regrowth" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="epytc.bacterial_regrowth.module">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">epytc.bacterial_regrowth.</span></span><span class="sig-name descname"><span class="pre">module</span></span><a class="reference internal" href="_modules/epytc/bacterial_regrowth.html#module"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#epytc.bacterial_regrowth.module" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="epytc.bacterial_regrowth.module.Reynolds_number">
+<span class="sig-name descname"><span class="pre">Reynolds_number</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num3</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/epytc/bacterial_regrowth.html#module.Reynolds_number"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#epytc.bacterial_regrowth.module.Reynolds_number" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="epytc.bacterial_regrowth.module.Schmidt_number">
+<span class="sig-name descname"><span class="pre">Schmidt_number</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/epytc/bacterial_regrowth.html#module.Schmidt_number"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#epytc.bacterial_regrowth.module.Schmidt_number" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="epytc.bacterial_regrowth.module.Sherwood_number">
+<span class="sig-name descname"><span class="pre">Sherwood_number</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num4</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/epytc/bacterial_regrowth.html#module.Sherwood_number"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#epytc.bacterial_regrowth.module.Sherwood_number" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="epytc.bacterial_regrowth.module.details">
+<span class="sig-name descname"><span class="pre">details</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/epytc/bacterial_regrowth.html#module.details"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#epytc.bacterial_regrowth.module.details" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="epytc.bacterial_regrowth.module.first_order_reaction">
+<span class="sig-name descname"><span class="pre">first_order_reaction</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num3</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/epytc/bacterial_regrowth.html#module.first_order_reaction"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#epytc.bacterial_regrowth.module.first_order_reaction" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="epytc.bacterial_regrowth.module.hydraulic_mean_radius">
+<span class="sig-name descname"><span class="pre">hydraulic_mean_radius</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/epytc/bacterial_regrowth.html#module.hydraulic_mean_radius"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#epytc.bacterial_regrowth.module.hydraulic_mean_radius" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="epytc.bacterial_regrowth.module.injection_pattern">
+<span class="sig-name descname"><span class="pre">injection_pattern</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arr1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">str1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arr2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arr3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arr4</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/epytc/bacterial_regrowth.html#module.injection_pattern"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#epytc.bacterial_regrowth.module.injection_pattern" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="epytc.bacterial_regrowth.module.injection_quality">
+<span class="sig-name descname"><span class="pre">injection_quality</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arr1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arr2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">str1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/epytc/bacterial_regrowth.html#module.injection_quality"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#epytc.bacterial_regrowth.module.injection_quality" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="epytc.bacterial_regrowth.module.mass_transfer_coefficient">
+<span class="sig-name descname"><span class="pre">mass_transfer_coefficient</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num3</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/epytc/bacterial_regrowth.html#module.mass_transfer_coefficient"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#epytc.bacterial_regrowth.module.mass_transfer_coefficient" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="epytc.bacterial_regrowth.module.network">
+<span class="sig-name descname"><span class="pre">network</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/epytc/bacterial_regrowth.html#module.network"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#epytc.bacterial_regrowth.module.network" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="epytc.bacterial_regrowth.module.pipe_reaction">
+<span class="sig-name descname"><span class="pre">pipe_reaction</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num4</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num6</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num7</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arr1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arr2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/epytc/bacterial_regrowth.html#module.pipe_reaction"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#epytc.bacterial_regrowth.module.pipe_reaction" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="epytc.bacterial_regrowth.module.reservoir_pattern">
+<span class="sig-name descname"><span class="pre">reservoir_pattern</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">str1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arr1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arr2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arr3</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/epytc/bacterial_regrowth.html#module.reservoir_pattern"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#epytc.bacterial_regrowth.module.reservoir_pattern" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="epytc.bacterial_regrowth.module.reservoir_quality">
+<span class="sig-name descname"><span class="pre">reservoir_quality</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arr1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">str1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/epytc/bacterial_regrowth.html#module.reservoir_quality"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#epytc.bacterial_regrowth.module.reservoir_quality" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="epytc.bacterial_regrowth.module.species">
+<span class="sig-name descname"><span class="pre">species</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/epytc/bacterial_regrowth.html#module.species"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#epytc.bacterial_regrowth.module.species" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="epytc.bacterial_regrowth.module.tank_reaction">
+<span class="sig-name descname"><span class="pre">tank_reaction</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num4</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arr1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arr2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arr3</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/epytc/bacterial_regrowth.html#module.tank_reaction"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#epytc.bacterial_regrowth.module.tank_reaction" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="epytc.bacterial_regrowth.module.variables">
+<span class="sig-name descname"><span class="pre">variables</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/epytc/bacterial_regrowth.html#module.variables"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#epytc.bacterial_regrowth.module.variables" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="epytc.bacterial_regrowth.module.zero_order_reaction">
+<span class="sig-name descname"><span class="pre">zero_order_reaction</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/epytc/bacterial_regrowth.html#module.zero_order_reaction"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#epytc.bacterial_regrowth.module.zero_order_reaction" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-epytc.chlorine_decay_thms_formation">
+<span id="epytc-chlorine-decay-thms-formation-module"></span><h2>epytc.chlorine_decay_thms_formation module<a class="headerlink" href="#module-epytc.chlorine_decay_thms_formation" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="epytc.chlorine_decay_thms_formation.module">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">epytc.chlorine_decay_thms_formation.</span></span><span class="sig-name descname"><span class="pre">module</span></span><a class="reference internal" href="_modules/epytc/chlorine_decay_thms_formation.html#module"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#epytc.chlorine_decay_thms_formation.module" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="epytc.chlorine_decay_thms_formation.module.Reynolds_number">
+<span class="sig-name descname"><span class="pre">Reynolds_number</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num3</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/epytc/chlorine_decay_thms_formation.html#module.Reynolds_number"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#epytc.chlorine_decay_thms_formation.module.Reynolds_number" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="epytc.chlorine_decay_thms_formation.module.Schmidt_number">
+<span class="sig-name descname"><span class="pre">Schmidt_number</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/epytc/chlorine_decay_thms_formation.html#module.Schmidt_number"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#epytc.chlorine_decay_thms_formation.module.Schmidt_number" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="epytc.chlorine_decay_thms_formation.module.Sherwood_number">
+<span class="sig-name descname"><span class="pre">Sherwood_number</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num4</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/epytc/chlorine_decay_thms_formation.html#module.Sherwood_number"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#epytc.chlorine_decay_thms_formation.module.Sherwood_number" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="epytc.chlorine_decay_thms_formation.module.details">
+<span class="sig-name descname"><span class="pre">details</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/epytc/chlorine_decay_thms_formation.html#module.details"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#epytc.chlorine_decay_thms_formation.module.details" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="epytc.chlorine_decay_thms_formation.module.first_order_reaction">
+<span class="sig-name descname"><span class="pre">first_order_reaction</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num3</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/epytc/chlorine_decay_thms_formation.html#module.first_order_reaction"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#epytc.chlorine_decay_thms_formation.module.first_order_reaction" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="epytc.chlorine_decay_thms_formation.module.hydraulic_mean_radius">
+<span class="sig-name descname"><span class="pre">hydraulic_mean_radius</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/epytc/chlorine_decay_thms_formation.html#module.hydraulic_mean_radius"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#epytc.chlorine_decay_thms_formation.module.hydraulic_mean_radius" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="epytc.chlorine_decay_thms_formation.module.injection_pattern">
+<span class="sig-name descname"><span class="pre">injection_pattern</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arr1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">str1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arr2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arr3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arr4</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/epytc/chlorine_decay_thms_formation.html#module.injection_pattern"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#epytc.chlorine_decay_thms_formation.module.injection_pattern" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="epytc.chlorine_decay_thms_formation.module.injection_quality">
+<span class="sig-name descname"><span class="pre">injection_quality</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arr1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arr2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">str1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/epytc/chlorine_decay_thms_formation.html#module.injection_quality"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#epytc.chlorine_decay_thms_formation.module.injection_quality" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="epytc.chlorine_decay_thms_formation.module.mass_transfer_coefficient">
+<span class="sig-name descname"><span class="pre">mass_transfer_coefficient</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num3</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/epytc/chlorine_decay_thms_formation.html#module.mass_transfer_coefficient"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#epytc.chlorine_decay_thms_formation.module.mass_transfer_coefficient" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="epytc.chlorine_decay_thms_formation.module.network">
+<span class="sig-name descname"><span class="pre">network</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/epytc/chlorine_decay_thms_formation.html#module.network"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#epytc.chlorine_decay_thms_formation.module.network" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="epytc.chlorine_decay_thms_formation.module.pipe_reaction">
+<span class="sig-name descname"><span class="pre">pipe_reaction</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num4</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num6</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num7</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arr1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arr2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/epytc/chlorine_decay_thms_formation.html#module.pipe_reaction"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#epytc.chlorine_decay_thms_formation.module.pipe_reaction" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="epytc.chlorine_decay_thms_formation.module.reservoir_pattern">
+<span class="sig-name descname"><span class="pre">reservoir_pattern</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">str1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arr1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arr2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arr3</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/epytc/chlorine_decay_thms_formation.html#module.reservoir_pattern"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#epytc.chlorine_decay_thms_formation.module.reservoir_pattern" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="epytc.chlorine_decay_thms_formation.module.reservoir_quality">
+<span class="sig-name descname"><span class="pre">reservoir_quality</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arr1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">str1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/epytc/chlorine_decay_thms_formation.html#module.reservoir_quality"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#epytc.chlorine_decay_thms_formation.module.reservoir_quality" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="epytc.chlorine_decay_thms_formation.module.species">
+<span class="sig-name descname"><span class="pre">species</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/epytc/chlorine_decay_thms_formation.html#module.species"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#epytc.chlorine_decay_thms_formation.module.species" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="epytc.chlorine_decay_thms_formation.module.tank_reaction">
+<span class="sig-name descname"><span class="pre">tank_reaction</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num4</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arr1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arr2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arr3</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/epytc/chlorine_decay_thms_formation.html#module.tank_reaction"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#epytc.chlorine_decay_thms_formation.module.tank_reaction" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="epytc.chlorine_decay_thms_formation.module.variables">
+<span class="sig-name descname"><span class="pre">variables</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/epytc/chlorine_decay_thms_formation.html#module.variables"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#epytc.chlorine_decay_thms_formation.module.variables" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="epytc.chlorine_decay_thms_formation.module.zero_order_reaction">
+<span class="sig-name descname"><span class="pre">zero_order_reaction</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/epytc/chlorine_decay_thms_formation.html#module.zero_order_reaction"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#epytc.chlorine_decay_thms_formation.module.zero_order_reaction" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-epytc.functions">
+<span id="epytc-functions-module"></span><h2>epytc.functions module<a class="headerlink" href="#module-epytc.functions" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="epytc.functions.fn">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">epytc.functions.</span></span><span class="sig-name descname"><span class="pre">fn</span></span><a class="reference internal" href="_modules/epytc/functions.html#fn"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#epytc.functions.fn" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="epytc.functions.fn.demand_data">
+<span class="sig-name descname"><span class="pre">demand_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arr2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">str1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/epytc/functions.html#fn.demand_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#epytc.functions.fn.demand_data" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="epytc.functions.fn.flow_data">
+<span class="sig-name descname"><span class="pre">flow_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arr2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">str1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/epytc/functions.html#fn.flow_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#epytc.functions.fn.flow_data" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="epytc.functions.fn.incoming_links">
+<span class="sig-name descname"><span class="pre">incoming_links</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arr1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/epytc/functions.html#fn.incoming_links"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#epytc.functions.fn.incoming_links" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="epytc.functions.fn.maximum_segments">
+<span class="sig-name descname"><span class="pre">maximum_segments</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arr1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arr2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/epytc/functions.html#fn.maximum_segments"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#epytc.functions.fn.maximum_segments" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="epytc.functions.fn.minimum_link_diameter">
+<span class="sig-name descname"><span class="pre">minimum_link_diameter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arr1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/epytc/functions.html#fn.minimum_link_diameter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#epytc.functions.fn.minimum_link_diameter" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="epytc.functions.fn.minimum_link_length">
+<span class="sig-name descname"><span class="pre">minimum_link_length</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arr1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/epytc/functions.html#fn.minimum_link_length"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#epytc.functions.fn.minimum_link_length" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="epytc.functions.fn.msrt_info">
+<span class="sig-name descname"><span class="pre">msrt_info</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num3</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/epytc/functions.html#fn.msrt_info"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#epytc.functions.fn.msrt_info" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="epytc.functions.fn.network">
+<span class="sig-name descname"><span class="pre">network</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/epytc/functions.html#fn.network"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#epytc.functions.fn.network" title="Link to this definition"></a></dt>
+<dd><p>Getting basic details of the network</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>d</strong> (<em>EPANET object</em>) – EPANET model</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Network details</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="epytc.functions.fn.omitted_links">
+<span class="sig-name descname"><span class="pre">omitted_links</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arr1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arr2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/epytc/functions.html#fn.omitted_links"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#epytc.functions.fn.omitted_links" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="epytc.functions.fn.omitted_nodes">
+<span class="sig-name descname"><span class="pre">omitted_nodes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arr1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arr2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/epytc/functions.html#fn.omitted_nodes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#epytc.functions.fn.omitted_nodes" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="epytc.functions.fn.outgoing_links">
+<span class="sig-name descname"><span class="pre">outgoing_links</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arr1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/epytc/functions.html#fn.outgoing_links"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#epytc.functions.fn.outgoing_links" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="epytc.functions.fn.pump_names">
+<span class="sig-name descname"><span class="pre">pump_names</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arr1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/epytc/functions.html#fn.pump_names"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#epytc.functions.fn.pump_names" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="epytc.functions.fn.reservoir_names">
+<span class="sig-name descname"><span class="pre">reservoir_names</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arr1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arr2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/epytc/functions.html#fn.reservoir_names"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#epytc.functions.fn.reservoir_names" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="epytc.functions.fn.simulation_info">
+<span class="sig-name descname"><span class="pre">simulation_info</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num4</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/epytc/functions.html#fn.simulation_info"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#epytc.functions.fn.simulation_info" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="epytc.functions.fn.sync_time">
+<span class="sig-name descname"><span class="pre">sync_time</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">H</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num4</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num6</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num7</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num8</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arr1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arr2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/epytc/functions.html#fn.sync_time"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#epytc.functions.fn.sync_time" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="epytc.functions.fn.tank_names">
+<span class="sig-name descname"><span class="pre">tank_names</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arr1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arr2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/epytc/functions.html#fn.tank_names"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#epytc.functions.fn.tank_names" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="epytc.functions.fn.tank_volume_data">
+<span class="sig-name descname"><span class="pre">tank_volume_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arr2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">str1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/epytc/functions.html#fn.tank_volume_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#epytc.functions.fn.tank_volume_data" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="epytc.functions.fn.time_data">
+<span class="sig-name descname"><span class="pre">time_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arr2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/epytc/functions.html#fn.time_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#epytc.functions.fn.time_data" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="epytc.functions.fn.time_filter">
+<span class="sig-name descname"><span class="pre">time_filter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num3</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/epytc/functions.html#fn.time_filter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#epytc.functions.fn.time_filter" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="epytc.functions.fn.valve_names">
+<span class="sig-name descname"><span class="pre">valve_names</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arr1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/epytc/functions.html#fn.valve_names"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#epytc.functions.fn.valve_names" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="epytc.functions.fn.velocity_data">
+<span class="sig-name descname"><span class="pre">velocity_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arr2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">str1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/epytc/functions.html#fn.velocity_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#epytc.functions.fn.velocity_data" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-epytc.main">
+<span id="epytc-main-module"></span><h2>epytc.main module<a class="headerlink" href="#module-epytc.main" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="epytc.main.create_epytc">
+<span class="sig-prename descclassname"><span class="pre">epytc.main.</span></span><span class="sig-name descname"><span class="pre">create_epytc</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/epytc/main.html#create_epytc"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#epytc.main.create_epytc" title="Link to this definition"></a></dt>
+<dd><p>Creates an object of dataclass epytc-class</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>An epytc_class object</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#epytc.main.epytc_class" title="epytc.main.epytc_class">epytc_class</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="epytc.main.epytc_class">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">epytc.main.</span></span><span class="sig-name descname"><span class="pre">epytc_class</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">module</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maximum_iterations_required</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">simulation_period_days</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">simulation_time_step</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">base_period_days</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">minimum_pipe_flow_velocity</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reservoir_quality_matrix</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reservoir_quality_pattern</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reservoir_quality_pattern_random_variability</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reservoir_injection_pattern</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reservoir_injection_pattern_random_variability</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reservoir_injection_start_time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reservoir_injection_end_time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reservoir_injection_input_value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">injection_nodes_index</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">injection_nodes_quality_matrix</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">injection_node_quality_pattern</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">injection_node_quality_pattern_random_variability</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">injection_node_injection_pattern</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">injection_node_injection_pattern_random_variability</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">injection_node_injection_start_time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">injection_node_injection_end_time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">injection_node_injection_input_value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hyd_wq_sync_option</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/epytc/main.html#epytc_class"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#epytc.main.epytc_class" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="epytc.main.epytc_class.base_period_days">
+<span class="sig-name descname"><span class="pre">base_period_days</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#epytc.main.epytc_class.base_period_days" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="epytc.main.epytc_class.hyd_wq_sync_option">
+<span class="sig-name descname"><span class="pre">hyd_wq_sync_option</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#epytc.main.epytc_class.hyd_wq_sync_option" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="epytc.main.epytc_class.injection_node_injection_end_time">
+<span class="sig-name descname"><span class="pre">injection_node_injection_end_time</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#epytc.main.epytc_class.injection_node_injection_end_time" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="epytc.main.epytc_class.injection_node_injection_input_value">
+<span class="sig-name descname"><span class="pre">injection_node_injection_input_value</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#epytc.main.epytc_class.injection_node_injection_input_value" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="epytc.main.epytc_class.injection_node_injection_pattern">
+<span class="sig-name descname"><span class="pre">injection_node_injection_pattern</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#epytc.main.epytc_class.injection_node_injection_pattern" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="epytc.main.epytc_class.injection_node_injection_pattern_random_variability">
+<span class="sig-name descname"><span class="pre">injection_node_injection_pattern_random_variability</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#epytc.main.epytc_class.injection_node_injection_pattern_random_variability" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="epytc.main.epytc_class.injection_node_injection_start_time">
+<span class="sig-name descname"><span class="pre">injection_node_injection_start_time</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#epytc.main.epytc_class.injection_node_injection_start_time" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="epytc.main.epytc_class.injection_node_quality_pattern">
+<span class="sig-name descname"><span class="pre">injection_node_quality_pattern</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#epytc.main.epytc_class.injection_node_quality_pattern" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="epytc.main.epytc_class.injection_node_quality_pattern_random_variability">
+<span class="sig-name descname"><span class="pre">injection_node_quality_pattern_random_variability</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#epytc.main.epytc_class.injection_node_quality_pattern_random_variability" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="epytc.main.epytc_class.injection_nodes_index">
+<span class="sig-name descname"><span class="pre">injection_nodes_index</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span></em><a class="headerlink" href="#epytc.main.epytc_class.injection_nodes_index" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="epytc.main.epytc_class.injection_nodes_quality_matrix">
+<span class="sig-name descname"><span class="pre">injection_nodes_quality_matrix</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#epytc.main.epytc_class.injection_nodes_quality_matrix" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="epytc.main.epytc_class.maximum_iterations_required">
+<span class="sig-name descname"><span class="pre">maximum_iterations_required</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#epytc.main.epytc_class.maximum_iterations_required" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="epytc.main.epytc_class.minimum_pipe_flow_velocity">
+<span class="sig-name descname"><span class="pre">minimum_pipe_flow_velocity</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#epytc.main.epytc_class.minimum_pipe_flow_velocity" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="epytc.main.epytc_class.module">
+<span class="sig-name descname"><span class="pre">module</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#epytc.main.epytc_class.module" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="epytc.main.epytc_class.reservoir_injection_end_time">
+<span class="sig-name descname"><span class="pre">reservoir_injection_end_time</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#epytc.main.epytc_class.reservoir_injection_end_time" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="epytc.main.epytc_class.reservoir_injection_input_value">
+<span class="sig-name descname"><span class="pre">reservoir_injection_input_value</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#epytc.main.epytc_class.reservoir_injection_input_value" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="epytc.main.epytc_class.reservoir_injection_pattern">
+<span class="sig-name descname"><span class="pre">reservoir_injection_pattern</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#epytc.main.epytc_class.reservoir_injection_pattern" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="epytc.main.epytc_class.reservoir_injection_pattern_random_variability">
+<span class="sig-name descname"><span class="pre">reservoir_injection_pattern_random_variability</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#epytc.main.epytc_class.reservoir_injection_pattern_random_variability" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="epytc.main.epytc_class.reservoir_injection_start_time">
+<span class="sig-name descname"><span class="pre">reservoir_injection_start_time</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#epytc.main.epytc_class.reservoir_injection_start_time" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="epytc.main.epytc_class.reservoir_quality_matrix">
+<span class="sig-name descname"><span class="pre">reservoir_quality_matrix</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#epytc.main.epytc_class.reservoir_quality_matrix" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="epytc.main.epytc_class.reservoir_quality_pattern">
+<span class="sig-name descname"><span class="pre">reservoir_quality_pattern</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#epytc.main.epytc_class.reservoir_quality_pattern" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="epytc.main.epytc_class.reservoir_quality_pattern_random_variability">
+<span class="sig-name descname"><span class="pre">reservoir_quality_pattern_random_variability</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#epytc.main.epytc_class.reservoir_quality_pattern_random_variability" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="epytc.main.epytc_class.simulation_period_days">
+<span class="sig-name descname"><span class="pre">simulation_period_days</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#epytc.main.epytc_class.simulation_period_days" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="epytc.main.epytc_class.simulation_time_step">
+<span class="sig-name descname"><span class="pre">simulation_time_step</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#epytc.main.epytc_class.simulation_time_step" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="epytc.main.execute_epytc">
+<span class="sig-prename descclassname"><span class="pre">epytc.main.</span></span><span class="sig-name descname"><span class="pre">execute_epytc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">epytc</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#epytc.main.epytc_class" title="epytc.main.epytc_class"><span class="pre">epytc_class</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/epytc/main.html#execute_epytc"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#epytc.main.execute_epytc" title="Link to this definition"></a></dt>
+<dd><p>Execute the epytc module</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>epytc</strong> (<a class="reference internal" href="#epytc.main.epytc_class" title="epytc.main.epytc_class"><em>epytc_class</em></a>) – epytc object</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-epytc.pfas_formation">
+<span id="epytc-pfas-formation-module"></span><h2>epytc.pfas_formation module<a class="headerlink" href="#module-epytc.pfas_formation" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="epytc.pfas_formation.module">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">epytc.pfas_formation.</span></span><span class="sig-name descname"><span class="pre">module</span></span><a class="reference internal" href="_modules/epytc/pfas_formation.html#module"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#epytc.pfas_formation.module" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="epytc.pfas_formation.module.Reynolds_number">
+<span class="sig-name descname"><span class="pre">Reynolds_number</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num3</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/epytc/pfas_formation.html#module.Reynolds_number"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#epytc.pfas_formation.module.Reynolds_number" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="epytc.pfas_formation.module.Schmidt_number">
+<span class="sig-name descname"><span class="pre">Schmidt_number</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/epytc/pfas_formation.html#module.Schmidt_number"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#epytc.pfas_formation.module.Schmidt_number" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="epytc.pfas_formation.module.Sherwood_number">
+<span class="sig-name descname"><span class="pre">Sherwood_number</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num4</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/epytc/pfas_formation.html#module.Sherwood_number"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#epytc.pfas_formation.module.Sherwood_number" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="epytc.pfas_formation.module.details">
+<span class="sig-name descname"><span class="pre">details</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/epytc/pfas_formation.html#module.details"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#epytc.pfas_formation.module.details" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="epytc.pfas_formation.module.first_order_reaction">
+<span class="sig-name descname"><span class="pre">first_order_reaction</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num3</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/epytc/pfas_formation.html#module.first_order_reaction"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#epytc.pfas_formation.module.first_order_reaction" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="epytc.pfas_formation.module.hydraulic_mean_radius">
+<span class="sig-name descname"><span class="pre">hydraulic_mean_radius</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/epytc/pfas_formation.html#module.hydraulic_mean_radius"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#epytc.pfas_formation.module.hydraulic_mean_radius" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="epytc.pfas_formation.module.injection_pattern">
+<span class="sig-name descname"><span class="pre">injection_pattern</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arr1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">str1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arr2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arr3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arr4</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/epytc/pfas_formation.html#module.injection_pattern"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#epytc.pfas_formation.module.injection_pattern" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="epytc.pfas_formation.module.injection_quality">
+<span class="sig-name descname"><span class="pre">injection_quality</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arr1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arr2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">str1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/epytc/pfas_formation.html#module.injection_quality"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#epytc.pfas_formation.module.injection_quality" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="epytc.pfas_formation.module.mass_transfer_coefficient">
+<span class="sig-name descname"><span class="pre">mass_transfer_coefficient</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num3</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/epytc/pfas_formation.html#module.mass_transfer_coefficient"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#epytc.pfas_formation.module.mass_transfer_coefficient" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="epytc.pfas_formation.module.network">
+<span class="sig-name descname"><span class="pre">network</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/epytc/pfas_formation.html#module.network"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#epytc.pfas_formation.module.network" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="epytc.pfas_formation.module.pipe_reaction">
+<span class="sig-name descname"><span class="pre">pipe_reaction</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num4</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num6</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num7</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arr1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arr2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/epytc/pfas_formation.html#module.pipe_reaction"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#epytc.pfas_formation.module.pipe_reaction" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="epytc.pfas_formation.module.reservoir_pattern">
+<span class="sig-name descname"><span class="pre">reservoir_pattern</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">str1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arr1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arr2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arr3</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/epytc/pfas_formation.html#module.reservoir_pattern"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#epytc.pfas_formation.module.reservoir_pattern" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="epytc.pfas_formation.module.reservoir_quality">
+<span class="sig-name descname"><span class="pre">reservoir_quality</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arr1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">str1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/epytc/pfas_formation.html#module.reservoir_quality"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#epytc.pfas_formation.module.reservoir_quality" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="epytc.pfas_formation.module.species">
+<span class="sig-name descname"><span class="pre">species</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/epytc/pfas_formation.html#module.species"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#epytc.pfas_formation.module.species" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="epytc.pfas_formation.module.tank_reaction">
+<span class="sig-name descname"><span class="pre">tank_reaction</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num4</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arr1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arr2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arr3</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/epytc/pfas_formation.html#module.tank_reaction"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#epytc.pfas_formation.module.tank_reaction" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="epytc.pfas_formation.module.variables">
+<span class="sig-name descname"><span class="pre">variables</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/epytc/pfas_formation.html#module.variables"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#epytc.pfas_formation.module.variables" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="epytc.pfas_formation.module.zero_order_reaction">
+<span class="sig-name descname"><span class="pre">zero_order_reaction</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/epytc/pfas_formation.html#module.zero_order_reaction"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#epytc.pfas_formation.module.zero_order_reaction" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-epytc.run">
+<span id="epytc-run-module"></span><h2>epytc.run module<a class="headerlink" href="#module-epytc.run" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="epytc.run.run_epytc">
+<span class="sig-prename descclassname"><span class="pre">epytc.run.</span></span><span class="sig-name descname"><span class="pre">run_epytc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">epytc</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/epytc/run.html#run_epytc"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#epytc.run.run_epytc" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-epytc">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-epytc" title="Link to this heading"></a></h2>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="modules.html" class="btn btn-neutral float-left" title="epytc" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Gopinathan R Abhijith.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

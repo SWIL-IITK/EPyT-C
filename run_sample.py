@@ -1,5 +1,5 @@
 import os
-from epyt_c import create_epytc, execute_epytc
+from epytc import create_epytc, execute_epytc
 
 epytc = create_epytc()
 

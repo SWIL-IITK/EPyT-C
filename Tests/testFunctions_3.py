@@ -3,11 +3,11 @@ EPyT-C Test Part 3
 This file is provided to ensure that all functions can be executed correctly using Net3.inp 
 and MSRT-2: Bacterial regrowth module.
 """
-from epyt_c.epyt_c_functions import fn 
+from epytc.functions import fn 
 fn.install("epyt")
 from epyt import epanet
 d = epanet('Net3.inp') # load Net3.inp
-from epyt_c.bacterial_regrowth import module
+from epytc.bacterial_regrowth import module
 import numpy as np
 
 class TestEpytcModule2():

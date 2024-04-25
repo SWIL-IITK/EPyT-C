@@ -3,11 +3,11 @@ EPyT-C Test Part 2
 This file is provided to ensure that all functions can be executed correctly using Net3.inp 
 and MSRT-1: Chlorine decay and trihalomethanes formation module.
 """
-from epyt_c.epyt_c_functions import fn 
+from epytc.functions import fn 
 fn.install("epyt")
 from epyt import epanet
 d = epanet('Net3.inp') # load Net3.inp
-from epyt_c.chlorine_decay_thms_formation import module
+from epytc.chlorine_decay_thms_formation import module
 import numpy as np
 
 class TestEpytcModule1():

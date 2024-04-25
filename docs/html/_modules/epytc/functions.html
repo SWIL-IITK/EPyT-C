@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>epytc.functions &mdash; EPyT-C  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            EPyT-C
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">epytc</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">EPyT-C</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">epytc.functions</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for epytc.functions</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">math</span>
+
+
+<div class="viewcode-block" id="fn">
+<a class="viewcode-back" href="../../epytc.html#epytc.functions.fn">[docs]</a>
+<span class="k">class</span> <span class="nc">fn</span><span class="p">:</span>
+<div class="viewcode-block" id="fn.network">
+<a class="viewcode-back" href="../../epytc.html#epytc.functions.fn.network">[docs]</a>
+    <span class="k">def</span> <span class="nf">network</span><span class="p">(</span><span class="n">d</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Getting basic details of the network</span>
+
+<span class="sd">        :param d: EPANET model</span>
+<span class="sd">        :type d: EPANET object</span>
+<span class="sd">        :return: Network details</span>
+<span class="sd">        :rtype: List</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">network_info</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">d</span><span class="o">.</span><span class="n">getNodeCount</span><span class="p">(),</span>
+            <span class="n">d</span><span class="o">.</span><span class="n">getLinkCount</span><span class="p">(),</span>
+            <span class="n">d</span><span class="o">.</span><span class="n">getNodeReservoirCount</span><span class="p">(),</span>
+            <span class="n">d</span><span class="o">.</span><span class="n">getNodeTankCount</span><span class="p">(),</span>
+            <span class="n">d</span><span class="o">.</span><span class="n">getLinkPumpCount</span><span class="p">(),</span>
+            <span class="n">d</span><span class="o">.</span><span class="n">getLinkValveCount</span><span class="p">(),</span>
+            <span class="n">d</span><span class="o">.</span><span class="n">getNodeNameID</span><span class="p">(),</span>
+            <span class="n">d</span><span class="o">.</span><span class="n">getLinkNameID</span><span class="p">(),</span>
+            <span class="n">d</span><span class="o">.</span><span class="n">getNodeReservoirIndex</span><span class="p">(),</span>
+            <span class="n">d</span><span class="o">.</span><span class="n">getNodeTankIndex</span><span class="p">(),</span>
+        <span class="p">]</span>
+        <span class="n">index_pumps</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span>
+            <span class="n">d</span><span class="o">.</span><span class="n">getLinkCount</span><span class="p">()</span> <span class="o">-</span> <span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">getLinkPumpCount</span><span class="p">()</span> <span class="o">+</span> <span class="n">d</span><span class="o">.</span><span class="n">getLinkValveCount</span><span class="p">()),</span>
+            <span class="nb">len</span><span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">getLinkNameID</span><span class="p">())</span> <span class="o">-</span> <span class="n">d</span><span class="o">.</span><span class="n">getLinkValveCount</span><span class="p">(),</span>
+        <span class="p">):</span>
+            <span class="n">index_pumps</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">network_info</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">index_pumps</span><span class="p">)</span>
+        <span class="n">index_valves</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span>
+            <span class="n">d</span><span class="o">.</span><span class="n">getLinkCount</span><span class="p">()</span> <span class="o">-</span> <span class="n">d</span><span class="o">.</span><span class="n">getLinkValveCount</span><span class="p">(),</span> <span class="nb">len</span><span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">getLinkNameID</span><span class="p">())</span>
+        <span class="p">):</span>
+            <span class="n">index_valves</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">network_info</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">index_valves</span><span class="p">)</span>
+        <span class="n">network_info</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span>
+            <span class="p">[</span>
+                <span class="n">d</span><span class="o">.</span><span class="n">getFlowUnits</span><span class="p">(),</span>
+                <span class="n">d</span><span class="o">.</span><span class="n">getNodesConnectingLinksIndex</span><span class="p">(),</span>
+                <span class="n">d</span><span class="o">.</span><span class="n">getConnectivityMatrix</span><span class="p">(),</span>
+            <span class="p">]</span>
+        <span class="p">)</span>
+        <span class="c1"># Conversion of GPM units to SI units</span>
+        <span class="k">if</span> <span class="n">d</span><span class="o">.</span><span class="n">getFlowUnits</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;GPM&quot;</span><span class="p">:</span>
+            <span class="n">network_info</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mf">0.3048</span> <span class="o">*</span> <span class="n">d</span><span class="o">.</span><span class="n">getLinkLength</span><span class="p">())</span>
+            <span class="n">network_info</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mf">25.4</span> <span class="o">*</span> <span class="n">d</span><span class="o">.</span><span class="n">getLinkDiameter</span><span class="p">())</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">network_info</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="n">d</span><span class="o">.</span><span class="n">getLinkLength</span><span class="p">(),</span> <span class="n">d</span><span class="o">.</span><span class="n">getLinkDiameter</span><span class="p">()])</span>
+        <span class="n">start_node_matrix</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">end_node_matrix</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">getLinkCount</span><span class="p">()):</span>
+            <span class="n">var1</span> <span class="o">=</span> <span class="n">d</span><span class="o">.</span><span class="n">getNodesConnectingLinksIndex</span><span class="p">()[</span><span class="n">x</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">var2</span> <span class="o">=</span> <span class="n">d</span><span class="o">.</span><span class="n">getNodesConnectingLinksIndex</span><span class="p">()[</span><span class="n">x</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">start_node_matrix</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">var1</span><span class="p">)</span>
+            <span class="n">end_node_matrix</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">var2</span><span class="p">)</span>
+        <span class="n">network_info</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="n">start_node_matrix</span><span class="p">,</span> <span class="n">end_node_matrix</span><span class="p">])</span>
+        <span class="c1"># Number of nodes omitted for analysis, if any</span>
+        <span class="n">number_omitted_nodes</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="c1"># Index of omitted nodes</span>
+        <span class="n">index_omitted_nodes</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="c1"># Number of links omitted for analysis, if any</span>
+        <span class="n">number_omitted_links</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="c1"># Index of omitted nodes</span>
+        <span class="n">index_omitted_links</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">network_info</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span>
+            <span class="p">[</span>
+                <span class="n">number_omitted_nodes</span><span class="p">,</span>
+                <span class="n">index_omitted_nodes</span><span class="p">,</span>
+                <span class="n">number_omitted_links</span><span class="p">,</span>
+                <span class="n">index_omitted_links</span><span class="p">,</span>
+            <span class="p">]</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">network_info</span></div>
+
+
+    <span class="c1"># Determine the incoming pipes</span>
+<div class="viewcode-block" id="fn.incoming_links">
+<a class="viewcode-back" href="../../epytc.html#epytc.functions.fn.incoming_links">[docs]</a>
+    <span class="k">def</span> <span class="nf">incoming_links</span><span class="p">(</span><span class="n">num1</span><span class="p">,</span> <span class="n">arr1</span><span class="p">):</span>
+        <span class="c1"># num1 - node number; arr1 - matrix of end node indices</span>
+        <span class="n">links_connecting_to_node</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">if</span> <span class="n">arr1</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="n">num1</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">arr1</span><span class="p">)</span>
+            <span class="n">bool_arr</span> <span class="o">=</span> <span class="n">arr</span> <span class="o">==</span> <span class="n">num1</span> <span class="o">+</span> <span class="mi">1</span>
+            <span class="n">links_connecting_to_node</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">bool_arr</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">links_connecting_to_node</span></div>
+
+
+    <span class="c1"># Determine the outgoing pipes</span>
+<div class="viewcode-block" id="fn.outgoing_links">
+<a class="viewcode-back" href="../../epytc.html#epytc.functions.fn.outgoing_links">[docs]</a>
+    <span class="k">def</span> <span class="nf">outgoing_links</span><span class="p">(</span><span class="n">num1</span><span class="p">,</span> <span class="n">arr1</span><span class="p">):</span>
+        <span class="c1"># num1 - node number; arr1 - matrix of start node indices</span>
+        <span class="n">links_connecting_from_node</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">if</span> <span class="n">arr1</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="n">num1</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">arr1</span><span class="p">)</span>
+            <span class="n">bool_arr</span> <span class="o">=</span> <span class="n">arr</span> <span class="o">==</span> <span class="n">num1</span> <span class="o">+</span> <span class="mi">1</span>
+            <span class="n">links_connecting_from_node</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">bool_arr</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">links_connecting_from_node</span></div>
+
+
+    <span class="c1"># Minimum length to be specified for links (pumps and valves)</span>
+<div class="viewcode-block" id="fn.minimum_link_length">
+<a class="viewcode-back" href="../../epytc.html#epytc.functions.fn.minimum_link_length">[docs]</a>
+    <span class="k">def</span> <span class="nf">minimum_link_length</span><span class="p">(</span><span class="n">num1</span><span class="p">,</span> <span class="n">num2</span><span class="p">,</span> <span class="n">num3</span><span class="p">,</span> <span class="n">arr1</span><span class="p">):</span>
+        <span class="c1"># num1 - total time steps in the filtered hydraulic report; num2 - water quality time step; num3 - tolerable flow velocity considered; arr1 - velocity array</span>
+        <span class="n">min_vel</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">h</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num1</span><span class="p">):</span>
+            <span class="n">min_val</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">arr1</span><span class="p">[</span><span class="n">h</span><span class="p">])</span>
+            <span class="n">min_vel</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">min_val</span><span class="p">)</span>
+        <span class="n">minimum_flow_velocity</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">min_vel</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">minimum_flow_velocity</span> <span class="o">&lt;</span> <span class="n">num3</span><span class="p">:</span>
+            <span class="n">minimum_flow_velocity</span> <span class="o">=</span> <span class="n">num3</span>
+        <span class="n">minimum_link_length</span> <span class="o">=</span> <span class="n">minimum_flow_velocity</span> <span class="o">*</span> <span class="n">num2</span>
+        <span class="k">return</span> <span class="n">minimum_link_length</span></div>
+
+
+    <span class="c1"># Minimum diameter to be specified for links (pumps and valves)</span>
+<div class="viewcode-block" id="fn.minimum_link_diameter">
+<a class="viewcode-back" href="../../epytc.html#epytc.functions.fn.minimum_link_diameter">[docs]</a>
+    <span class="k">def</span> <span class="nf">minimum_link_diameter</span><span class="p">(</span><span class="n">num1</span><span class="p">,</span> <span class="n">num2</span><span class="p">,</span> <span class="n">num3</span><span class="p">,</span> <span class="n">arr1</span><span class="p">):</span>
+        <span class="c1"># num1 - number of links; num2 - number of pumps; num3 - number of valves; arr1 - diameter array</span>
+        <span class="n">min_val</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">arr1</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">min_val</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">arr2</span> <span class="o">=</span> <span class="n">arr1</span><span class="p">[</span><span class="mi">0</span> <span class="p">:</span> <span class="n">num1</span> <span class="o">-</span> <span class="p">(</span><span class="n">num2</span> <span class="o">+</span> <span class="n">num3</span><span class="p">)]</span>
+            <span class="n">min_val</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">arr2</span><span class="p">)</span>
+            <span class="n">minimum_link_diameter</span> <span class="o">=</span> <span class="n">min_val</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">minimum_link_diameter</span> <span class="o">=</span> <span class="n">min_val</span>
+        <span class="k">return</span> <span class="n">minimum_link_diameter</span></div>
+
+
+    <span class="c1"># Synchronizing water quality and hydraulic time steps</span>
+<div class="viewcode-block" id="fn.sync_time">
+<a class="viewcode-back" href="../../epytc.html#epytc.functions.fn.sync_time">[docs]</a>
+    <span class="k">def</span> <span class="nf">sync_time</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">H</span><span class="p">,</span> <span class="n">num1</span><span class="p">,</span> <span class="n">num2</span><span class="p">,</span> <span class="n">num3</span><span class="p">,</span> <span class="n">num4</span><span class="p">,</span> <span class="n">num5</span><span class="p">,</span> <span class="n">num6</span><span class="p">,</span> <span class="n">num7</span><span class="p">,</span> <span class="n">num8</span><span class="p">,</span> <span class="n">arr1</span><span class="p">,</span> <span class="n">arr2</span><span class="p">):</span>
+        <span class="c1"># num1 = wq_time; num2 = total_h_steps_expected</span>
+        <span class="c1"># num3 = base_time_cycle_s; num4 = h_sim_time_step_s;</span>
+        <span class="c1"># num5 = time_cycle_count; num6 = base_time_cycle_day; num7 = wq_sim_time_step_s</span>
+        <span class="c1"># num8 = h_step_expected</span>
+        <span class="c1"># arr1 = sync_option; arr2 = reservoir_pattern</span>
+        <span class="k">if</span> <span class="n">arr1</span> <span class="o">==</span> <span class="s2">&quot;steady&quot;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">num1</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">h_step_expected</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">floor</span><span class="p">(</span><span class="n">num2</span> <span class="o">-</span> <span class="p">(</span><span class="n">num3</span> <span class="o">/</span> <span class="n">num4</span><span class="p">))</span> <span class="o">-</span> <span class="mi">1</span>
+                <span class="n">h_step</span> <span class="o">=</span> <span class="n">h_step_expected</span>
+                <span class="n">reservoir_pattern_step</span> <span class="o">=</span> <span class="n">injection_pattern_step</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">h_step_expected</span> <span class="o">=</span> <span class="n">num8</span>
+                <span class="n">wq_time_cycle</span> <span class="o">=</span> <span class="n">num1</span> <span class="o">-</span> <span class="p">(</span><span class="n">num5</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">num6</span> <span class="o">*</span> <span class="mi">24</span> <span class="o">*</span> <span class="mi">3600</span>
+                <span class="n">wq_time_hydraulic_report</span> <span class="o">=</span> <span class="n">wq_time_cycle</span> <span class="o">+</span> <span class="p">(</span>
+                    <span class="nb">int</span><span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">getTimeSimulationDuration</span><span class="p">())</span> <span class="o">-</span> <span class="n">num3</span>
+                <span class="p">)</span>
+                <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num8</span><span class="p">,</span> <span class="n">num2</span><span class="p">):</span>
+                    <span class="k">if</span> <span class="n">wq_time_hydraulic_report</span> <span class="o">&lt;=</span> <span class="n">H</span><span class="o">.</span><span class="n">Time</span><span class="p">[</span><span class="n">x</span><span class="p">]:</span>
+                        <span class="n">h_step</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">floor</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+                        <span class="k">break</span>
+                <span class="n">reservoir_pattern_step</span> <span class="o">=</span> <span class="n">injection_pattern_step</span> <span class="o">=</span> <span class="p">(</span>
+                    <span class="nb">len</span><span class="p">(</span><span class="n">arr2</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">-</span> <span class="p">(</span><span class="n">num2</span> <span class="o">-</span> <span class="n">h_step</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+                <span class="p">)</span>
+        <span class="k">elif</span> <span class="n">arr1</span> <span class="o">==</span> <span class="s2">&quot;dynamic&quot;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">num1</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">h_step_expected</span> <span class="o">=</span> <span class="mi">0</span>
+                <span class="n">h_step</span> <span class="o">=</span> <span class="n">h_step_expected</span>
+                <span class="n">reservoir_pattern_step</span> <span class="o">=</span> <span class="n">injection_pattern_step</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">h_step_expected</span> <span class="o">=</span> <span class="n">num8</span>
+                <span class="n">wq_time_cycle</span> <span class="o">=</span> <span class="n">num1</span>
+                <span class="n">wq_time_hydraulic_report</span> <span class="o">=</span> <span class="n">wq_time_cycle</span>
+                <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num8</span><span class="p">,</span> <span class="n">num2</span><span class="p">):</span>
+                    <span class="k">if</span> <span class="n">wq_time_hydraulic_report</span> <span class="o">&lt;=</span> <span class="n">H</span><span class="o">.</span><span class="n">Time</span><span class="p">[</span><span class="n">x</span><span class="p">]:</span>
+                        <span class="n">h_step</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">floor</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+                        <span class="k">break</span>
+                <span class="n">reservoir_pattern_step</span> <span class="o">=</span> <span class="n">injection_pattern_step</span> <span class="o">=</span> <span class="n">h_step</span> <span class="o">-</span> <span class="nb">int</span><span class="p">(</span>
+                    <span class="p">(</span><span class="n">num5</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">num6</span> <span class="o">*</span> <span class="mi">24</span> <span class="o">*</span> <span class="mi">3600</span> <span class="o">/</span> <span class="n">num7</span><span class="p">)</span>
+                <span class="p">)</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="p">[</span><span class="n">h_step</span><span class="p">,</span> <span class="n">h_step_expected</span><span class="p">,</span> <span class="n">reservoir_pattern_step</span><span class="p">,</span> <span class="n">injection_pattern_step</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">out</span></div>
+
+
+    <span class="c1"># Filtering out unwanted time steps from hydraulic analysis output</span>
+<div class="viewcode-block" id="fn.time_filter">
+<a class="viewcode-back" href="../../epytc.html#epytc.functions.fn.time_filter">[docs]</a>
+    <span class="k">def</span> <span class="nf">time_filter</span><span class="p">(</span><span class="n">H</span><span class="p">,</span> <span class="n">num1</span><span class="p">,</span> <span class="n">num2</span><span class="p">,</span> <span class="n">num3</span><span class="p">):</span>
+        <span class="n">filtered_steps</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">if</span> <span class="n">num1</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Filtering hydraulic analysis report.&quot;</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num2</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">H</span><span class="o">.</span><span class="n">Time</span><span class="p">[</span><span class="n">s</span><span class="p">]</span> <span class="o">%</span> <span class="n">num3</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">filtered_steps</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">filtered_steps</span></div>
+
+
+    <span class="c1"># Cleaning time data</span>
+<div class="viewcode-block" id="fn.time_data">
+<a class="viewcode-back" href="../../epytc.html#epytc.functions.fn.time_data">[docs]</a>
+    <span class="k">def</span> <span class="nf">time_data</span><span class="p">(</span><span class="n">arr1</span><span class="p">,</span> <span class="n">arr2</span><span class="p">):</span>
+        <span class="n">arr2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">arr2</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">arr2</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">out</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">arr1</span><span class="p">,</span> <span class="n">arr2</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">out</span> <span class="o">=</span> <span class="n">arr1</span>
+        <span class="k">return</span> <span class="n">out</span></div>
+
+
+    <span class="c1"># Cleaning velocity data</span>
+<div class="viewcode-block" id="fn.velocity_data">
+<a class="viewcode-back" href="../../epytc.html#epytc.functions.fn.velocity_data">[docs]</a>
+    <span class="k">def</span> <span class="nf">velocity_data</span><span class="p">(</span><span class="n">arr1</span><span class="p">,</span> <span class="n">arr2</span><span class="p">,</span> <span class="n">str1</span><span class="p">):</span>
+        <span class="n">arr2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">arr2</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">arr2</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">out</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">arr1</span><span class="p">,</span> <span class="n">arr2</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">out</span> <span class="o">=</span> <span class="n">arr1</span>
+        <span class="k">if</span> <span class="n">str1</span> <span class="o">==</span> <span class="s2">&quot;GPM&quot;</span><span class="p">:</span>
+            <span class="n">out</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">multiply</span><span class="p">(</span><span class="n">out</span><span class="p">,</span> <span class="mf">0.3048</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">out</span></div>
+
+
+    <span class="c1"># Cleaning demand data</span>
+<div class="viewcode-block" id="fn.demand_data">
+<a class="viewcode-back" href="../../epytc.html#epytc.functions.fn.demand_data">[docs]</a>
+    <span class="k">def</span> <span class="nf">demand_data</span><span class="p">(</span><span class="n">arr1</span><span class="p">,</span> <span class="n">arr2</span><span class="p">,</span> <span class="n">str1</span><span class="p">):</span>
+        <span class="n">arr2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">arr2</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">arr2</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">out</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">arr1</span><span class="p">,</span> <span class="n">arr2</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">out</span> <span class="o">=</span> <span class="n">arr1</span>
+        <span class="k">if</span> <span class="n">str1</span> <span class="o">==</span> <span class="s2">&quot;GPM&quot;</span><span class="p">:</span>
+            <span class="n">out</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">multiply</span><span class="p">(</span><span class="n">out</span><span class="p">,</span> <span class="mf">6.3e-5</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">str1</span> <span class="o">==</span> <span class="s2">&quot;LPS&quot;</span><span class="p">:</span>
+            <span class="n">out</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">multiply</span><span class="p">(</span><span class="n">out</span><span class="p">,</span> <span class="mf">1e-3</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">str1</span> <span class="o">==</span> <span class="s2">&quot;LPM&quot;</span><span class="p">:</span>
+            <span class="n">out</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">multiply</span><span class="p">(</span><span class="n">out</span><span class="p">,</span> <span class="mf">1.67e-5</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">str1</span> <span class="o">==</span> <span class="s2">&quot;CMH&quot;</span><span class="p">:</span>
+            <span class="n">out</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">multiply</span><span class="p">(</span><span class="n">out</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="mi">3600</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">out</span></div>
+
+
+    <span class="c1"># Cleaning flow data</span>
+<div class="viewcode-block" id="fn.flow_data">
+<a class="viewcode-back" href="../../epytc.html#epytc.functions.fn.flow_data">[docs]</a>
+    <span class="k">def</span> <span class="nf">flow_data</span><span class="p">(</span><span class="n">arr1</span><span class="p">,</span> <span class="n">arr2</span><span class="p">,</span> <span class="n">str1</span><span class="p">):</span>
+        <span class="n">arr2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">arr2</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">arr2</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">out</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">arr1</span><span class="p">,</span> <span class="n">arr2</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">out</span> <span class="o">=</span> <span class="n">arr1</span>
+        <span class="k">if</span> <span class="n">str1</span> <span class="o">==</span> <span class="s2">&quot;GPM&quot;</span><span class="p">:</span>
+            <span class="n">out</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">multiply</span><span class="p">(</span><span class="n">out</span><span class="p">,</span> <span class="mf">6.3e-5</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">str1</span> <span class="o">==</span> <span class="s2">&quot;LPS&quot;</span><span class="p">:</span>
+            <span class="n">out</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">multiply</span><span class="p">(</span><span class="n">out</span><span class="p">,</span> <span class="mf">1e-3</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">str1</span> <span class="o">==</span> <span class="s2">&quot;LPM&quot;</span><span class="p">:</span>
+            <span class="n">out</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">multiply</span><span class="p">(</span><span class="n">out</span><span class="p">,</span> <span class="mf">1.67e-5</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">str1</span> <span class="o">==</span> <span class="s2">&quot;CMH&quot;</span><span class="p">:</span>
+            <span class="n">out</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">multiply</span><span class="p">(</span><span class="n">out</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="mi">3600</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">out</span></div>
+
+
+    <span class="c1"># Cleaning tank volume data</span>
+<div class="viewcode-block" id="fn.tank_volume_data">
+<a class="viewcode-back" href="../../epytc.html#epytc.functions.fn.tank_volume_data">[docs]</a>
+    <span class="k">def</span> <span class="nf">tank_volume_data</span><span class="p">(</span><span class="n">arr1</span><span class="p">,</span> <span class="n">arr2</span><span class="p">,</span> <span class="n">str1</span><span class="p">):</span>
+        <span class="n">arr2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">arr2</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">arr2</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">out</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">arr1</span><span class="p">,</span> <span class="n">arr2</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">out</span> <span class="o">=</span> <span class="n">arr1</span>
+        <span class="k">if</span> <span class="n">str1</span> <span class="o">==</span> <span class="s2">&quot;GPM&quot;</span><span class="p">:</span>
+            <span class="n">out</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">multiply</span><span class="p">(</span><span class="n">out</span><span class="p">,</span> <span class="mf">0.0283</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">out</span></div>
+
+
+    <span class="c1"># Determining the maximum number of segments for pipe discretization</span>
+<div class="viewcode-block" id="fn.maximum_segments">
+<a class="viewcode-back" href="../../epytc.html#epytc.functions.fn.maximum_segments">[docs]</a>
+    <span class="k">def</span> <span class="nf">maximum_segments</span><span class="p">(</span><span class="n">num1</span><span class="p">,</span> <span class="n">num2</span><span class="p">,</span> <span class="n">arr1</span><span class="p">,</span> <span class="n">arr2</span><span class="p">):</span>
+        <span class="c1"># num1 - tolerable minimum velocity (m/s); num2 - water quality time step (s)</span>
+        <span class="c1"># arr1 - matrix of length links; arr2 - array of link flow velocity</span>
+        <span class="n">arr2</span><span class="p">[</span><span class="n">arr2</span> <span class="o">&lt;</span> <span class="n">num1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">arr2</span><span class="p">[</span><span class="n">arr2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">100</span>
+        <span class="n">min_vel</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">arr2</span><span class="p">)</span>
+        <span class="n">index</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">arr2</span> <span class="o">==</span> <span class="n">min_vel</span><span class="p">)</span>
+        <span class="n">len_min_vel_pipe</span> <span class="o">=</span> <span class="n">arr1</span><span class="p">[</span><span class="n">index</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]]</span>
+        <span class="n">max_segments</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">len_min_vel_pipe</span> <span class="o">/</span> <span class="p">(</span><span class="n">num1</span> <span class="o">*</span> <span class="n">num2</span><span class="p">))</span> <span class="o">+</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="n">max_segments</span></div>
+
+
+    <span class="c1"># Display reservoir names</span>
+<div class="viewcode-block" id="fn.reservoir_names">
+<a class="viewcode-back" href="../../epytc.html#epytc.functions.fn.reservoir_names">[docs]</a>
+    <span class="k">def</span> <span class="nf">reservoir_names</span><span class="p">(</span><span class="n">num1</span><span class="p">,</span> <span class="n">arr1</span><span class="p">,</span> <span class="n">arr2</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num1</span><span class="p">):</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Reservoir </span><span class="si">%d</span><span class="s2">: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">arr1</span><span class="p">[</span><span class="n">arr2</span><span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]))</span></div>
+
+
+    <span class="c1"># Display tank names</span>
+<div class="viewcode-block" id="fn.tank_names">
+<a class="viewcode-back" href="../../epytc.html#epytc.functions.fn.tank_names">[docs]</a>
+    <span class="k">def</span> <span class="nf">tank_names</span><span class="p">(</span><span class="n">num1</span><span class="p">,</span> <span class="n">arr1</span><span class="p">,</span> <span class="n">arr2</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num1</span><span class="p">):</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Tank </span><span class="si">%d</span><span class="s2">: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">arr1</span><span class="p">[</span><span class="n">arr2</span><span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]))</span></div>
+
+
+    <span class="c1"># Display pump names</span>
+<div class="viewcode-block" id="fn.pump_names">
+<a class="viewcode-back" href="../../epytc.html#epytc.functions.fn.pump_names">[docs]</a>
+    <span class="k">def</span> <span class="nf">pump_names</span><span class="p">(</span><span class="n">num1</span><span class="p">,</span> <span class="n">num2</span><span class="p">,</span> <span class="n">arr1</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">num1</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num1</span><span class="p">):</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Pump </span><span class="si">%d</span><span class="s2">: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">arr1</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">arr1</span><span class="p">)</span> <span class="o">-</span> <span class="n">num2</span> <span class="o">-</span> <span class="p">(</span><span class="n">num1</span> <span class="o">-</span> <span class="n">x</span><span class="p">)]))</span></div>
+
+
+    <span class="c1"># Display valve names</span>
+<div class="viewcode-block" id="fn.valve_names">
+<a class="viewcode-back" href="../../epytc.html#epytc.functions.fn.valve_names">[docs]</a>
+    <span class="k">def</span> <span class="nf">valve_names</span><span class="p">(</span><span class="n">num1</span><span class="p">,</span> <span class="n">arr1</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">num1</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num1</span><span class="p">):</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Valve </span><span class="si">%d</span><span class="s2">: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">arr1</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">arr1</span><span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="n">num1</span> <span class="o">-</span> <span class="n">x</span><span class="p">)]))</span></div>
+
+
+    <span class="c1"># Display simulation information</span>
+<div class="viewcode-block" id="fn.simulation_info">
+<a class="viewcode-back" href="../../epytc.html#epytc.functions.fn.simulation_info">[docs]</a>
+    <span class="k">def</span> <span class="nf">simulation_info</span><span class="p">(</span><span class="n">num1</span><span class="p">,</span> <span class="n">num2</span><span class="p">,</span> <span class="n">num3</span><span class="p">,</span> <span class="n">num4</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Number of iterations: </span><span class="si">%d</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">num1</span><span class="p">))</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Number of days for which water quality is simulated: </span><span class="si">%d</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">num2</span><span class="p">))</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Time period for water quality simulation: </span><span class="si">%d</span><span class="s2"> seconds&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">num3</span><span class="p">))</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Number of water quality simulation steps: </span><span class="si">%d</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">num4</span><span class="p">))</span></div>
+
+
+    <span class="c1"># Display MSRT model information</span>
+<div class="viewcode-block" id="fn.msrt_info">
+<a class="viewcode-back" href="../../epytc.html#epytc.functions.fn.msrt_info">[docs]</a>
+    <span class="k">def</span> <span class="nf">msrt_info</span><span class="p">(</span><span class="n">num1</span><span class="p">,</span> <span class="n">num2</span><span class="p">,</span> <span class="n">num3</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Number of water quality parameters in the MSRT model: </span><span class="si">%d</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">num1</span><span class="p">))</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Number of bulk phase water quality paraneters: </span><span class="si">%d</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">num2</span><span class="p">))</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Number of wall phase water quality paraneters: </span><span class="si">%d</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">num3</span><span class="p">))</span></div>
+
+
+    <span class="c1"># Display nodes omitted from analysis</span>
+<div class="viewcode-block" id="fn.omitted_nodes">
+<a class="viewcode-back" href="../../epytc.html#epytc.functions.fn.omitted_nodes">[docs]</a>
+    <span class="k">def</span> <span class="nf">omitted_nodes</span><span class="p">(</span><span class="n">num1</span><span class="p">,</span> <span class="n">arr1</span><span class="p">,</span> <span class="n">arr2</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">num1</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Number of nodes omitted for analysis: </span><span class="si">%d</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">num1</span><span class="p">))</span>
+            <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num1</span><span class="p">):</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Omitted Node </span><span class="si">%d</span><span class="s2">: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">arr1</span><span class="p">[</span><span class="n">arr2</span><span class="p">[</span><span class="n">x</span><span class="p">]]))</span></div>
+
+
+    <span class="c1"># Display links omitted from analysis</span>
+<div class="viewcode-block" id="fn.omitted_links">
+<a class="viewcode-back" href="../../epytc.html#epytc.functions.fn.omitted_links">[docs]</a>
+    <span class="k">def</span> <span class="nf">omitted_links</span><span class="p">(</span><span class="n">num1</span><span class="p">,</span> <span class="n">arr1</span><span class="p">,</span> <span class="n">arr2</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">num1</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Number of links omitted for analysis: </span><span class="si">%d</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">num1</span><span class="p">))</span>
+            <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num1</span><span class="p">):</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Omitted Link </span><span class="si">%d</span><span class="s2">: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">arr1</span><span class="p">[</span><span class="n">arr2</span><span class="p">[</span><span class="n">x</span><span class="p">]]))</span></div>
+</div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Gopinathan R Abhijith.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
