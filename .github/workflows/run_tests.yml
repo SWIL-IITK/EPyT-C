@@ -1,4 +1,5 @@
-
+# This workflow will install Python dependencies, and run tests
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-python
 
 name: check epyt-c
 
@@ -31,8 +32,9 @@ jobs:
         python -m build
         pip install dist/epytc-0.2.0-py3-none-any.whl
     - name: run run_sample.py
-      run: python run_sample.py
-    - name: run EX1 jupyter notebook
       run: |
-        jupyter nbconvert --to script Examples/EX1_Adding_water_quality_input_values_for_source_nodes.ipynb
-        python ./Examples/EX1_Adding_water_quality_input_values_for_source_nodes.py
+        python ./Tests/testFunctions.py
+        python ./Tests/testFunctions_2.py
+        python ./Tests/testFunctions_3.py
+        python ./Tests/testFunctions_4.py
+        python ./Tests/testFunctions_5.py
