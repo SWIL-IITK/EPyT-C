@@ -1,6 +1,6 @@
 
 
-name: check epyt-c
+name: check epyt-c on macos
 
 on:
   push:
