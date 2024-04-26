@@ -6,7 +6,7 @@ https://github.com/pypa/sampleproject
 """
 
 from setuptools import setup, find_packages
-import pathlib
+import pathlib, subprocess
 
 root = pathlib.Path(__file__).parent.resolve()
 
