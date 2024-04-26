@@ -4,10 +4,6 @@ import subprocess
 
 root = pathlib.Path(__file__).parent.resolve()
 
-epytc_version = subprocess.run(['git', 'describe', '--tags'], stdout=subprocess.PIPE).stdout.decode("utf-8").strip()
-assert "." in epytc_version
-print(epytc_version)
-
 # Get the long description from the README file
 long_description = (root / "README.md").read_text(encoding="utf-8")
 
