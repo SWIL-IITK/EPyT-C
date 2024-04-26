@@ -157,7 +157,7 @@ class fn:
         return minimum_link_diameter
 
     def sync_time(d, H, num1, num2, num3, num4, num5, num6, num7, num8, str1, arr2):
-         """Synchronizing water quality and hydraulic time steps
+        """Synchronizing water quality and hydraulic time steps
 
         :param d: EPANET model
         :type d: EPANET object
@@ -223,8 +223,20 @@ class fn:
         out = [h_step, h_step_expected, reservoir_pattern_step, injection_pattern_step]
         return out
 
-    # Filtering out unwanted time steps from hydraulic analysis output
     def time_filter(H, num1, num2, num3):
+        """Filtering out unwanted time steps from hydraulic analysis output
+
+        :param H: Hydraulic simulation output from EPANET
+        :type H: List
+        :param num1: Ratio of time steps actually reported to time steps expected in the report
+        :type num1: Float
+        :param num2: Total steps in the hydraulic report 'Time' that was expected
+        :type num2: Integer
+        :param num3: Hydraulic simulation time step in seconds
+        :type num3: Integer
+        :return: Details of unwanted steps for water quality simulation
+        :rtype: List
+        """
         filtered_steps = []
         if num1 > 1:
             print("Filtering hydraulic analysis report.")
@@ -233,8 +245,15 @@ class fn:
                     filtered_steps.append(s)
         return filtered_steps
 
-    # Cleaning time data
     def time_data(arr1, arr2):
+        """Cleaning time data
+
+        :param arr1: Time ouput from EPANET hydraulic simulation
+        :type arr1: List
+        :param arr2: Details of unwanted steps for water quality simulation
+        :return: Cleansed time output
+        :rtype: List
+        """
         arr2 = np.array(arr2)
         if len(arr2) > 0:
             out = np.delete(arr1, arr2, 0)
@@ -242,8 +261,18 @@ class fn:
             out = arr1
         return out
 
-    # Cleaning velocity data
     def velocity_data(arr1, arr2, str1):
+        """Cleaning velocity data
+
+        :param arr1: Velocity ouput from EPANET hydraulic simulation
+        :type arr1: List
+        :param arr2: Details of unwanted steps for water quality simulation
+        :return: Cleansed time output
+        :param str1: Flow Unit
+        :type str1: String
+        :return: Cleansed velocity output
+        :rtype: List
+        """
         arr2 = np.array(arr2)
         if len(arr2) > 0:
             out = np.delete(arr1, arr2, 0)
