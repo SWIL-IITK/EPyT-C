@@ -9,7 +9,7 @@ long_description = (root / "README.md").read_text(encoding="utf-8")
 
 setup(
     name="epytc",
-    version=epytc_version,
+    version="0.3.0",
     description="An open-source Python package for modeling water quality in water distribution systems",
     long_description=long_description,
     long_description_content_type="text/markdown",
