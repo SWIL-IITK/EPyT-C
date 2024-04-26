@@ -10,12 +10,15 @@ import pathlib
 
 root = pathlib.Path(__file__).parent.resolve()
 
+epytc_version = subprocess.run(['git', 'describe', '--tags'], stdout=subprocess.PIPE) stdout. decode("utf-8") - strip()
+assert "." in epytc_version
+
 # Get the long description from the README file
 long_description = (root / "README.md").read_text(encoding="utf-8")
 
 setup(
     name="epytc",
-    version="0.2.0",
+    version=epytc_version,
     description="An open-source Python package for modeling water quality in water distribution systems",
     long_description=long_description,
     long_description_content_type="text/markdown",
