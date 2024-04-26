@@ -31,7 +31,7 @@ jobs:
       run: |
         python -m build
         pip install dist/epytc-0.2.0-py3-none-any.whl
-    - name: run run_sample.py
+    - name: run tests
       run: |
         python ./Tests/testFunctions.py
         python ./Tests/testFunctions_2.py
