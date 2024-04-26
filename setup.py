@@ -1,12 +1,6 @@
-"""A setuptools based setup module.
-
-See:
-https://packaging.python.org/guides/distributing-packages-using-setuptools/
-https://github.com/pypa/sampleproject
-"""
-
 from setuptools import setup, find_packages
 import pathlib
+import subprocess
 
 root = pathlib.Path(__file__).parent.resolve()
 
@@ -15,7 +9,7 @@ long_description = (root / "README.md").read_text(encoding="utf-8")
 
 setup(
     name="epytc",
-    version="0.2.0",
+    version="0.3.0",
     description="An open-source Python package for modeling water quality in water distribution systems",
     long_description=long_description,
     long_description_content_type="text/markdown",
