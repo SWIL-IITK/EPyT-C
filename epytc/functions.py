@@ -81,9 +81,9 @@ class fn:
         :param num1: ID of a node
         :type num1: Integer
         :param arr1: Matrix of end node indices
-        :type arr1: Array
+        :type arr1: List
         :return: List of incoming links
-        :rtype: Array
+        :rtype: List
         """
         links_connecting_to_node = []
         if arr1.count(num1 + 1) > 0:
@@ -98,9 +98,9 @@ class fn:
         :param num1: ID of a node
         :type num1: Integer
         :param arr1: Matrix of start node indices
-        :type arr1: Array
+        :type arr1: List
         :return: List of outgoing links
-        :rtype: Array
+        :rtype: List
         """
         links_connecting_from_node = []
         if arr1.count(num1 + 1) > 0:
@@ -119,7 +119,7 @@ class fn:
         :param num3: Tolerable flow velocity considered
         :type num3: Integer
         :param arr1: Matrix of link flow velocities
-        :type arr1: Array
+        :type arr1: List
         :return: Minimum link length
         :rtype: Float
         """
@@ -143,7 +143,7 @@ class fn:
         :param num3: Count of valves
         :type num3: Integer
         :param arr1: Matrix of link diameters
-        :type arr1: Array
+        :type arr1: List
         :return: Minimum diameter
         :rtype: Float
         """
@@ -163,7 +163,7 @@ class fn:
         :type d: EPANET object
         :param H: Hydraulic simulation output from EPANET
         :type H: List
-        :param num1: Water quality time step
+        :param num1: Current water quality time in the simulation in seconds
         :type num1: Integer
         :param num2: Total steps in the hydraulic report 'Time' that was expected
         :type num2: Integer
@@ -264,7 +264,7 @@ class fn:
     def velocity_data(arr1, arr2, str1):
         """Cleaning velocity data
 
-        :param arr1: Velocity ouput from EPANET hydraulic simulation
+        :param arr1: Link velocity ouput from EPANET hydraulic simulation
         :type arr1: List
         :param arr2: Details of unwanted steps for water quality simulation
         :return: Cleansed time output
@@ -282,8 +282,18 @@ class fn:
             out = np.multiply(out, 0.3048)
         return out
 
-    # Cleaning demand data
     def demand_data(arr1, arr2, str1):
+        """Cleaning demand data
+
+        :param arr1: Node demand ouput from EPANET hydraulic simulation
+        :type arr1: List
+        :param arr2: Details of unwanted steps for water quality simulation
+        :return: Cleansed time output
+        :param str1: Flow Unit
+        :type str1: String
+        :return: Cleansed demand output
+        :rtype: List
+        """
         arr2 = np.array(arr2)
         if len(arr2) > 0:
             out = np.delete(arr1, arr2, 0)
@@ -299,8 +309,18 @@ class fn:
             out = np.multiply(out, (1 / 3600))
         return out
 
-    # Cleaning flow data
     def flow_data(arr1, arr2, str1):
+        """Cleaning flow data
+
+        :param arr1: Link flow ouput from EPANET hydraulic simulation
+        :type arr1: List
+        :param arr2: Details of unwanted steps for water quality simulation
+        :return: Cleansed time output
+        :param str1: Flow Unit
+        :type str1: String
+        :return: Cleansed flow output
+        :rtype: List
+        """
         arr2 = np.array(arr2)
         if len(arr2) > 0:
             out = np.delete(arr1, arr2, 0)
@@ -316,8 +336,18 @@ class fn:
             out = np.multiply(out, (1 / 3600))
         return out
 
-    # Cleaning tank volume data
     def tank_volume_data(arr1, arr2, str1):
+        """Cleaning tank volume data
+
+        :param arr1: Tank volume ouput from EPANET hydraulic simulation
+        :type arr1: List
+        :param arr2: Details of unwanted steps for water quality simulation
+        :return: Cleansed time output
+        :param str1: Flow Unit
+        :type str1: String
+        :return: Cleansed tank volume output
+        :rtype: List
+        """
         arr2 = np.array(arr2)
         if len(arr2) > 0:
             out = np.delete(arr1, arr2, 0)
@@ -327,10 +357,20 @@ class fn:
             out = np.multiply(out, 0.0283)
         return out
 
-    # Determining the maximum number of segments for pipe discretization
     def maximum_segments(num1, num2, arr1, arr2):
-        # num1 - tolerable minimum velocity (m/s); num2 - water quality time step (s)
-        # arr1 - matrix of length links; arr2 - array of link flow velocity
+        """Determining the maximum number of segments for pipe discretization
+
+        :param num1: Tolerable flow velocity considered in metres per second
+        :type num1: Float
+        :param num2: Water quality simulation time step in seconds
+        :type num2: Integer
+        :param arr1: Matrix of link lengths
+        :type arr1: List
+        :param arr2: Matrix of link velocity values
+        :type arr2: List
+        :return: Maximum number of pipe segments
+        :rtype: Integer
+        """
         arr2[arr2 < num1] = 0
         arr2[arr2 == 0] = 100
         min_vel = np.min(arr2)
@@ -339,50 +379,130 @@ class fn:
         max_segments = math.ceil(len_min_vel_pipe / (num1 * num2)) + 1
         return max_segments
 
-    # Display reservoir names
     def reservoir_names(num1, arr1, arr2):
+        """Displaying the names of reservoirs
+
+        :param num1: Count of reservoirs
+        :type num1: Integer
+        :param arr1: Matrix of node names
+        :type arr1: List
+        :param arr2: Matrix of reservoir indices
+        :type arr2: List
+        :return: Names of reservoirs
+        :rtype: String
+        """
         for x in range(num1):
             print("Reservoir %d: %s" % (x + 1, arr1[arr2[x] - 1]))
 
-    # Display tank names
     def tank_names(num1, arr1, arr2):
+        """Displaying the names of tanks
+
+        :param num1: Count of tanks
+        :type num1: Integer
+        :param arr1: Matrix of node names
+        :type arr1: List
+        :param arr2: Matrix of tank indices
+        :type arr2: List
+        :return: Names of tanks
+        :rtype: String
+        """
         for x in range(num1):
             print("Tank %d: %s" % (x + 1, arr1[arr2[x] - 1]))
 
-    # Display pump names
     def pump_names(num1, num2, arr1):
+        """Displaying the names of pumps
+
+        :param num1: Count of pumps
+        :type num1: Integer
+        :param num2: Count of valves
+        :type num2: Integer
+        :param arr1: Matrix of link names
+        :type arr1: List
+        :return: Names of pumps
+        :rtype: String
+        """
         if num1 > 0:
             for x in range(num1):
                 print("Pump %d: %s" % (x + 1, arr1[len(arr1) - num2 - (num1 - x)]))
 
-    # Display valve names
     def valve_names(num1, arr1):
+        """Displaying the names of valves
+
+        :param num1: Count of valves
+        :type num1: Integer
+        :param arr1: Matrix of link names
+        :type arr1: List
+        :return: Names of valves
+        :rtype: String
+        """
         if num1 > 0:
             for x in range(num1):
                 print("Valve %d: %s" % (x + 1, arr1[len(arr1) - (num1 - x)]))
 
-    # Display simulation information
     def simulation_info(num1, num2, num3, num4):
+        """Displaying the basic information about the inputs selected for the simulation
+
+        :param num1: Maximum number of iterations
+        :type num1: Integer
+        :param num2: Water quality simuation time in days
+        :type num2: Float/ Integer
+        :param num3: Water quality simuation time step in seconds
+        :type num3: Integer
+        :param num4: Total number of water quality simulation steps
+        :type num4: Integer
+        :return: Basic information about simulation
+        :rtype: String
+        """
         print("Number of iterations: %d" % (num1))
         print("Number of days for which water quality is simulated: %d" % (num2))
-        print("Time period for water quality simulation: %d seconds" % (num3))
+        print("Water quality simulation time step: %d seconds" % (num3))
         print("Number of water quality simulation steps: %d" % (num4))
 
-    # Display MSRT model information
     def msrt_info(num1, num2, num3):
+        """Displaying the basic information about the MSRT model selected for the simulation
+
+        :param num1: Count of water quality parameters
+        :type num1: Integer
+        :param num2: Count of bulk phase water quality parameters
+        :type num2: Float/ Integer
+        :param num3: Count of wall phase water quality parameters
+        :type num3: Integer
+        :return: Basic information about MSRT model
+        :rtype: String
+        """
         print("Number of water quality parameters in the MSRT model: %d" % (num1))
         print("Number of bulk phase water quality paraneters: %d" % (num2))
         print("Number of wall phase water quality paraneters: %d" % (num3))
 
-    # Display nodes omitted from analysis
     def omitted_nodes(num1, arr1, arr2):
+        """Displaying the information about the nodes (if any) omitted from water quality analysis
+
+        :param num1: Count of omitted nodes
+        :type num1: Integer
+        :param arr1: Matrix of node names
+        :type arr1: List
+        :param arr2: Matrix of indices of omitted nodes
+        :type arr2: List
+        :return: Details of omitted nodes
+        :rtype: String
+        """
         if num1 > 0:
             print("Number of nodes omitted for analysis: %d" % (num1))
             for x in range(num1):
                 print("Omitted Node %d: %s" % (x + 1, arr1[arr2[x]]))
 
-    # Display links omitted from analysis
     def omitted_links(num1, arr1, arr2):
+        """Displaying the information about the links (if any) omitted from water quality analysis
+
+        :param num1: Count of omitted links
+        :type num1: Integer
+        :param arr1: Matrix of link names
+        :type arr1: List
+        :param arr2: Matrix of indices of omitted links
+        :type arr2: List
+        :return: Details of omitted links
+        :rtype: String
+        """
         if num1 > 0:
             print("Number of links omitted for analysis: %d" % (num1))
             for x in range(num1):
