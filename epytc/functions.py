@@ -75,9 +75,16 @@ class fn:
         )
         return network_info
 
-    # Determine the incoming pipes
     def incoming_links(num1, arr1):
-        # num1 - node number; arr1 - matrix of end node indices
+        """Getting incoming links to a specific node
+
+        :param num1: ID of a node
+        :type num1: Integer
+        :param arr1: Matrix of end node indices
+        :type arr1: Array
+        :return: List of incoming links
+        :rtype: Array
+        """
         links_connecting_to_node = []
         if arr1.count(num1 + 1) > 0:
             arr = np.array(arr1)
@@ -85,9 +92,16 @@ class fn:
             links_connecting_to_node = np.where(bool_arr)[0]
         return links_connecting_to_node
 
-    # Determine the outgoing pipes
     def outgoing_links(num1, arr1):
-        # num1 - node number; arr1 - matrix of start node indices
+        """Getting outgoing links from a specific node
+
+        :param num1: ID of a node
+        :type num1: Integer
+        :param arr1: Matrix of start node indices
+        :type arr1: Array
+        :return: List of outgoing links
+        :rtype: Array
+        """
         links_connecting_from_node = []
         if arr1.count(num1 + 1) > 0:
             arr = np.array(arr1)
@@ -95,9 +109,20 @@ class fn:
             links_connecting_from_node = np.where(bool_arr)[0]
         return links_connecting_from_node
 
-    # Minimum length to be specified for links (pumps and valves)
     def minimum_link_length(num1, num2, num3, arr1):
-        # num1 - total time steps in the filtered hydraulic report; num2 - water quality time step; num3 - tolerable flow velocity considered; arr1 - velocity array
+        """Estimating the minimum length to be specified for pumps and valves
+
+        :param num1: Time steps in the filtered hydraulic report
+        :type num1: Integer
+        :param num2: Water quality time step
+        :type num2: Integer
+        :param num3: Tolerable flow velocity considered
+        :type num3: Integer
+        :param arr1: Matrix of link flow velocities
+        :type arr1: Array
+        :return: Minimum link length
+        :rtype: Float
+        """
         min_vel = []
         for h in range(num1):
             min_val = np.min(arr1[h])
@@ -108,9 +133,20 @@ class fn:
         minimum_link_length = minimum_flow_velocity * num2
         return minimum_link_length
 
-    # Minimum diameter to be specified for links (pumps and valves)
     def minimum_link_diameter(num1, num2, num3, arr1):
-        # num1 - number of links; num2 - number of pumps; num3 - number of valves; arr1 - diameter array
+        """Estimating the minimum diameter to be specified for pumps and valves
+
+        :param num1: Count of links
+        :type num1: Integer
+        :param num2: Count of pumps
+        :type num2: Integer
+        :param num3: Count of valves
+        :type num3: Integer
+        :param arr1: Matrix of link diameters
+        :type arr1: Array
+        :return: Minimum diameter
+        :rtype: Float
+        """
         min_val = np.min(arr1)
         if min_val == 0:
             arr2 = arr1[0 : num1 - (num2 + num3)]
@@ -120,14 +156,37 @@ class fn:
             minimum_link_diameter = min_val
         return minimum_link_diameter
 
-    # Synchronizing water quality and hydraulic time steps
-    def sync_time(d, H, num1, num2, num3, num4, num5, num6, num7, num8, arr1, arr2):
-        # num1 = wq_time; num2 = total_h_steps_expected
-        # num3 = base_time_cycle_s; num4 = h_sim_time_step_s;
-        # num5 = time_cycle_count; num6 = base_time_cycle_day; num7 = wq_sim_time_step_s
-        # num8 = h_step_expected
-        # arr1 = sync_option; arr2 = reservoir_pattern
-        if arr1 == "steady":
+    def sync_time(d, H, num1, num2, num3, num4, num5, num6, num7, num8, str1, arr2):
+         """Synchronizing water quality and hydraulic time steps
+
+        :param d: EPANET model
+        :type d: EPANET object
+        :param H: Hydraulic simulation output from EPANET
+        :type H: List
+        :param num1: Water quality time step
+        :type num1: Integer
+        :param num2: Total steps in the hydraulic report 'Time' that was expected
+        :type num2: Integer
+        :param num3: Base time period in seconds
+        :type num3: Integer
+        :param num4: Total hydraulic simuation time in seconds
+        :type num4: Integer
+        :param num5: Count of the day in water quality simulation
+        :type num5: Integer
+        :param num6: Base time period in day(s)
+        :type num6: Float/ Integer
+        :param num7: Water quality simulation time step in seconds
+        :type num7: Integer
+        :param num8: Expected time step in the hydraulic report
+        :type num8: Integer
+        :param str1: Option for synchronization
+        :type str1: String
+        :param arr1: Input pattern governing quality values(input) at the reservoir
+        :type str1: Array
+        :return: Synchronized steps
+        :rtype: List
+        """
+        if str1 == "steady":
             if num1 == 0:
                 h_step_expected = math.floor(num2 - (num3 / num4)) - 1
                 h_step = h_step_expected
@@ -145,7 +204,7 @@ class fn:
                 reservoir_pattern_step = injection_pattern_step = (
                     len(arr2[0]) - (num2 - h_step) + 1
                 )
-        elif arr1 == "dynamic":
+        elif str1 == "dynamic":
             if num1 == 0:
                 h_step_expected = 0
                 h_step = h_step_expected

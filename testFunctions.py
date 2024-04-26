@@ -98,7 +98,7 @@ class TestEpytcFunctions():
         expected_hydaulic_step = 25 # expected time step in the hydraulic report
         synchronising_option = 'steady'
         """Using dummy data for reservoir pattern"""
-        reservoir_pattern = np.zeros((2, 288, 3))
+        reservoir_pattern = np.zeros((3, 288, 3))
         assert fn.sync_time(d, H, water_quality_time, hydraulic_steps_count, base_time_seconds, \
                        hydraulic_simulation_time, day_count, base_time_days, water_quality_step, \
                            expected_hydaulic_step, synchronising_option, reservoir_pattern) == [25, 25, 287, 287]
