@@ -1,17 +1,12 @@
-"""A setuptools based setup module.
-
-See:
-https://packaging.python.org/guides/distributing-packages-using-setuptools/
-https://github.com/pypa/sampleproject
-"""
-
 from setuptools import setup, find_packages
-import pathlib, subprocess
+import pathlib
+import subprocess
 
 root = pathlib.Path(__file__).parent.resolve()
 
 epytc_version = subprocess.run(['git', 'describe', '--tags'], stdout=subprocess.PIPE).stdout.decode("utf-8").strip()
 assert "." in epytc_version
+print(epytc_version)
 
 # Get the long description from the README file
 long_description = (root / "README.md").read_text(encoding="utf-8")
