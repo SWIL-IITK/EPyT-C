@@ -4,7 +4,6 @@ This file is provided to ensure that all functions can be executed correctly usi
 and MSRT-2: Bacterial regrowth module.
 """
 from epytc.functions import fn 
-fn.install("epyt")
 from epyt import epanet
 d = epanet('Net3.inp') # load Net3.inp
 from epytc.bacterial_regrowth import module

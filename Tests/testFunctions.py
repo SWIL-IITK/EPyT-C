@@ -3,7 +3,6 @@ EPyT-C Test Part 1
 This file is provided to ensure that all functions can be executed correctly using Net3.inp.
 """
 from epytc.functions import fn 
-fn.install("epyt")
 from epyt import epanet
 d = epanet('Net3.inp') # load Net3.inp
 H = d.getComputedHydraulicTimeSeries() # perform hydraulic simulation using EPANET solver
