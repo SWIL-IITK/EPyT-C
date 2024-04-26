@@ -8,14 +8,24 @@ import numpy as np
 
 
 class module:
-    # Display modulde details
     def details():
+        """Displaying the information about the MSRT model selected for water quality analysis
+
+        :return: Details of module
+        :rtype: String
+        """
         print("Chlorine decay and trihalomethanes formation module loaded.")
         print("Reactive species (bulk):")
         print("Chlorine (mg-Cl/L)\nTOC (mg-C/L)\nTHMs (ug-THM/L)")
 
-    # Getting basic details of the network
     def network(d):
+        """Getting basic details of the network
+
+        :param d: EPANET model
+        :type d: EPANET object
+        :return: Network details
+        :rtype: List
+        """
         network_info = [
             d.getNodeCount(),
             d.getLinkCount(),
@@ -78,8 +88,12 @@ class module:
         )
         return network_info
 
-    # Defining the species information of the MSRT module selected
     def species():
+        """Defining the species information of the MSRT module selected
+
+        :return: Species information of the MSRT module
+        :rtype: String
+        """
         msrt_info = []
         number_water_quality_parameters = 3
         msrt_info.append(number_water_quality_parameters)
@@ -97,15 +111,29 @@ class module:
         ]
         return msrt_info
 
-    # Defining zero order reaction
     def zero_order_reaction(num1):
-        # num1 - water quality time step
+        """Defining zero-order reaction
+
+        :param num1: Water quality simulation time step in seconds
+        :type num1: Integer
+        :return: Solution of zero-order ordinary differential equation
+        :rtype: Float
+        """
         delta_zero_order = num1
         return delta_zero_order
 
-    # Defining first order reaction
     def first_order_reaction(num1, num2, num3):
-        # num1 - reaction rate constant; num2 - concentration value; num3 - water quality time step
+        """Defining first-order reaction
+
+        :param num1: Reaction rate constant
+        :type num1: Float
+        :param num2: Concentration value
+        :type num2: Float
+        :param num3: Water quality simulation time step in seconds
+        :type num3: Integer
+        :return: Solution of first-order ordinary differential equation
+        :rtype: Float
+        """
         m1 = num1 * num1
         m2 = num1 * (num2 + (num3 / 4) * m1)
         m3 = num1 * (num2 + (num3 / 4) * m2)
@@ -113,22 +141,50 @@ class module:
         delta_first_order = (num3 / 6) * (m1 + 2 * m2 + 2 * m3 + m4)
         return delta_first_order
 
-    # Defining Reynolds number
     def Reynolds_number(num1, num2, num3):
-        # num1 - pipe flow velocity (m/s); num2 - pipe diameter (mm); num3 - kinematic viscosity of water (sq.m/s)
+        """Defining Reynolds number
+
+        :param num1: Pipe flow velocity in metres per second
+        :type num1: Float
+        :param num2: Pipe diameter in millimetres
+        :type num2: Float
+        :param num3: Kinematic viscosity of water in square metres per second
+        :type num3: Float
+        :return: Reynolds number 
+        :rtype: Float
+        """
         num4 = num2 * 1e-3
         reynolds_num = (num1 * num4) / num3
         return reynolds_num
 
-    # Defining Schmidt number
     def Schmidt_number(num1, num2):
-        # num1 - kinematic viscosity of water (sq.m/s); num2 - molecular diffusivity of bulk species (sq.m/s)
+        """Defining Schmidt number
+
+        :param num1: Kinematic viscosity of water in square metres per second
+        :type num1: Float
+        :param num2: Molecular diffusivity of a bulk phase species in square metres per second
+        :type num2: Float
+        :return: Schmidt number 
+        :rtype: Float
+        """
         schmidt_num = num1 / num2
         return schmidt_num
 
-    # Defining Sherwood number
     def Sherwood_number(num1, num2, num3, num4):
-        # num1 - Reynolds number; num2 - Schmidt number; num3 - pipe diameter (mm); num4 - pipe length (m)
+        """Defining Sherwood number
+
+        :param num1: Reynolds number
+        :type num1: Float
+        :param num2: Schmidt number
+        :type num2: Float
+        :return: Schmidt number
+        :param num3: Pipe diameter in millimetres
+        :type num3: Float
+        :param num4: Pipe length in metres
+        :type num4: Float
+        :return: Sherwood number
+        :rtype: Float
+        """
         num5 = num3 * 1e-3
         if num1 < 2300:
             sherwood_num = 0.023 * (num1**0.83) * (num2**0.33)
@@ -141,21 +197,45 @@ class module:
 
     # Defining Mass transfer coefficient
     def mass_transfer_coefficient(num1, num2, num3):
-        # num1 - Sherwood number; num2 - molecular diffusivity of bulk species (sq.m/s); num3 - pipe diameter (mm)
+        """Defining mass-transfer coefficient
+
+        :param num1: Sherwood number
+        :type num1: Float
+        :param num2: Molecular diffusivity of a bulk phase species in square metres per second
+        :type num2: Float
+        :return: Schmidt number
+        :param num3: Pipe diameter in millimetres
+        :type num3: Float
+        :return: Mass-transfer coefficient
+        :rtype: Float
+        """
         num4 = num3 * 1e-3
         kf_value = num1 * (num2 / num4)
         return kf_value
 
     # Defining Hydrauic mean radius
     def hydraulic_mean_radius(num1):
-        # num1 - pipe diameter (mm)
+        """Defining hydraulic mean radius
+
+        :param num1: Pipe diameter in millimetres
+        :type num1: Float
+        :return: Hydraulic mean radius
+        :rtype: Float
+        """
         num2 = num1 * 1e-3
         rh_value = num2 / 4
         return rh_value
 
-    # Defining variables of the MSRT module
     def variables(num1, num2):
-        # num1 - number of iterations; num2 - number of variables
+        """Defining variables of the MSRT module
+
+        :param num1: Number of iterations
+        :type num1: Integer
+        :param num2: Number of variables corresponding to the MSRT module selected
+        :type num2: Integer
+        :return: Matrix of variable values
+        :rtype: Array
+        """
         variable_mat = np.zeros((num1, num2))
         # Temperature (degree Celsius)
         temperature_mean = 25
