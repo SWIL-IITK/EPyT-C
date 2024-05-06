@@ -19,6 +19,11 @@ from epyt import epanet
 
 
 def run_epytc(epytc):
+    """Runs the simulation usign the data from the epytc object
+
+    :param epytc: epytc object
+    :type epytc: epytc_class
+    """
     if epytc.module == "MSRT-1":
         from .chlorine_decay_thms_formation import module
     elif epytc.module == "MSRT-2":
