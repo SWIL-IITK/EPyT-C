@@ -293,11 +293,30 @@ class module:
                 variable_mat[x][8] = nu_water
         return variable_mat
 
-    # Defining pipe reactions for the MSRT model selected
     def pipe_reaction(num1, num2, num3, num4, num5, num6, num7, arr1, arr2):
-        # num1 - water quality time step;num2 - pipe number; num3- grid number;
-        # num4 - pipe flow velocity (m/s); num5 - pipe diameter (mm); num6 - pipe length; num7 - width of link segment (m)
-        # arr1 - matrix of variables; arr2 = array of pipe concentration
+        """Defining link reactions for the MSRT model selected
+
+        :param num1: Water quality simulation time step in seconds
+        :type num1: Integer
+        :param num2: Link index
+        :type num2: Integer
+        :param num3: Grid index
+        :type num3: Integer
+        :param num4: Link flow velocity in metres per second
+        :type num3: Float
+        :param num5: Link diameter in millimetres
+        :type num5: Float
+        :param num6: Link length in metres
+        :type num6: Float
+        :param num7: Link segment length in metres
+        :type num7: Float
+        :param arr1: List of variable values
+        :type arr1: List
+        :param arr2: Matrix of pipe concentration values
+        :type arr2: Array
+        :return: Values corresponding to growth or decay of the concentration of water quality parameters
+        :rtype: List
+        """
         kbNC = arr1[1]
         kwC = arr1[2]
         YN = arr1[3]
@@ -325,11 +344,28 @@ class module:
         delta_mat = [net_delta_chlorine_reac, net_delta_toc_reac, net_delta_thms_reac]
         return delta_mat
 
-    # Defining tank reactions for the MSRT model selected
     def tank_reaction(num1, num2, num3, num4, num5, arr1, arr2, arr3):
-        # num1 - water quality time step; num2 - water quality step, num3 - tank number;
-        # num4 - tank volume in the previous time step; num5 - tank volume in the present time step;
-        # arr1 - matrix of variables; arr2 = initial water quality condition array; arr3 - array of tank concentration
+        """Defining tank reactions for the MSRT model selected
+
+        :param num1: Water quality simulation time step in seconds
+        :type num1: Integer
+        :param num2: Present water quality step
+        :type num2: Integer
+        :param num3: Tank index
+        :type num3: Integer
+        :param num4: Tank volume in previous water quality step
+        :type num4: Integer
+        :param num5: Tank volume in the present water quality step
+        :type num5: Integer
+        :param arr1: List of variable values
+        :type arr1: List
+        :param arr2: Matrix of initial tank concentration values
+        :type arr2: Array
+        :param arr2: Matrix of tank concentration values
+        :type arr2: Array
+        :return: Values corresponding to growth or decay of the concentration of water quality parameters
+        :rtype: List
+        """
         kbNC = arr1[1]
         YN = arr1[3]
         YH = arr1[4]
@@ -356,10 +392,20 @@ class module:
         delta_mat = [net_delta_chlorine_reac, net_delta_toc_reac, net_delta_thms_reac]
         return delta_mat
 
-    # Defining source quality at the reservoir(s)
-    def reservoir_quality(d, num1, arr1, str1, num2):
-        # num1 - number of iterations; arr1 - source water quality input
-        # str1 - input value for pattern; num2 - percentage variation in the random pattern
+    def reservoir_quality(d, num1, num2, arr1, str1):
+        """Defining source quality values for the reservoir(s)
+
+        :param num1: Number of iterations
+        :type num1: Integer
+        :param num2: Variability in the random pattern for source quality
+        :type num2: Float
+        :param arr1: Quality values for the reservoir(s)
+        :type arr1: Array
+        :param str1: Input command for the random pattern
+        :type str1: String
+        :return: Values corresponding to source quality at the reservoir(s)
+        :rtype: Array
+        """
         num_reservoirs = module.network(d)[2]
         num_bulk_parameters = module.species()[1]
         if len(arr1) == num_reservoirs:
@@ -369,10 +415,8 @@ class module:
                 print("Reservoir quality input error.")
                 exit()
         reservoir_quality = np.zeros((num_reservoirs, num1, num_bulk_parameters))
-        # Input
-        # 'none' - constant values; 'rand' - randomly varying values
         input = str1
-        rand_vary = num2  # percentage variation
+        rand_vary = num2
         if input == "none":
             for x in range(num_reservoirs):
                 reservoir_quality[x] = arr1[x]
@@ -391,20 +435,32 @@ class module:
                         z += 1
         return reservoir_quality
 
-    # Defining source quality pattern for the reservoir(s)
-    def reservoir_pattern(d, num1, str1, num2, arr1, arr2, arr3):
-        # num1 - base time in days # str1 - input value for pattern; num2 - percentage variation in the random pattern
-        # arr1 - reservoir injection start time steps; arr2 - reservoir injection stop time steps
-        # arr3 - reservoir injection input value
+    def reservoir_pattern(d, num1, num2, arr1, arr2, arr3, str1):
+        """Defining source quality pattern for the reservoir(s)
+
+        :param num1: Base time period in day(s)
+        :type num1: Float/Integer
+        :param num2: Variability in the pattern
+        :type num2: Float
+        :param arr1: Start time step for the injection in the reservoir(s)
+        :type arr1: Array
+        :param arr2: End time step for the injection in the reservoir(s)
+        :type arr2: Array
+        :param arr3: Input value for the injection in the reservoir(s)
+        :type arr3: Array
+        :param str1: Input command for the pattern
+        :type str1: String
+        :return: Values corresponding to source quality pattern at the reservoir(s)
+        :rtype: Array
+        """
         num_reservoirs = module.network(d)[2]
         num_bulk_parameters = module.species()[1]
         h_time = d.getTimeHydraulicStep()
         pattern_steps = int(num1 * 24 * 3600 / h_time)
         pattern_mat = np.zeros((num_reservoirs, pattern_steps, num_bulk_parameters))
         # Input
-        # 'none' - constant pattern; 'rand' - random variations; 'specific - specify pattern
         input = str1
-        rand_vary = num2  # percentage variation
+        rand_vary = num2
         if input == "none":
             pattern_mat = np.add(pattern_mat, 1)
         elif input == "rand":
@@ -427,8 +483,22 @@ class module:
                 exit()
         return pattern_mat
 
-    # Defining quality at the injection node(s)
-    def injection_quality(num1, arr1, arr2, str1, num2):
+    def injection_quality(num1, num2, arr1, arr2, str1):
+        """Defining source quality values for the injection node(s)
+
+        :param num1: Number of iterations
+        :type num1: Integer
+        :param num2: Variability in the random pattern for injection node quality
+        :type num2: Float
+        :param arr1: Index value(s) of injection node(s)
+        :type arr1: List
+        :param arr2: Quality values for the injection node(s)
+        :type arr2: Array
+        :param str1: Input command for the random pattern
+        :type str1: String
+        :return: Values corresponding to source quality at the injection node(s)
+        :rtype: Array
+        """
         # num1 - number of iterations; arr1 - matrix of injection nodes indices; arr2 - matrix of injection nodes quality
         # str1 - input value for pattern; num2 - percentage variation in the random pattern
         num_injection_nodes = len(arr1)
@@ -442,9 +512,8 @@ class module:
         injection_quality = np.zeros((num_injection_nodes, num1, num_bulk_parameters))
         print("Injection nodes quality updated.")
         # Input
-        # 'none' - constant values; 'rand' - randomly varying values
         input = str1
-        rand_vary = num2  # percentage variation
+        rand_vary = num2 
         if input == "none":
             for x in range(num_injection_nodes):
                 injection_quality[x] = arr2[x]
@@ -463,21 +532,34 @@ class module:
                         z += 1
         return injection_quality
 
-    # Defining injection pattern for the injection node(s)
-    def injection_pattern(d, num1, arr1, str1, num2, arr2, arr3, arr4):
-        # num1 - base time in days; arr1 - matrix of injection nodes indices
-        # str1 - input value for pattern; num2 - percentage variation in the random pattern
-        # arr2 - injection node injection start time steps; arr3 - injection node injection stop time steps
-        # arr4 - injection node injection input value
+    def injection_pattern(d, num1, num2, arr1, arr2, arr3, arr4, str1):
+        """Defining source quality pattern for the injection node(s)
+
+        :param num1: Base time period in day(s)
+        :type num1: Float/Integer
+        :param num2: Variability in the pattern
+        :type num2: Float
+        :param arr1: Index value(s) of injection node(s)
+        :type arr1: List
+        :param arr2: Start time step for the injection in the injection node(s)
+        :type arr2: Array
+        :param arr3: End time step for the injection in the injection node(s)
+        :type arr3: Array
+        :param arr4: Input value for the injection in the injection node(s)
+        :type arr4: Array
+        :param str1: Input command for the pattern
+        :type str1: String
+        :return: Values corresponding to source quality pattern at the injection node(s)
+        :rtype: Array
+        """
         num_injection_nodes = len(arr1)
         num_bulk_parameters = module.species()[1]
         h_time = d.getTimeHydraulicStep()
         pattern_steps = int(num1 * 24 * 3600 / h_time)
         inj_pattern_mat = np.zeros((num_injection_nodes, pattern_steps, num_bulk_parameters))
         # Input
-        # 'none' - constant pattern; 'rand' - random variations; 'specific - specify pattern
         input = str1
-        rand_vary = num2  # percentage variation
+        rand_vary = num2
         if input == "none":
             inj_pattern_mat = np.add(inj_pattern_mat, 1)
         elif input == "rand":
