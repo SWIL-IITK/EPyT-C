@@ -195,7 +195,6 @@ class module:
             )
         return sherwood_num
 
-    # Defining Mass transfer coefficient
     def mass_transfer_coefficient(num1, num2, num3):
         """Defining mass-transfer coefficient
 
@@ -213,7 +212,6 @@ class module:
         kf_value = num1 * (num2 / num4)
         return kf_value
 
-    # Defining Hydrauic mean radius
     def hydraulic_mean_radius(num1):
         """Defining hydraulic mean radius
 
