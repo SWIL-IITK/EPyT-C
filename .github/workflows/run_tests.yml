@@ -32,8 +32,5 @@ jobs:
         pip install .
     - name: run tests
       run: |
-        python ./Tests/testFunctions.py
-        python ./Tests/testFunctions_2.py
-        python ./Tests/testFunctions_3.py
-        python ./Tests/testFunctions_4.py
-        python ./Tests/testFunctions_5.py
+        cd tests
+        for f in *.py; do python "$f"; done
