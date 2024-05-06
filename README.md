@@ -34,7 +34,7 @@ EPyT-C offers the following flexibilities, making it a handy tool for research a
 
 ## Code instructions
 
-The documentation can be found at http://epyt-c.readthedocs.io/ (in progress).
+The documentation can be found at http://epyt-c.readthedocs.io/.
 
 ### Environment setup
 
