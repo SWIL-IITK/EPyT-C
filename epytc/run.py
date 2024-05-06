@@ -761,7 +761,7 @@ def run_epytc(epytc):
         )
         # Creating folder to save simulation results
         folder_name = "Results_Iteration" + str(wq_iteration_count)
-        path = getcwd() + folder_name
+        path = os.path.join(getcwd(), folder_name)
         if os.path.exists(path):
             print(
                 "Output folder already exists in the directory. No new folder created."
