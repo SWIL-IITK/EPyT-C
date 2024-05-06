@@ -9,15 +9,6 @@ import copy
 import time
 from epyt import epanet
 
-# TODO
-# epyt_c/run_epyt_c.py:70:5: `link_connectivity_array` is assigned to but never used
-# epyt_c/run_epyt_c.py:71:5: `connectivity_mat` is assigned to but never used
-# epyt_c/run_epyt_c.py:146:9: `link_flow_velocity_mat` is assigned to but never used
-# epyt_c/run_epyt_c.py:147:9: `link_flow_Reynolds_num_mat` is assigned to but never used
-# epyt_c/run_epyt_c.py:176:9: `link_conc_initial_mat` is assigned to but never used
-# epyt_c/run_epyt_c.py:528:25: `incoming_flow` is assigned to but never used
-
-
 def run_epytc(epytc):
     """Runs the simulation usign the data from the epytc object
 
