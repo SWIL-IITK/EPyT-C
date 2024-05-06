@@ -10,7 +10,7 @@ import time
 from epyt import epanet
 
 def run_epytc(epytc):
-    """Runs the simulation usign the data from the epytc object
+    """Runs the simulation using the data from the epytc object
 
     :param epytc: epytc object
     :type epytc: epytc_class
