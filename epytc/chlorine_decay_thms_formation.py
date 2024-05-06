@@ -1,6 +1,7 @@
-# Chlorine decay and trihalomethanes formation module
-# Reactive species (bulk) - Chlorine (mg-Cl/L), TOC (mg-C/L), and THMs (ug-THM/L)
-# Reactive species (wall) - ''
+"""Chlorine decay and trihalomethanes formation module
+Reactive species (bulk) - Chlorine (mg-Cl/L), TOC (mg-C/L), and THMs (ug-THM/L)
+Reactive species (wall) - ''
+"""
 
 import math
 import random
@@ -310,7 +311,7 @@ class module:
         :type num7: Float
         :param arr1: List of variable values
         :type arr1: List
-        :param arr2: Matrix of pipe concentration values
+        :param arr2: Matrix of link concentration values
         :type arr2: Array
         :return: Values corresponding to growth or decay of the concentration of water quality parameters
         :rtype: List
