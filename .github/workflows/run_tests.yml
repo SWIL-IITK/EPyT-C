@@ -32,5 +32,5 @@ jobs:
         pip install .
     - name: run tests
       run: |
-        cd tests
+        cd Tests
         for f in *.py; do python "$f"; done
