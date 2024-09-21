@@ -1,4 +1,3 @@
-from sys import exit
 from .functions import fn
 import os
 from os import getcwd
@@ -475,8 +474,8 @@ def run_epytc(epytc):
                                     )
                         link_conc_array_a[link_conc_array_a < 0] = 0
             if count_links_lagrangian != (num_links - num_omitted_links):
-                print("Error in Lagrangian stage dedicated to pipes!")
-                exit()
+                raise ValueError("Error in Lagrangian stage dedicated to pipes!")
+
             count_nodes_lagrangian = 0
             node_demand_time_step = H.Demand[h_step]
             tank_flow_volume_time_step = H.TankVolume[h_step]
@@ -751,8 +750,8 @@ def run_epytc(epytc):
                                         node_conc_array_a[sp][wq_step - 1][n]
                                     )
             if count_nodes_lagrangian != (num_nodes - num_omitted_nodes):
-                print("Error in Lagrangian stage dedicated to nodes!")
-                exit()
+                raise ValueError("Error in Lagrangian stage dedicated to pipes!")
+
             link_conc_array = copy.deepcopy(link_conc_array_a)
             node_conc_array = copy.deepcopy(node_conc_array_a)
             wq_time += wq_sim_time_step_s
@@ -815,4 +814,3 @@ def run_epytc(epytc):
     w2.close()
     print("Anlysis completed...")
     print("Simulation time in seconds is %f" % (time.time() - start_time))
-    exit()
