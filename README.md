@@ -55,7 +55,7 @@ where `epytc` is an object of `epytc_class` class (please refer to `main_epytc.p
 
 ### Sample python script
 
-We provide a sample python script, [run_sample.py](./run_sample.py) to demonstrate the functioning of EPyT-C. The default parameter values used for the simulation can be found in [default_values.yaml](./epytc/default_values.yaml) and the associated [README.md](./epytc/README.md) file provides an explanation of the file. To run the script with the default values for the parameters run [run_sample.py](./run_sample.py). Please update the INP file path before running the script.
+We provide a sample python script, [run_sample.py](./run_sample.py) to demonstrate the functioning of EPyT-C. The default parameter values used for the simulation can be found in [default_values.yaml](./epytc/default_values.yaml) and the associated [README.md](./epytc/README.md) file provides an explanation of the file. To run the script with the default values for the parameters use `python run_sample.py`. Please update the INP file path before running the script.
 
 ### Examples
 
