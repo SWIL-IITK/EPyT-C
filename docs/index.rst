@@ -11,6 +11,7 @@ Welcome to EPyT-C's documentation!
    :caption: Contents:
 
    modules
+   ./Examples/EX15_Specifying_minimum_pipe_flow_velocity_stagnancy.ipynb
 
 Indices and tables
 ==================
