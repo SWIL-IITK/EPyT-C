@@ -10,4 +10,4 @@ jupyterlab
 setuptools
 wheel
 build
-pandoc
+pypandoc
