@@ -5,7 +5,9 @@ xlsxwriter
 hydra-core
 sphinx
 sphinx-rtd-theme
+nbsphinx
 jupyterlab
 setuptools
 wheel
 build
+pandoc
